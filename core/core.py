@@ -38,15 +38,15 @@ with open(os.path.join(path, 'current_version')) as vf:
 
 # All the variables
 quiet = False
-log = "" 
+log = ""
 raw_log = "\n\n\n"
 report = {} #'{"name":"","version":"","author":"","permissions":[{"name":"","description":"","warning":""}],"urls":"","files":{"html":"","js":"","css":"","static":"","other":""},"content-scripts":[],"background-scripts":[],"pageaction-popup":[],"browseraction-popup":[]}'
 reportids = {}
 virustotal_api = ''
 ignore_css = True
-github_repo = 'https://github.com/Tuhinshubhra/ExtAanalysis'
-github_zip = 'https://github.com/Tuhinshubhra/ExtAanalysis/archive/master.zip' #TODO: change repo name
-version_url = 'https://raw.githubusercontent.com/Tuhinshubhra/ExtAanalysis/master/current_version'
+github_repo = 'https://github.com/Tuhinshubhra/ExtAnalysis'
+github_zip = 'https://github.com/Tuhinshubhra/ExtAnalysis/archive/master.zip'
+version_url = 'https://raw.githubusercontent.com/Tuhinshubhra/ExtAnalysis/master/current_version'
 
 # settings for intel extraction! DO NOT EDIT HERE! use the settings.json instead
 extract_comments = True
@@ -63,11 +63,11 @@ log_file = helper.fixpath(path + '/extanalysis.log')
 
 def print_logo():
     logo = '''
-     _____     _   _____         _         _     
-    |   __|_ _| |_|  _  |___ ___| |_ _ ___|_|___ 
+     _____     _   _____         _         _
+    |   __|_ _| |_|  _  |___ ___| |_ _ ___|_|___
     |   __|_'_|  _|     |   | .'| | | |_ -| |_ -|
     |_____|_,_|_| |__|__|_|_|__,|_|_  |___|_|___|
-    => Browser Extension Analysis |___| Framework         
+    => Browser Extension Analysis |___| Framework
     => Version {0} By r3dhax0r
 
     '''.format(version)
@@ -369,7 +369,7 @@ def get_result_info(analysis_id):
         indexs = open(report_index, 'r')
         indexs = json.loads(indexs.read())
         reportids = indexs
-    
+
     reports = reportids['reports']
     if analysis_id in str(reports):
         for report in reports:
@@ -400,7 +400,7 @@ def clear_lab():
                 err_msg = 'Error: {0} encountered while creating empty lab directory!'.format(str(e))
                 updatelog(err_msg)
                 logging.error(traceback.format_exc())
-                return[False, err_msg] 
+                return[False, err_msg]
         except Exception as e:
             err_msg = 'Error {0} encountered while deleting lab directory'.format(str(e))
             updatelog(err_msg)
@@ -430,7 +430,7 @@ def handle_exit():
         f.write(raw_log)
         f.close()
     exit()
-    
+
 def signal_handler(signal, frame):
     # Handle Ctrl+c
     handle_exit()
