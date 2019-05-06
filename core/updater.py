@@ -100,6 +100,6 @@ def update():
     else:
         os.chdir(temp_dir)
         command = ['x-terminal-emulator', '-e', python_loc, updater_script]
-        subprocess.Popen(command shell=False)
+        subprocess.Popen(command, shell=False)
         print('[i] Killing self... Next time we meet I will be a better version of myself ;)')
         exit()
