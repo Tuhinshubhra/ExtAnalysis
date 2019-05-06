@@ -161,5 +161,5 @@ if __name__ == "__main__":
     settings.init_settings()
     main_url = 'http://{0}:{1}'.format(host, port)
     webbrowser.open(main_url)
-    print('\n[~] Starting ExtAnalysis at: {0} \n\n'.format(main_url)
+    print('\n[~] Starting ExtAnalysis at: {0} \n\n'.format(main_url))
     app.run(host=host, port=port, debug=False)
