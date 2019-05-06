@@ -39,7 +39,7 @@ function showscan() {
         $('#result-container').fadeOut(300);
         $('#update-container').fadeOut(300);
         $('#about-container').fadeOut(300);
-        $('#container').fadeIn(600); 
+        $('#container').fadeIn(600);
         $('#scan-container').fadeIn(600);
     }
 }
@@ -49,7 +49,7 @@ function showabout() {
         $('#container').fadeOut(300);
         $('#result-container').fadeOut(300);
         $('#update-container').fadeOut(300);
-        $('#scan-container').fadeOut(300); 
+        $('#scan-container').fadeOut(300);
         $('#container').fadeIn(600);
         $('#about-container').fadeIn(600);
     }
@@ -60,7 +60,7 @@ function showresult() {
         $('#container').fadeOut(300);
         $('#scan-container').fadeOut(300);
         $('#update-container').fadeOut(300);
-        $('#about-container').fadeOut(300); 
+        $('#about-container').fadeOut(300);
         $('#container').fadeIn(600);
         $('#result-container').fadeIn(600);
     }
@@ -71,7 +71,7 @@ function showupdate() {
         $('#container').fadeOut(300);
         $('#result-container').fadeOut(300);
         $('#scan-container').fadeOut(300);
-        $('#about-container').fadeOut(300); 
+        $('#about-container').fadeOut(300);
         $('#container').fadeIn(600);
         $('#update-container').fadeIn(600);
     }
@@ -97,7 +97,7 @@ function download_and_scan(){
         loading_div.style.display = 'none';
     }
     queryurl = '' + ext_id;
-    
+
 }
 
 function download_and_scan_firefox(){
@@ -118,7 +118,7 @@ function download_and_scan_firefox(){
         loading_div.style.display = 'none';
     }
     queryurl = '' + ext_id;
-    
+
 }
 
 function handle_download(id){
@@ -260,7 +260,7 @@ function getCookie(cname) {
         return c.substring(name.length, c.length);
       }
     }
-    return ""; 
+    return "";
   }
 
   function checkCookie() {
@@ -281,7 +281,7 @@ function getCookie(cname) {
     document.cookie = "lights = on;  expires = Fri, 31 Dec 9999 23:59:59 GMT";
     style.setAttribute('href', '/static/css/style.css');
   }
-  
+
   checkCookie();
 
   function view_permission(permission){
@@ -337,7 +337,7 @@ function getCookie(cname) {
                 swal('Something went wrong... Please check log for more information', {
                     icon: "error",
                     title: "error"
-                  }); 
+                  });
                   loading_div.style.display = 'none';
             });
         } else {
@@ -419,7 +419,7 @@ function getCookie(cname) {
                     swal('Something went wrong... Please check log for more information', {
                         icon: "error",
                         title: "error"
-                      }); 
+                      });
                       loading_div.style.display = 'none';
                 });
             } else {
@@ -447,7 +447,7 @@ function getCookie(cname) {
                     swal('Something went wrong... Please check log for more information', {
                         icon: "error",
                         title: "error"
-                      }); 
+                      });
                       loading_div.style.display = 'none';
                 });
             } else {
@@ -506,16 +506,20 @@ function getCookie(cname) {
                         button = document.getElementById('modal-content');
                         button.innerHTML = '<center><h4>VirusTotal Results For '+url+'</h4></center><br><div id="vt_info" style="overflow: scroll; max-height:500px; text-align: left;"></div>';
                         var wrp1 = document.getElementById("vt_info");
-                        var data1 = resptxt;
                         try {
-                            var data1 = JSON.parse(resptxt);
-                        } catch (e) {}
-                        var tree1 = jsonTree.create(data1, wrp1);
-                        tree1.expand(function(node) {
-                        return node.childNodes.length < 2 || node.label === 'phoneNumbers';
-                        });
-                        elements.addClass('active');
-                        loading_div.style.display = 'none';
+                          var data1 = resptxt;
+                          try {
+                              var data1 = JSON.parse(resptxt);
+                          } catch (e) {}
+                          var tree1 = jsonTree.create(data1, wrp1);
+                          tree1.expand(function(node) {
+                          return node.childNodes.length < 2 || node.label === 'phoneNumbers';
+                          });
+                          elements.addClass('active');
+                          loading_div.style.display = 'none';
+                        } catch (e) {
+                          handleresponse('error: No valid VirusTotal result found!');
+                        }
                     }
                 });
             }).catch(err => {
