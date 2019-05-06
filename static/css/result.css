@@ -1,0 +1,327 @@
+
+#resultnetwork{
+    width: 100%;
+    height: 342px;
+    background: #1f1f27;
+    border-radius: 5px;
+    display: inline-block;
+    border: 1px solid #000000;
+}
+
+.result-info{
+    width: 100%;
+    margin-bottom: 21px;
+}
+
+.result-wrapper{
+    width: 80%;
+    text-align: center;
+    align-items: center;
+    margin-left: 10%;
+}
+
+.fs-head img{
+    width: 63px;
+}
+
+.risk-pill {
+    display: inline-block;
+    margin-left: 12px;
+    background: #000;
+    color: #fff;
+    padding: 3px;
+    padding-left: 5px;
+    font-size: 8px;
+    border-radius: 2px;
+  }
+  
+  .none {
+    background: #28b78d;
+  }
+  
+  .high {
+    background: #FF5722;
+  }
+  
+  .critical {
+    background: #d61522;
+  }
+  
+  .low {
+    background: #7d9a0f;
+  }
+  
+  .medium {
+    background: #FF9800;
+  }
+  
+  .warning {
+    margin-top: 5px;
+    color: #FF5722;
+    border-left: solid 6px;
+    padding-left: 8px;
+  }
+
+  .clear {
+    clear: both;
+}
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+.jsontree_bg {
+    background: #FFF;
+}
+
+/* Styles for the container of the tree (e.g. fonts, margins etc.) */
+.jsontree_tree {
+    padding: 15px;
+    border-radius: 5px;
+    list-style-type: none;
+    font-size: 14px;
+    color: #fff;
+    background: #2c2c33;
+}
+
+/* Styles for a list of child nodes */
+.jsontree_child-nodes {
+    display: none;
+    /* margin-left: 35px; */
+    border-left: dotted 1px #6d6d6d;
+    margin-top: 5px;
+    line-height: 21px;
+}
+.jsontree_node_expanded > .jsontree_value-wrapper > .jsontree_value > .jsontree_child-nodes {
+    display: block;
+    list-style-type: none;
+}
+
+/* Styles for labels */
+.jsontree_label-wrapper {
+    float: left;
+    font-weight: bold;
+    margin-right: 8px;
+}
+.jsontree_label {
+    font-weight: normal;
+    vertical-align: top;
+    margin-left: 1px;
+    position: relative;
+    border-bottom: solid 2px transparent;
+    padding: 1px 5px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #4eeeb2;
+    cursor: default;
+    transition: all 0.2s ease-in;
+}
+.jsontree_node_marked > .jsontree_label-wrapper > .jsontree_label {
+    background: #fff2aa;
+}
+
+/* Styles for values */
+.jsontree_value-wrapper {
+    display: block;
+    overflow: hidden;
+}
+.jsontree_node_complex > .jsontree_value-wrapper {
+    overflow: inherit;
+}
+.jsontree_value {
+    vertical-align: top;
+    display: inline;
+}
+.jsontree_value_null {
+    color: #c8c8c8;
+    font-weight: bold;
+}
+.jsontree_value_string {
+    color: #ffffff;
+    padding: 1px 5px;
+    transition: all 0.2s ease-in;
+    border-radius: 2px;
+    letter-spacing: 1px;
+}
+.jsontree_value_number {
+    color: #fff900;
+    font-weight: bold;
+}
+.jsontree_value_boolean {
+    color: #ff0300;
+    font-weight: bold;
+}
+
+/* Styles for active elements */
+.jsontree_expand-button {
+    position: absolute;
+    top: 3px;
+    left: -15px;
+    display: block;
+    width: 11px;
+    height: 11px;
+    background-image: url('../images/vectorpaint.svg');
+}
+.jsontree_node_expanded > .jsontree_label-wrapper > .jsontree_label > .jsontree_expand-button {
+    background-position: 0 -11px;
+}
+.jsontree_show-more {
+    cursor: pointer;
+}
+.jsontree_node_expanded > .jsontree_value-wrapper > .jsontree_value > .jsontree_show-more {
+    display: none;
+}
+.jsontree_node_empty > .jsontree_label-wrapper > .jsontree_label > .jsontree_expand-button,
+.jsontree_node_empty > .jsontree_value-wrapper > .jsontree_value > .jsontree_show-more {
+    display: none !important;
+}
+.jsontree_node_complex > .jsontree_label-wrapper > .jsontree_label {
+    cursor: pointer;
+}
+.jsontree_node_empty > .jsontree_label-wrapper > .jsontree_label {
+    cursor: default !important;
+}
+
+div#manifest-content {
+    text-align: left;
+    font-size: 12px !important;
+}
+
+li.jsontree_node {
+    margin-bottom: 5px;
+}
+
+.jsontree_label:hover {
+    text-shadow: 0px 0px 6px #398e6e;
+    border-bottom: solid 1px #4eeeb2;
+}
+
+.jsontree_value_string:hover {
+    background: #000000;
+    color: #fff;
+}
+
+.mid-head {
+    padding: 11px 25px;
+    display: inline-block;
+    box-shadow: 0px 0px 8px 0px #ccc;
+    width: 88%;
+    background: #33333d;
+    color: #4eeeb2;
+    border-top: solid 4px;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin: 0px 10px;
+}
+
+.sub_section {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+}
+
+.sub_body {
+    width: 88%;
+    display: inline-block;
+    background: #fff;
+    padding: 11px 25px;
+    border-radius: 5px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    box-shadow: 0px 3px 8px 0px #ccc;
+    margin: 0px 10px;
+}
+
+div#selected-node {
+    border-bottom: solid 1px #4eeeb2;
+    color: #4eeeb2;
+    font-size: 12px;
+    padding: 6px 3px;
+    line-height: 19px;
+    letter-spacing: 0.5px;
+}
+
+.selected-title {
+    width: 100%;
+    display: inline-block;
+    margin: 0px -3px;
+    padding: 0px 3px;
+    text-align: center;
+    color: #000000;
+    background: #4eeeb2;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+#selected-node-label, #selected-node-id, #selected-node-parent {
+    color: #fff;
+}
+
+#selected-node-group {
+    color: #fff;
+}
+
+.control-button {
+    width: 100%;
+    margin: 2px 0px;
+    background: #00ff9f24;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #00ff9f;
+    border: solid 1px #00ff9f;
+    letter-spacing: 1px;
+    border-radius: 2px;
+}
+
+.control-button:hover {
+    color: #000000;
+    background: #0cff9f;
+}
+
+.vis-button {
+    background: #000;
+}
+
+.stats-qa {
+    width: 100%;
+    display: inline-block;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.stats-q {
+    color: #4eeeb2;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.stats-a {
+    font-size: 14px;
+}
+
+.jsontree_child-nodes:hover {
+    border-left: dotted 1px white;
+}
+
+.country_flag {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.ft_icon {
+    width: 16px;
+    vertical-align: middle;
+}

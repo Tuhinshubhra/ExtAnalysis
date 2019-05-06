@@ -1,0 +1,114 @@
+<!--
+ExtAnalysis - Browser Extension Analysis Framework
+Copyright (C) 2019 Tuhinshubhra
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Graph Viewer | ExtAnalysis</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/bttn.css') }}">
+    <script type="text/javascript" src="{{ url_for('static',filename='js/vis.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/fontawesome.min.js') }}"></script>
+    <link href="{{ url_for('static',filename='css/vis-network.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static',filename='css/fontawesome.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static',filename='css/result.css') }}" rel="stylesheet" type="text/css" />
+    <link id="pageStyle" rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
+    <link href="{{ url_for('static',filename='images/favicon.png') }}" rel="icon"/>
+    <style>
+        @font-face {
+            font-family: "ocraextended";
+            src: url("{{ url_for('static',filename='fonts/ocraextended.ttf') }}") format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "Roboto";
+            src: url("{{ url_for('static',filename='fonts/Roboto-Regular.ttf') }}") format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        /* Roboto italic */
+        @font-face {
+            font-family: "Roboto";
+            src: url("{{ url_for('static',filename='fonts/Roboto-Italic.ttf') }}") format('truetype');
+            font-weight: 400;
+            font-style: italic;
+        }
+        /* Roboto bold */
+        @font-face {
+            font-family: "Roboto";
+            src: url("{{ url_for('static',filename='fonts/Roboto-Bold.ttf') }}") format('truetype');
+            font-weight: 700;
+            font-style: normal;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div id="loading" style="display: block;">
+            <img src="{{ url_for('static',filename='images/working.gif') }}"><br>
+            <h4>Please wait.. plotting graph might take some time!</h4>
+        </div>
+        <div class="logo-placeholder"><a href='/'><img src="{{ url_for('static',filename='images/logo.png') }}" class="logo" id="logo"></a></div>
+        <a href="#" id="lightSwitchOn" onclick="lightsOn()" class="dmode day" title="Enable Light Mode"><img src="{{ url_for('static',filename='images/light.svg') }}" style="width:27px;"></a>
+        <a href="#" id="lightSwitchOff" onclick="lightsOff()" class="dmode night" title="Enable Dark Mode"><img src="{{ url_for('static',filename='images/dark.svg') }}" style="width:27px;"></a>
+
+        <div class="graph-container" id="container">
+            <div id="large-graph"></div>
+            <div class="graph-control">
+                <div class="control-title">Controls</div>
+                <div class="control-body">
+                    <div class="selected-node" id="selected-node">
+                        <span class="selected-title">SELECTED NODE</span>
+                        ID: <span id="selected-node-id">None</span>
+                        <br>
+                        Name: <span id="selected-node-label">None</span>
+                        <br>
+                        Group: <span id="selected-node-group">None</span>
+                        <br>
+                        Parent: <span id="selected-node-parent">None</span>
+                        <br>
+                        <!--
+                            TODO: add these functions and enable the buttons
+                            <button onclick="hideSelectedGroup()" class="control-button"><i class="fas fa-trash"></i> Delete Group</button>
+                            <button onclick="hideSelectedNode()" class="control-button"><i class="fas fa-trash-alt"></i> Delete Node</button>
+                        -->
+                        <button onclick="clusterBySelf()" class="control-button">Parent Cluster</button>
+                        <button onclick="clusterBySelf(true)" class="control-button">Cluster by Self</button>
+                    </div>
+                    <button onclick="resetGraph()" class="control-button"><i class="fas fa-undo"></i> Reset Graph</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/main.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/sweetalert.min.js') }}"></script>
+    <script>
+        var imagedir = "{{ url_for('static',filename='images/') }}";
+        {{graph_data|safe}}
+    </script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/graph.js') }}"></script>
+    <div class="footer">
+            <p>coded with <i class="fas fa-heart" style="color: #FF5722 !important;"></i> and <i class="fas fa-headphones" style="color: #28b78d  !important;"></i> by r3dhax0r <a href="https://twitter.com/r3dhax0r" target="_blank"><button class="bttn-simple bttn-xs bttn-primary">Follow me on <i class="fab fa-twitter"></i></button></a> also <a href="https://github.com/Tuhinshubhra/ExtAnalysis" target="_blank"><button class="bttn-simple bttn-xs bttn-royal">Star This Project on <i class="fab fa-github-alt"></i></button></a></p>
+    </div>
+</body>
+
+</html>

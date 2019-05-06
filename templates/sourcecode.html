@@ -1,0 +1,259 @@
+<!--
+ExtAnalysis - Browser Extension Analysis Framework
+Copyright (C) 2019 Tuhinshubhra
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Source Code from URL | ExtAnalysis</title>
+    <link id="pageStyle" rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/bttn.css') }}">
+    <link href="{{ url_for('static',filename='images/favicon.png') }}" rel="icon"/>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/codemirror.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/material.css') }}">
+    <script type="text/javascript" src="{{ url_for('static',filename='js/fontawesome.min.js') }}"></script>
+    <link href="{{ url_for('static',filename='css/fontawesome.min.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        @font-face {
+            font-family: "ocraextended";
+            src: url("{{ url_for('static',filename='fonts/ocraextended.ttf') }}") format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "Roboto";
+            src: url("{{ url_for('static',filename='fonts/Roboto-Regular.ttf') }}") format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        /* Roboto italic */
+        @font-face {
+            font-family: "Roboto";
+            src: url("{{ url_for('static',filename='fonts/Roboto-Italic.ttf') }}") format('truetype');
+            font-weight: 400;
+            font-style: italic;
+        }
+        /* Roboto bold */
+        @font-face {
+            font-family: "Roboto";
+            src: url("{{ url_for('static',filename='fonts/Roboto-Bold.ttf') }}") format('truetype');
+            font-weight: 700;
+            font-style: normal;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!--
+        <h2>ExtAnalysis</h2>
+        <h6>Browser Extension Analysis Toolkit!</h6>
+        -->
+        <div class="logo-placeholder"><a href='/'><img src="{{ url_for('static',filename='images/logo.png') }}" class="logo" id="logo"></a></div>
+        <a href="#" id="lightSwitchOn" onclick="lightsOn()" class="dmode day" title="Enable Light Mode"><img src="{{ url_for('static',filename='images/light.svg') }}" style="width:27px;"></a>
+        <a href="#" id="lightSwitchOff" onclick="lightsOff()" class="dmode night" title="Enable Dark Mode"><img src="{{ url_for('static',filename='images/dark.svg') }}" style="width:27px;"></a>
+
+        <div class="container" id="container">
+            <div class="file_info">
+                <div class="file_image">
+                    {{url_icon | safe}}
+                </div>
+                <div class="file_body">
+                    <div class="file_name" style="font-size: 14px;letter-spacing: 0.5px;">Target URL: {{target_url}}</div>
+                    <div class="file_attrs">
+                        <div class="file_location">
+                            <div class="file_icon">
+                                <i class="fas fa-folder"></i>
+                            </div>
+                            ...
+                        </div>
+                        <div class="file_type">
+                            <div class="file_icon">
+                                <i class="fas fa-file"></i>
+                            </div>
+                             URL
+                        </div>
+                        <div class="file_size">
+                            <div class="file_icon">
+                                <i class="fas fa-weight"></i> 
+                            </div>
+                            ...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <textarea class="source_code" id="editor">
+                {{source_code}}
+            </textarea>
+            <div class="editor_buttons">
+                    <button class="format_button" onclick="formatSelection()"><i class="fas fa-hat-wizard"></i> Beautify Selected Code</button>
+                    <button class="format_button" onclick="autoFormatSelection()"><i class="fas fa-magic"></i> Beautify Full Code</button>
+            </div>
+            <div class="inline-note">Use the <b>beautify selected code</b> option in case <b>beautify full code</b> breaks layout!</div>
+        </div>
+
+    </div>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/codemirror.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/javascript.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/htmlmixed.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/css.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/xml.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/beautify.js') }}"></script>
+    <div class="footer">
+            <p>coded with <i class="fas fa-heart" style="color: #FF5722 !important;"></i> and <i class="fas fa-headphones" style="color: #28b78d !important;"></i> by r3dhax0r <a href="https://twitter.com/r3dhax0r" target="_blank"><button class="bttn-simple bttn-xs bttn-primary">Follow me on <i class="fab fa-twitter"></i></button></a> also <a href="https://github.com/Tuhinshubhra/ExtAnalysis" target="_blank"><button class="bttn-simple bttn-xs bttn-royal">Star This Project on <i class="fab fa-github-alt"></i></button></a></p>
+    </div>
+</body>
+<script>
+    code_mode = '{{file_type}}'
+    if (code_mode === 'html'){code_type = 'htmlmixed'} else if (code_mode === 'json'){code_type = 'javascript'} else if (code_mode === 'css'){code_type = 'css'} else {code_type = 'javascript'}
+    var codemirror = CodeMirror.fromTextArea(document.getElementById('editor'), {
+        mode: code_type,
+        theme: "material",
+        lineNumbers: true,
+        readOnly: false
+    });
+    
+    function getSelectedRange() {
+        return { from: codemirror.getCursor(true), to: codemirror.getCursor(false) };
+      }
+    function autoFormatSelection() {
+        if (code_type === 'javascript'){
+            var currentValue = codemirror.getValue();
+            var newval = js_beautify(currentValue);
+            codemirror.setValue(newval);
+        } 
+        totalLines = codemirror.lineCount();
+        codemirror.autoFormatRange({line:0, ch:0}, {line:totalLines});
+
+    }
+    function formatSelection() {
+        var range = getSelectedRange();
+        codemirror.autoFormatRange(range.from, range.to);
+    }
+      (function() {
+
+        CodeMirror.extendMode("css", {
+        commentStart: "/*",
+        commentEnd: "*/",
+        newlineAfterToken: function(type, content) {
+            return /^[;{}]$/.test(content);
+        }
+        });
+
+        CodeMirror.extendMode("javascript", {
+        commentStart: "/*",
+        commentEnd: "*/",
+        // FIXME semicolons inside of for
+        newlineAfterToken: function(type, content, textAfter, state) {
+            if (this.jsonMode) {
+            return /^[\[,{]$/.test(content) || /^}/.test(textAfter);
+            } else {
+            if (content == ";" && state.lexical && state.lexical.type == ")") return false;
+            return /^[;{}]$/.test(content) && !/^;/.test(textAfter);
+            }
+        }
+        });
+
+        CodeMirror.extendMode("xml", {
+        commentStart: "<!--",
+        commentEnd: "-->",
+        newlineAfterToken: function(type, content, textAfter) {
+            return type == "tag" && />$/.test(content) || /^</.test(textAfter);
+        }
+        });
+
+        // Comment/uncomment the specified range
+        CodeMirror.defineExtension("commentRange", function (isComment, from, to) {
+        var cm = this, curMode = CodeMirror.innerMode(cm.getMode(), cm.getTokenAt(from).state).mode;
+        cm.operation(function() {
+            if (isComment) { // Comment range
+            cm.replaceRange(curMode.commentEnd, to);
+            cm.replaceRange(curMode.commentStart, from);
+            if (from.line == to.line && from.ch == to.ch) // An empty comment inserted - put cursor inside
+                cm.setCursor(from.line, from.ch + curMode.commentStart.length);
+            } else { // Uncomment range
+            var selText = cm.getRange(from, to);
+            var startIndex = selText.indexOf(curMode.commentStart);
+            var endIndex = selText.lastIndexOf(curMode.commentEnd);
+            if (startIndex > -1 && endIndex > -1 && endIndex > startIndex) {
+                // Take string till comment start
+                selText = selText.substr(0, startIndex)
+                // From comment start till comment end
+                + selText.substring(startIndex + curMode.commentStart.length, endIndex)
+                // From comment end till string end
+                + selText.substr(endIndex + curMode.commentEnd.length);
+            }
+            cm.replaceRange(selText, from, to);
+            }
+        });
+        });
+
+        // Applies automatic mode-aware indentation to the specified range
+        CodeMirror.defineExtension("autoIndentRange", function (from, to) {
+        var cmInstance = this;
+        this.operation(function () {
+            for (var i = from.line; i <= to.line; i++) {
+            cmInstance.indentLine(i, "smart");
+            }
+        });
+        });
+
+        // Applies automatic formatting to the specified range
+        CodeMirror.defineExtension("autoFormatRange", function (from, to) {
+        var cm = this;
+        var outer = cm.getMode(), text = cm.getRange(from, to).split("\n");
+        var state = CodeMirror.copyState(outer, cm.getTokenAt(from).state);
+        var tabSize = cm.getOption("tabSize");
+
+        var out = "", lines = 0, atSol = from.ch == 0;
+        function newline() {
+            out += "\n";
+            atSol = true;
+            ++lines;
+        }
+
+        for (var i = 0; i < text.length; ++i) {
+            var stream = new CodeMirror.StringStream(text[i], tabSize);
+            while (!stream.eol()) {
+            var inner = CodeMirror.innerMode(outer, state);
+            var style = outer.token(stream, state), cur = stream.current();
+            stream.start = stream.pos;
+            if (!atSol || /\S/.test(cur)) {
+                out += cur;
+                atSol = false;
+            }
+            if (!atSol && inner.mode.newlineAfterToken &&
+                inner.mode.newlineAfterToken(style, cur, stream.string.slice(stream.pos) || text[i+1] || "", inner.state))
+                newline();
+            }
+            if (!stream.pos && outer.blankLine) outer.blankLine(state);
+            if (!atSol) newline();
+        }
+
+        cm.operation(function () {
+            cm.replaceRange(out, from, to);
+            for (var cur = from.line + 1, end = from.line + lines; cur <= end; ++cur)
+            cm.indentLine(cur, "smart");
+            cm.setSelection(from, cm.getCursor(false));
+        });
+        });
+        })();
+</script>
+</html>

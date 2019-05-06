@@ -1,0 +1,15 @@
+ExtAnalysis makes use of number of open-source libraries.
+Below is the list of all the used library!
+
+1. chiptune2.js by Simon Gündling (https://github.com/deskjet/chiptune2.js)
+2. GeoLite2 data by maxmind (https://www.maxmind.com)
+3. Codemirror (https://codemirror.net)
+4. JS Beautifier by Einar Lielmanis (https://beautifier.io)
+5. jsonTreeViewer by Vera Lobacheva (https://github.com/summerstyle/jsonTreeViewer)
+6. vis.js by Almende B.V. (http://visjs.org)
+7. jquery (https://jquery.org)
+8. SweetAlert (https://sweetalert.js.org)
+9. Retirejslib by Fallible (https://github.com/FallibleInc/retirejslib/)
+
+
+Some of the images used in this project are from Flaticon (https://www.flaticon.com)

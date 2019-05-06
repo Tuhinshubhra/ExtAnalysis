@@ -1,0 +1,320 @@
+<!--
+ExtAnalysis - Browser Extension Analysis Framework
+Copyright (C) 2019 Tuhinshubhra
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ExtAnalysis - Analyze browser extensions</title>
+    <link id="pageStyle" rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/bttn.css') }}">
+    <link href="{{ url_for('static',filename='images/favicon.png') }}" rel="icon"/>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/fontawesome.min.js') }}"></script>
+    <link href="{{ url_for('static',filename='css/fontawesome.min.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        @font-face {
+            font-family: "ocraextended";
+            src: url("{{ url_for('static',filename='fonts/ocraextended.ttf') }}") format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "Roboto";
+            src: url("{{ url_for('static',filename='fonts/Roboto-Regular.ttf') }}") format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        /* Roboto italic */
+        @font-face {
+            font-family: "Roboto";
+            src: url("{{ url_for('static',filename='fonts/Roboto-Italic.ttf') }}") format('truetype');
+            font-weight: 400;
+            font-style: italic;
+        }
+        /* Roboto bold */
+        @font-face {
+            font-family: "Roboto";
+            src: url("{{ url_for('static',filename='fonts/Roboto-Bold.ttf') }}") format('truetype');
+            font-weight: 700;
+            font-style: normal;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!--
+        <h2>ExtAnalysis</h2>
+        <h6>Browser Extension Analysis Toolkit!</h6>
+        -->
+        <div class="logo-placeholder"><img src="{{ url_for('static',filename='images/logo.png') }}" class="logo"></div>
+        <nav class="tabs">
+            <div class="selector"></div>
+            <a href="#" class="active" onclick="showscan()"><i class="fas fa-bolt"></i> Analyze</a>
+            <a href="#" onclick="showresult()"><i class="fas fa-clipboard-list"></i> Analysis Reports</a>
+            <a href="#" onclick="showupdate()"><i class="fas fa-cog"></i> Settings</a>
+            <a href="#" onclick="showabout()"><i class="fas fa-info-circle"></i> About</a>
+        </nav>
+        <a href="#" status="off" id="musicButton" onclick="toggle_music()" class="music_primary" title="Music (ChipTunes)"><img src="{{ url_for('static',filename='images/music.svg') }}" style="width:27px;"></a>
+        <div id="music_buttons" style="display:none;">
+            <a href="#" status="off" id="play_pause" onclick="toggle_play()" class="play_pause" title="Play / Pause"><img src="{{ url_for('static',filename='images/play.svg') }}" style="width:27px;"></a>
+            <a href="#" status="off" id="change_music" onclick="change_music()" class="change_music" title="Change Music"><img src="{{ url_for('static',filename='images/random.svg') }}" style="width:27px;"></a>
+        </div>
+        
+        <a href="#" id="lightSwitchOn" onclick="lightsOn()" class="dmode day" title="Enable Light Mode"><img src="{{ url_for('static',filename='images/light.svg') }}" style="width:27px;"></a>
+        <a href="#" id="lightSwitchOff" onclick="lightsOff()" class="dmode night" title="Enable Dark Mode"><img src="{{ url_for('static',filename='images/dark.svg') }}" style="width:27px;"></a>
+
+        <div class="container" id="container">
+            <!-- modal -->
+        <div class="modal-overlay">
+                <div class="modal">
+    
+                    <a class="close-modal">
+                        <svg viewBox="0 0 20 20">
+                            <path fill="#ff1424" d="M15.898,4.045c-0.271-0.272-0.713-0.272-0.986,0l-4.71,4.711L5.493,4.045c-0.272-0.272-0.714-0.272-0.986,0s-0.272,0.714,0,0.986l4.709,4.711l-4.71,4.711c-0.272,0.271-0.272,0.713,0,0.986c0.136,0.136,0.314,0.203,0.492,0.203c0.179,0,0.357-0.067,0.493-0.203l4.711-4.711l4.71,4.711c0.137,0.136,0.314,0.203,0.494,0.203c0.178,0,0.355-0.067,0.492-0.203c0.273-0.273,0.273-0.715,0-0.986l-4.711-4.711l4.711-4.711C16.172,4.759,16.172,4.317,15.898,4.045z"></path>
+                        </svg>
+                    </a>
+                    <!-- close modal -->
+    
+                    <div class="modal-content" id="modal-content">
+                        <h3>Some content here</h3>
+                    </div>
+                    <!-- content -->
+    
+                </div>
+                <!-- modal -->
+            </div>
+            <!-- overlay -->  
+                <div id="loading" style="display: none;">
+                        <img src="{{ url_for('static',filename='images/working.gif') }}"><br>
+                        <h4>ExtAnalysis is working... Please wait!</h4>
+                </div>
+            <div class="scan-container" id="scan-container">
+                <div id="select-scan-type">
+                    <div class="tabscontainer">
+                <ul class="result-tabs">
+                    <li class="tab-link current" data-tab="tab-0"><i class="fab fa-chrome"></i> Chrome Web Store</li>
+                    <li class="tab-link" data-tab="tab-3"><i class="fab fa-firefox"></i> Firefox Add-ons</li>
+                    <li class="tab-link" data-tab="tab-1"><i class="fas fa-home"></i> Installed Locally</li>
+                    <li class="tab-link" data-tab="tab-2"><i class="fas fa-upload"></i> Upload Extension</li>
+                </ul>
+
+                <div id="tab-0" class="tab-content current">
+                        <h2 class="header_for_sub">Download and Analyze Google Chrome Extensions</h2>
+                        <img src="{{ url_for('static',filename='images/webstore.png') }}" style="margin-bottom: 10px;">
+                        <!-- h3 id='dl-header'>Enter extension ID or Chrome WebStore link:</h2>
+                        <br>-->
+                        <br>
+                        <div id="webstore">
+                            <input type="text" id="extension-id" class="target_box" placeholder="extension id or chrome webstore url">
+                            <button onclick="download_and_scan()" class="start_scan"><i class="fas fa-binoculars"></i> Download & Analyze </button>
+                        </div>
+                        
+                        <br><br>
+                        <div class="inline-note">You can either enter the extension id or the full url of the chrome webstore.</div>
+                </div>
+
+                <div id="tab-3" class="tab-content">
+                    <h2 class="header_for_sub">Download and Analyze firefox add-ons</h2>
+                    <img src="{{ url_for('static',filename='images/ffaddons.png') }}" style="margin-bottom: 10px;">
+                    <!--<h3 id='dl-header'>Enter firefox add-on link:</h2>
+                    <br>-->
+                    <br>
+                    <div id="webstore">
+                        <input type="text" id="firefox-addon" class="target_box" placeholder="firefox add-on link">
+                        <button onclick="download_and_scan_firefox()" class="start_scan"><i class="fas fa-binoculars"></i> Download & Analyze </button>
+                    </div>
+                    
+                    <br><br>
+                    <div class="inline-note">You can either enter the extension id or the full url of the chrome webstore.</div>
+                </div>
+
+                <div id="tab-1" class="tab-content">
+                        <h2 class="header_for_sub">Analyze Local Extensions</h2>
+                        <img src="{{ url_for('static',filename='images/local.png') }}" style="margin-bottom: 10px;">
+                        <br>
+                        <div class="pill-container">
+                            <div class="pill gchrome" onclick="getLocalExtensions('googlechrome')"><i class="fab fa-chrome"></i> Google Chrome</div>
+                            <div class="pill mfirefox" onclick="getLocalExtensions('firefox')"><i class="fab fa-firefox"></i> Mozilla Firefox</div>
+                            <div class="pill opera" onclick="getLocalOperaExtensions()"><i class="fab fa-opera"></i> Opera Browser</div>
+                        </div>
+                        
+                        <div id="local-list" style="margin-top:5px;"></div>
+                        <div class="inline-note">You can scan the extensions that you already have installed!</div>
+                </div>
+
+                <div id="tab-2" class="tab-content">
+                    <h2 class="header_for_sub">Upload and Analyze</h2>
+                    <img src="{{ url_for('static',filename='images/upload.png') }}" style="margin-bottom: 10px;">
+                   <!-- h3 id='dl-header'><i class="fas fa-upload"></i> Upload .crx files and analyze</h2>-->
+                    <br><br>
+                   <div id="upload-extension">
+                        <form method=post enctype=multipart/form-data action='/upload/' id="upload-form" style="display:inline-block; margin-right:5px; width: 55%;">
+                            <input type=file name=file class="upload-container" id="upload-container">
+                        </form>
+                        <button class="start_scan" onclick="upload_extension()"><i class="fas fa-bolt"></i> Upload & Analyze</button>
+                    </div>
+                    <br><br>
+                    <div class="inline-note">Allowed file extensions: <b>.crx</b>, <b>.xpi</b>, <b>.zip</b></div>
+                </div>
+                    
+                </div>
+                </div>
+            </div>
+
+            <div class="result-container" id="result-container" style="display:none;">
+                <h2 class="header_for_main">Analysis Reports</h2>
+                <div id="scan-input">
+                    <br>
+                    <button id="load_result" onclick="result()" class="start_scan">Load Reports </button>
+                    <button class="delete_button" onclick=removeAll()><i class="fas fa-trash"></i> Remove All Results</button>
+                    <br>
+                </div>
+                <div class="result-dirs" id="changeme">
+
+                </div>
+                
+            </div>
+
+            <div class="update-container" id="update-container" style="display:none;">
+                <h2 class="header_for_main">Settings</h2>
+                <div class="option_body">
+                    <div class="option_name" style="color:#03A9F4;">Basic Settings</div>
+                        <div class="sub-head-settings">Reports Directory</div>
+                        <div class="option_description">
+                            Select the location where you wish your Analysis reports should be placed. By default ExtAnalysis uses "reports" directory inside the project directory.
+                        </div>
+                    <input type="text" id="reports_dir" class="settings_textbox" placeholder="~/ExtAnalysis/reports/" value="{{report_dir}}">
+                    <button class="start_scan" onclick=changeReportsDir()><i class="fas fa-check"></i> Apply</button>
+                    <br>
+                    <br>
+                    <div class="sub-head-settings">Lab Directory</div>
+                        <div class="option_description">
+                            Set the location where you wish ExtAnalysis to download and extract extensions for analysis.
+                        </div>
+                    <input type="text" id="lab_dir" class="settings_textbox" placeholder="~/ExtAnalysis/reports/" value="{{lab_dir}}">
+                    <button class="start_scan" onclick=changeLabDir()><i class="fas fa-check"></i> Apply</button>
+                    <br>
+                    <br>
+                    <div class="sub-head-settings">VirusTotal API</div>
+                        <div class="option_description">
+                            Set or change your VirusTotal api here. If you don't have one yet get it here: <a class="hreflink" href="https://www.virustotal.com/gui/join-us" target="_blank">VirusTotal Signup</a>
+                        </div>
+                    <input type="text" id="virustotal_api" class="settings_textbox" placeholder="virustotal api" value="{{virustotal_api}}">
+                    <button class="start_scan" onclick=changeVTapi()><i class="fas fa-check"></i> Apply</button>
+                    <br>
+                    <br>
+                    <div class="sub-head-settings">Check For Update</div>
+                        <div class="option_description">
+                            Check if a newer version of ExtAnalysis is available!
+                        </div>
+                    <button class="start_scan" onclick=update()><i class="fas fa-globe-europe"></i> Check For Updates</button>
+                </div>
+
+                <div class="option_body" style="border-left: solid 2px red;">
+                    <div class="option_name">Delete & Clear</div>
+                    <div class="sub-head-settings">Delete All Reports</div>
+                    <div class="option_description">
+                        Deletes all Analysis directories under the reports directory and clears reports.json file. Essentially deleting all Analysis results.
+                    </div>
+                    <button class="delete_button" onclick=removeAll()><i class="fas fa-trash"></i> Remove All Results</button>
+                    <br>
+                    <br>
+                    <div class="sub-head-settings">Clear Lab Directory</div>
+                    <div class="option_description">
+                        "lab" is the directory where all the extensions are extracted for analysis... clearing it deletes all the contents of the lab directory.
+                        <b>Clearing Lab doesn't effect your results!</b>
+                    </div>
+                    <button class="delete_button" onclick=clearLab()><i class="fas fa-broom"></i> Clear Lab</button>
+                </div>
+                
+            </div>
+            <div class="about-container" id="about-container" style="display:none;">
+                <!-- div class="avatar-placeholder">
+                    <img src="{{ url_for('static',filename='images/avatar.gif') }}" class="avatar">
+                </div> -->
+                <div class="bio-placeholder">
+                    <!--
+                    <div class="logo-placeholder"><img src="{{ url_for('static',filename='images/logo.png') }}" class="logo"></div>
+                    <h3 class="mid_header">INFO</h3>
+                    -->
+                    <div style="width: 100%; padding: 0px 20%;">
+                        <div class="author_info">
+                            ExtAnalysis Version 1.0.0
+                            <br>
+                            Created By: r3dhax0r (Tuhinshubhra)
+                            <br>
+                            <a href="https://github.com/Tuhinshubhra/ExtAnalysis"><button class="bttn-fill bttn-xs bttn-royal"><i class="fab fa-github-alt"></i> github</button></a>
+                            <a href="https://twitter.com/r3dhax0r"><button class="bttn-fill bttn-xs bttn-primary"><i class="fab fa-twitter"></i> Twitter</button></a>
+                            <br>
+                        </div>
+                        <img src="{{ url_for('static',filename='images/avatar.gif') }}" class="avatar">
+                    </div>
+                    <h3 class="mid_header">LICENSE</h3>
+                    <textarea class="license">{{license_text}}</textarea>
+                    <h3 class="mid_header">CREDITS</h3>
+                    <textarea class="license" style="text-align: left; height: 220px;">{{credits_text}}</textarea>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="log" class="log-holder">
+        </div>
+        <div class="log-actions">
+            <button class="clear-logs-button" onclick="clearlogs()"><i class="fas fa-broom"></i> Clear Logs</button>
+            <button class="logs-explorer-button"><i class="fas fa-compass"></i> Logs Explorer</button>
+        </div>
+    </div>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/sweetalert.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/main.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/music.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/libopenmpt.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/chiptune2.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/datatables.min.js') }}"></script>
+    <div class="footer">
+            <p>coded with <i class="fas fa-heart" style="color: #FF5722 !important;"></i> and <i class="fas fa-headphones" style="color: #28b78d !important;"></i> by r3dhax0r <a href="https://twitter.com/r3dhax0r" target="_blank"><button class="bttn-simple bttn-xs bttn-primary">Follow me on <i class="fab fa-twitter"></i></button></a> also <a href="https://github.com/Tuhinshubhra/ExtAnalysis" target="_blank"><button class="bttn-simple bttn-xs bttn-royal">Star This Project on <i class="fab fa-github-alt"></i></button></a></p>
+    </div>
+</body>
+<script>
+    function update_log(){
+        var logurl = '/log/'
+        fetch(logurl).then((response) => {
+            response.text().then(logs => {
+                $('#log')[0].innerHTML = logs;
+            });
+        });
+    }
+    var counter = 0;
+    var interval = setInterval(function() { update_log() }, 1000);
+    $(document).ready(function(){
+            
+            $('ul.result-tabs li').click(function(){
+                var tab_id = $(this).attr('data-tab');
+        
+                $('ul.result-tabs li').removeClass('current');
+                $('.tab-content').removeClass('current');
+        
+                $(this).addClass('current');
+                $("#"+tab_id).addClass('current');
+            })
+        
+        })
+</script>
+
+</html>

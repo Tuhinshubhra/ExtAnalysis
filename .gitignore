@@ -1,0 +1,12 @@
+lab/
+static/visjs/
+__pycache__/
+*.py[cod]
+*$py.class
+test.json
+test.py
+dummy.py
+permission-badges.list
+reports/*
+reports.json
+extanalysis.log

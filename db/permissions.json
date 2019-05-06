@@ -1,0 +1,410 @@
+{
+    "allurls": {
+        "description": "Grants the extension access to all hosts. It may be possible to avoid declaring any host permissions by using the activeTab permission.",
+        "warning": "Read and change all your data on the websites you visit",
+        "badge": "<i class=\"fas fa-globe\"></i>",
+        "risk": "none"
+    },
+    "<all_urls>": {
+        "description": "matches any URL that starts with a permitted scheme (http:, https:, file:, ftp:, or chrome-extension:)",
+        "warning": "Read and change all your data on the websites you visit that starts with a permitted scheme (http:, https:, file:, ftp:, or chrome-extension:)",
+        "badge": "<i class=\"fas fa-globe\"></i>",
+        "risk": "critical"
+    },
+    "http://*/*": {
+        "description": "Matches any URL that uses the http: scheme.",
+        "warning": "Read and change all your data on the websites you visit that uses the scheme http://",
+        "badge": "<i class=\"fas fa-globe-africa\"></i>",
+        "risk": "high"
+    },
+    "https://*/*": {
+        "description": "Matches any URL that uses the https: scheme.",
+        "warning": "Read and change all your data on the websites you visit that uses the scheme https://",
+        "badge": "<i class=\"fas fa-globe-africa\"></i>",
+        "risk": "high"
+    },
+    "*://*/*": {
+        "description": "Matches any URL that uses the https: or http: scheme.",
+        "warning": "Read and change all your data on the websites you visit that uses the scheme https:// or http://",
+        "badge": "<i class=\"fas fa-globe\"></i>",
+        "risk": "none"
+    },
+    "customurls": {
+        "description": "Grants the extension access to <site>. It may be possible to avoid declaring any host permissions by using the activeTab permission.",
+        "warning": "Read and change your data on HostName.com",
+        "badge": "<i class=\"fas fa-globe-europe\"></i>",
+        "risk": "none"
+    },
+    "bookmarks": {
+        "description": "Grants your extension access to the chrome.bookmarks API.",
+        "warning": "Read and change your bookmarks",
+        "badge": "<i class=\"fas fa-bookmark\"></i>",
+        "risk": "medium"
+    },
+    "clipboardRead": {
+        "description": "Required if the extension uses document.execCommand('paste').",
+        "warning": "Read data you copy and paste",
+        "badge": "<i class=\"fas fa-clipboard-list\"></i>",
+        "risk": "high"
+    },
+    "clipboardWrite": {
+        "description": "Indicates the extension uses document.execCommand('copy') or document.execCommand('cut').",
+        "warning": "Modify data you copy and paste",
+        "badge": "<i class=\"fas fa-clipboard-check\"></i>",
+        "risk": "medium"
+    },
+    "contentSettings": {
+        "description": "Grants your extension access to the chrome.contentSettings API.",
+        "warning": "Change your settings that control websites' access to features   such as cookies, JavaScript, plugins, geolocation, microphone, camera etc.",
+        "badge": "<i class=\"fas fa-cog\"></i>",
+        "risk": "high"
+    },
+    "debugger": {
+        "description": "Grants your extension access to the chrome.debugger API.",
+        "warning": "Access the page debugger backend Read and change all your data on the websites you visit",
+        "badge": "<i class=\"fas fa-terminal\"></i>",
+        "risk": "critical"
+    },
+    "declarativeNetRequest": {
+        "description": "Grants your extension access to the chrome.declarativeNetRequest API.",
+        "warning": "Block page content",
+        "badge": "<i class=\"fas fa-external-link-square-alt\"></i>",
+        "risk": "high"
+    },
+    "desktopCapture": {
+        "description": "Grants your extension access to the chrome.desktopCapture API.",
+        "warning": "Capture content of your screen",
+        "badge": "<i class=\"fas fa-desktop\"></i>",
+        "risk": "high"
+    },
+    "downloads": {
+        "description": "Grants your extension access to the chrome.downloads API.",
+        "warning": "Manage your downloads",
+        "badge": "<i class=\"fas fa-download\"></i>",
+        "risk": "medium"
+    },
+    "geolocation": {
+        "description": "Allows the extension to use the HTML5 geolocation API without prompting the user for permission.",
+        "warning": "Detect your physical location",
+        "badge": "<i class=\"fas fa-thmap-marked-alt\"></i>",
+        "risk": "medium"
+    },
+    "history": {
+        "description": "Grants your extension access to the chrome.history API.",
+        "warning": "Read and change your browsing history",
+        "badge": "<i class=\"fas fa-history\"></i>",
+        "risk": "high"
+    },
+    "management": {
+        "description": "Grants the extension access to the chrome.management API.",
+        "warning": "Manage your apps, extensions, and themes",
+        "badge": "<i class=\"fas fa-tasks\"></i>",
+        "risk": "medium"
+    },
+    "nativeMessaging": {
+        "description": "Gives the extension access to the native messaging API.",
+        "warning": "Communicate with cooperating native applications",
+        "badge": "<i class=\"fas fa-cogs\"></i>",
+        "risk": "medium"
+    },
+    "notifications": {
+        "description": "Grants your extension access to the chrome.notifications API.",
+        "warning": "Display notifications",
+        "badge": "<i class=\"fas fa-bell\"></i>",
+        "risk": "low"
+    },
+    "pageCapture": {
+        "description": "Grants the extension access to the chrome.pageCapture API.",
+        "warning": "Read and change all your data on the websites you visit",
+        "badge": "<i class=\"fas fa-image\"></i>",
+        "risk": "high"
+    },
+    "privacy": {
+        "description": "Gives the extension access to the chrome.privacy API.",
+        "warning": "Change your privacy-related settings",
+        "badge": "<i class=\"fas fa-user-secret\"></i>",
+        "risk": "high"
+    },
+    "proxy": {
+        "description": "Grants the extension access to the chrome.proxy API.",
+        "warning": "Read and change all your data on the websites you visit",
+        "badge": "<i class=\"fas fa-american-sign-language-interpreting\"></i>",
+        "risk": "high"
+    },
+    "system.storage": {
+        "description": "Grants the extension access to the chrome.system.storage API.",
+        "warning": "Identify and eject storage devices",
+        "badge": "<i class=\"fas fa-hdd\"></i>",
+        "risk": "medium"
+    },
+    "tabCapture": {
+        "description": "Grants the extensions access to the chrome.tabCapture API.",
+        "warning": "Read and change all your data on the websites you visit",
+        "badge": "<i class=\"fas fa-image\"></i>",
+        "risk": "high"
+    },
+    "tabs": {
+        "description": "Grants the extension access to privileged fields of the Tab objects used by several APIs including chrome.tabs and chrome.windows. In many circumstances the extension will not need to declare the tabs permission to make use of these APIs.",
+        "warning": "Read your browsing history",
+        "badge": "<i class=\"fas fa-th\"></i>",
+        "risk": "high"
+    },
+    "topSites": {
+        "description": "Grants the extension access to the chrome.topSites API.",
+        "warning": "Read a list of your most frequently visited websites",
+        "badge": "<i class=\"fas fa-list-ol\"></i>",
+        "risk": "medium"
+    },
+    "ttsEngine": {
+        "description": "Grants the extension access to the chrome.ttsEngine API.",
+        "warning": "Read all text spoken using synthesized speech",
+        "badge": "<i class=\"fas fa-comment\"></i>",
+        "risk": "medium"
+    },
+    "webNavigation": {
+        "description": "Grants the extension access to the chrome.webNavigation API.",
+        "warning": "Read your browsing history",
+        "badge": "<i class=\"fas fa-globe\"></i>",
+        "risk": "medium"
+    },
+    "activeTab": {
+        "description": "Requests that the extension be granted permissions according to the activeTab specification.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-square\"></i>",
+        "risk": "low"
+    },
+    "alarms": {
+        "description": "Gives your extension access to the chrome.alarms API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-stopwatch\"></i>",
+        "risk": "none"
+    },
+    "background": {
+        "description": "Makes Chrome start up early and and shut down late, so that apps and extensions can have a longer life. When any installed hosted app, packaged app, or extension has background permission, Chrome runs (invisibly) as soon as the user logs into their computer\u00e2\u20ac\u201dbefore the user launches Chrome. The background permission also makes Chrome continue running (even after its last window is closed) until the user explicitly quits Chrome. Note: Disabled apps and extensions are treated as if they aren't installed. You typically use the background permission with a background page, event page or (for hosted apps) a background window.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-delicious\"></i>",
+        "risk": "low"
+    },
+    "browsingData": {
+        "description": "Gives your extension access to the chrome.browsingData API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-list-alt\"></i>",
+        "risk": "none"
+    },
+    "certificateProvider": {
+        "description": "Gives your extension access to the chrome.certificateProvider API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-certificate\"></i>",
+        "risk": "low"
+    },
+    "contextMenus": {
+        "description": "Gives your extension access to the chrome.contextMenus API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-bars\"></i>",
+        "risk": "none"
+    },
+    "cookies": {
+        "description": "Gives your extension access to the chrome.cookies API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-cookie-bite\"></i>",
+        "risk": "critical"
+    },
+    "declarativeContent": {
+        "description": "Gives your extension access to the chrome.declarativeContent API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-align-left\"></i>",
+        "risk": "none"
+    },
+    "declarativeWebRequest": {
+        "description": "Gives your extension access to the chrome.declarativeWebRequest API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-globe\"></i>",
+        "risk": "critical"
+    },
+    "displaySource": {
+        "description": "Gives your extension access to the chrome.displaySource API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-code\"></i>",
+        "risk": "high"
+    },
+    "dns": {
+        "description": "Gives your extension access to the chrome.dns API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-server\"></i>",
+        "risk": "high"
+    },
+    "documentScan": {
+        "description": "Gives your extension access to the chrome.documentScan API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-qrcode\"></i>",
+        "risk": "low"
+    },
+    "enterprise.deviceAttributes": {
+        "description": "Gives your extension access to the chrome.enterprise.deviceAttributes API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-creative-commons-by\"></i>",
+        "risk": "none"
+    },
+    "enterprise.hardwarePlatform": {
+        "description": "Gives your extension access to the chrome.enterprise.hardwarePlatform API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-memory\"></i>",
+        "risk": "none"
+    },
+    "enterprise.platformKeys": {
+        "description": "Gives your extension access to the chrome.enterprise.platformKeys API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-key\"></i>",
+        "risk": "low"
+    },
+    "experimental": {
+        "description": "Required if the extension or app uses any chrome.experimental.* APIs.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-flask\"></i>",
+        "risk": "high"
+    },
+    "fileBrowserHandler": {
+        "description": "Gives your extension access to the chrome.fileBrowserHandler API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-file\"></i>",
+        "risk": "none"
+    },
+    "fileSystemProvider": {
+        "description": "Gives your extension access to the chrome.fileSystemProvider API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-folder\"></i>",
+        "risk": "medium"
+    },
+    "fontSettings": {
+        "description": "Gives your extension access to the chrome.fontSettings API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-font\"></i>",
+        "risk": "none"
+    },
+    "gcm": {
+        "description": "Gives your extension access to the chrome.gcm API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-cloud\"></i>",
+        "risk": "none"
+    },
+    "identity": {
+        "description": "Gives your extension access to the chrome.identity API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-id-badge\"></i>",
+        "risk": "low"
+    },
+    "idle": {
+        "description": "Gives your extension access to the chrome.idle API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-icicles\"></i>",
+        "risk": "none"
+    },
+    "idltest": {
+        "description": "Gives your extension access to the chrome.idltest API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-icicles\"></i>",
+        "risk": "high"
+    },
+    "networking.config": {
+        "description": "Gives your extension access to the chrome.networking.config API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-check-square\"></i>",
+        "risk": "low"
+    },
+    "platformKeys": {
+        "description": "Gives your extension access to the chrome.platformKeys API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-key\"></i>",
+        "risk": "low"
+    },
+    "power": {
+        "description": "Gives your extension access to the chrome.power API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-power-off\"></i>",
+        "risk": "none"
+    },
+    "printerProvider": {
+        "description": "Gives your extension access to the chrome.printerProvider API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-print\"></i>",
+        "risk": "low"
+    },
+    "processes": {
+        "description": "Gives your extension access to the chrome.processes API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-tasks\"></i>",
+        "risk": "medium"
+    },
+    "sessions": {
+        "description": "Gives your extension access to the chrome.sessions API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-user\"></i>",
+        "risk": "none"
+    },
+    "signedInDevices": {
+        "description": "Gives your extension access to the chrome.signedInDevices API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-id-card-alt\"></i>",
+        "risk": "medium"
+    },
+    "storage": {
+        "description": "Gives your extension access to the chrome.storage API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-hdd\"></i>",
+        "risk": "medium"
+    },
+    "system.cpu": {
+        "description": "Gives your extension access to the chrome.system.cpu API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-microchip\"></i>",
+        "risk": "none"
+    },
+    "system.display": {
+        "description": "Gives your extension access to the chrome.system.display API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-desktop\"></i>",
+        "risk": "none"
+    },
+    "system.memory": {
+        "description": "Gives your extension access to the chrome.system.memory API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-memory\"></i>",
+        "risk": "none"
+    },
+    "tts": {
+        "description": "Gives your extension access to the chrome.tts API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-speakap\"></i>",
+        "risk": "none"
+    },
+    "unlimitedStorage": {
+        "description": "Provides an unlimited quota for storing HTML5 client-side data, such as databases and local storage files. Without this permission, the extension or app is limited to 5 MB of local storage.                     Note: This permission applies only to Web SQL Database and application cache (see issue 58985). Also, it doesn't currently work with wildcard subdomains such as http://*.example.com.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-hdd\"></i>",
+        "risk": "none"
+    },
+    "vpnProvider": {
+        "description": "Gives your extension access to the chrome.vpnProvider API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-vial\"></i>",
+        "risk": "high"
+    },
+    "wallpaper": {
+        "description": "Gives your extension access to the chrome.wallpaper API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-camera-retro\"></i>",
+        "risk": "none"
+    },
+    "webRequest": {
+        "description": "Gives your extension access to the chrome.webRequest API.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-globe-asia\"></i>",
+        "risk": "critical"
+    },
+    "webRequestBlocking": {
+        "description": "Required if the extension uses the chrome.webRequest API in a blocking fashion.",
+        "warning": "none",
+        "badge": "<i class=\"fas fa-hand-paper\"></i>",
+        "risk": "low"
+    }
+}

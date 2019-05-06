@@ -1,0 +1,34 @@
+{
+    "virustotal_api": "",
+    "_comment1": "your virustotal api is needed for scanning files. https://developers.virustotal.com/reference",
+
+    "results_directory_path": "",
+    "_comment2":"enter path where you want your results to be saved... keep it empty to use the default reports/ directory",
+
+    "lab_directory_path": "",
+    "_comment3": "enter path where you want the extensions to be downloaded and extracted. Leave it empty to use the default lab/ directory",
+
+    "old_result_directory": "",
+    "_comment4": "DO NOT EDIT THIS MANUALLY... UNLESS YOU KNOW WHAT YOU ARE DOING",
+
+    "ignore_css": true,
+    "_comment5": "set this to false if you want to analyze css files. Disabled by default as css files contain a lot of junk!",
+
+    "extract_comments": true,
+    "_comment6": "Set it to false if you want to skip extracting comments from files",
+
+    "extract_btc_addresses": true,
+    "_comment7": "Set this to false if you want to skip extracting bitcoin addresses from files",
+
+    "extract_base64_strings": true,
+    "_comment8": "Set this to false if you want to skip extracting base64 encoded strings from files",
+
+    "extract_email_addresses": true,
+    "_comment9": "Set this to false to skip extracting email addresses from files!",
+
+    "extract_ipv4_addresses": true,
+    "_comment10": "Set this to false if you want to skip extracting IPv4 addresses from files",
+
+    "extract_ipv6_addresses": true,
+    "_comment11": "set this to false if you want to skip extracting IPv6 addresses from files"
+}

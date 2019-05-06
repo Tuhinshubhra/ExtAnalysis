@@ -1,0 +1,107 @@
+<!--
+ExtAnalysis - Browser Extension Analysis Framework
+Copyright (C) 2019 Tuhinshubhra
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{error_title}} | ExtAnalysis</title>
+    <link id="pageStyle" rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/bttn.css') }}">
+    <link href="{{ url_for('static',filename='images/favicon.png') }}" rel="icon"/>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/fontawesome.min.js') }}"></script>
+    <link href="{{ url_for('static',filename='css/fontawesome.min.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        @font-face {
+            font-family: "ocraextended";
+            src: url("{{ url_for('static',filename='fonts/ocraextended.ttf') }}") format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "Roboto";
+            src: url("{{ url_for('static',filename='fonts/Roboto-Regular.ttf') }}") format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        /* Roboto italic */
+        @font-face {
+            font-family: "Roboto";
+            src: url("{{ url_for('static',filename='fonts/Roboto-Italic.ttf') }}") format('truetype');
+            font-weight: 400;
+            font-style: italic;
+        }
+        /* Roboto bold */
+        @font-face {
+            font-family: "Roboto";
+            src: url("{{ url_for('static',filename='fonts/Roboto-Bold.ttf') }}") format('truetype');
+            font-weight: 700;
+            font-style: normal;
+        }
+        @-webkit-keyframes rotation {
+		from {
+				-webkit-transform: rotate(0deg);
+		}
+		to {
+				-webkit-transform: rotate(359deg);
+		}
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!--
+        <h2>ExtAnalysis</h2>
+        <h6>Browser Extension Analysis Toolkit!</h6>
+        -->
+        <div class="logo-placeholder"><a href='/'><img src="{{ url_for('static',filename='images/logo.png') }}" class="logo" id="logo"></a></div>
+        
+        <a href="#" status="off" id="musicButton" onclick="toggle_music()" class="music_primary" title="Music (ChipTunes)"><img src="{{ url_for('static',filename='images/music.svg') }}" style="width:27px;"></a>
+        <div id="music_buttons" style="display:none;">
+            <a href="#" status="off" id="play_pause" onclick="toggle_play()" class="play_pause" title="Play / Pause"><img src="{{ url_for('static',filename='images/play.svg') }}" style="width:27px;"></a>
+            <a href="#" status="off" id="change_music" onclick="change_music()" class="change_music" title="Change Music"><img src="{{ url_for('static',filename='images/random.svg') }}" style="width:27px;"></a>
+        </div>
+        
+        <a href="#" id="lightSwitchOn" onclick="lightsOn()" class="dmode day" title="Enable Light Mode"><img src="{{ url_for('static',filename='images/light.svg') }}" style="width:27px;"></a>
+        <a href="#" id="lightSwitchOff" onclick="lightsOff()" class="dmode night" title="Enable Dark Mode"><img src="{{ url_for('static',filename='images/dark.svg') }}" style="width:27px;"></a>
+
+        <div class="container" id="container">
+            <div class="error-div">
+                <h3>{{error_head}}</h3>
+                <br>
+                <img src="{{ url_for('static',filename='images/techerror.gif') }}" style="width:200px; -webkit-animation: rotation 20s infinite linear; border-radius: 50%;">
+                <br><br>
+                {{error_txt | safe}}
+                <br>
+                <div class="inline-note">Click on the logo to go back to homepage or simply enjoy some chiptunes using the button below</div>
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/main.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/music.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/libopenmpt.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/chiptune2.js') }}"></script>
+    <div class="footer">
+            <p>coded with <i class="fas fa-heart" style="color: #FF5722 !important;"></i> and <i class="fas fa-headphones" style="color: #28b78d  !important;"></i> by r3dhax0r <a href="https://twitter.com/r3dhax0r" target="_blank"><button class="bttn-simple bttn-xs bttn-primary">Follow me on <i class="fab fa-twitter"></i></button></a> also <a href="https://github.com/Tuhinshubhra/ExtAnalysis" target="_blank"><button class="bttn-simple bttn-xs bttn-royal">Star This Project on <i class="fab fa-github-alt"></i></button></a></p>
+    </div>
+</body>
+
+</html>
