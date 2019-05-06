@@ -99,10 +99,10 @@ def home():
     license_text = lic.read()
     cred = open(helper.fixpath(core.path + '/CREDITS'), 'r')
     credits_text = cred.read()
-    return render_template("index.html", 
-                            report_dir = core.reports_path, 
-                            lab_dir = core.lab_path, 
-                            license_text = license_text, 
+    return render_template("index.html",
+                            report_dir = core.reports_path,
+                            lab_dir = core.lab_path,
+                            license_text = license_text,
                             credits_text=credits_text,
                             virustotal_api = core.virustotal_api
                             )
@@ -161,5 +161,5 @@ if __name__ == "__main__":
     settings.init_settings()
     main_url = 'http://{0}:{1}'.format(host, port)
     webbrowser.open(main_url)
-    print('\n[~] Starting ExtAnalysis at: {0} \n\n'.format('http://'+host+':'+port))
+    print('\n[~] Starting ExtAnalysis at: {0} \n\n'.format(main_url)
     app.run(host=host, port=port, debug=False)
