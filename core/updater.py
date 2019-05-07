@@ -76,7 +76,7 @@ def update():
     child_script = open(helper.fixpath(core.path + '/db/updater.py'), 'r')
     child_script = child_script.read()
 
-    src = child_script.replace('<current_extanalysis_directory>', core.path)
+    src = child_script.replace('<current_extanalysis_directory>', core.path.replace('\\', '\\\\'))
     src = src.replace('<github_zip_url>', core.github_zip)
 
     print('[i] Moving updater file to temp directory')

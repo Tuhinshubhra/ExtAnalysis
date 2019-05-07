@@ -35,8 +35,8 @@ import sys
 current_dir = '<current_extanalysis_directory>'
 download_link = '<github_zip_url>'
 temp_dir = tempfile.gettempdir()
-temp_exta_dir = os.path.join(temp_dir, 'extanalysis_temp')
-script_path = os.path.join(temp_dir, 'update_extanalysis.py')
+temp_exta_dir = os.path.join(temp_dir, 'extanalysis_temp').replace('\\', '\\\\')
+script_path = os.path.join(temp_dir, 'update_extanalysis.py').replace('\\', '\\\\')
 last_percent_reported = 0
 
 def download_progress_hook(count, blockSize, totalSize):
@@ -51,13 +51,13 @@ def download_progress_hook(count, blockSize, totalSize):
 
 # STEP 1. Copy the reports and lab directory
 print('=== ExtAnalysis Updater Script ===')
-print('          Version 1.0.0           \n\n')
+print('          Version 1.0.1           \n\n')
 print('[~] Waiting 3 seconds for main process to die!\n')
 time.sleep(3) # sleep for 5 seconds to let the main process exit
 
 # Download File
 print('[i] Downloading zip from github... (Please be patient.. GitHub servers can be painfully slow at times!)\n')
-zip_loc = os.path.join(temp_dir, 'extanalysis.zip')
+zip_loc = os.path.join(temp_dir, 'extanalysis.zip').replace('\\', '\\\\')
 
 # Check if any previous version is present
 if os.path.isfile(zip_loc):
@@ -76,7 +76,7 @@ except Exception as e:
 
 # Extract the zip
 print('[i] Unzipping new zip: {0}'.format(zip_loc))
-extract_location = os.path.join(temp_dir, 'extanalysis_new')
+extract_location = os.path.join(temp_dir, 'extanalysis_new').replace('\\', '\\\\')
 try:
     zip_contents = zipfile.ZipFile(zip_loc, 'r')
     zip_contents.extractall(extract_location)
@@ -89,7 +89,7 @@ except Exception as e:
     exit()
 
 # Real directory
-new_dir = os.path.join(extract_location, 'ExtAnalysis-master')
+new_dir = os.path.join(extract_location, 'ExtAnalysis-master').replace('\\', '\\\\')
 
 # Directories
 dirs_to_copy = ['lab', 'reports']
@@ -110,8 +110,8 @@ try:
     print('\n[i] Copying directories into temporary directory\n')
     for _dir in dirs_to_copy:
         try:
-            src = os.path.join(current_dir, _dir)
-            dst = os.path.join(temp_exta_dir, _dir)
+            src = os.path.join(current_dir, _dir).replace('\\', '\\\\')
+            dst = os.path.join(temp_exta_dir, _dir).replace('\\', '\\\\')
             shutil.copytree(src, dst)
             print('[+] Directory {0} successfully copied!'.format(src))
         except Exception as e:
@@ -120,8 +120,8 @@ try:
     print('\n[i] Copying Files into temprary directory\n')
     for _file in files_to_copy:
         try:
-            src = os.path.join(current_dir, _file)
-            dst = os.path.join(temp_exta_dir, _file)
+            src = os.path.join(current_dir, _file).replace('\\', '\\\\')
+            dst = os.path.join(temp_exta_dir, _file).replace('\\', '\\\\')
             shutil.copyfile(src, dst)
             print('[+] File {0} successfully copied!'.format(src))
         except Exception as e:
@@ -136,13 +136,13 @@ print('\n[i] Removing old ExtAnalysis directory: ' + current_dir)
 for root, dirs, files in os.walk(current_dir):
     for f in files:
         try:
-            os.unlink(os.path.join(root, f))
+            os.unlink(os.path.join(root, f)).replace('\\', '\\\\')
         except Exception as e:
             print('[!] Error {0} encountered while deleting {1}'.format(str(e), f))
 
     for d in dirs:
         try:
-            shutil.rmtree(os.path.join(root, d))
+            shutil.rmtree(os.path.join(root, d)).replace('\\', '\\\\')
         except Exception as e:
             print('[!] Error {0} encountered while deleting {1}'.format(str(e), f))
 
@@ -159,14 +159,14 @@ except:
     print('Step 2. Copy the contents of "{0}" to the previously created directory!'.format(new_dir))
     print('Step 3. Copy the contents of "{0}" too.. these contains your log, settings, reports dir and lab dir')
     print('Step 4. Once everything is done delete the following (temporary files and directories):')
-    print('[1] {0}\n[2] {1}\n[3] {2}\n[4] {3}'.format(temp_exta_dir, extract_location, os.path.join(temp_dir, 'extanalysis.zip'), script_path))
+    print('[1] {0}\n[2] {1}\n[3] {2}\n[4] {3}'.format(temp_exta_dir, extract_location, os.path.join(temp_dir, 'extanalysis.zip').replace('\\', '\\\\'), script_path))
     print('\n\n')
     end = input('When done... Press [ENTER] to exit')
     exit()
 
 # Update the new settings file
-new_settings = os.path.join(new_dir, 'settings.json')
-old_settings = os.path.join(temp_exta_dir, 'settings.json')
+new_settings = os.path.join(new_dir, 'settings.json').replace('\\', '\\\\')
+old_settings = os.path.join(temp_exta_dir, 'settings.json').replace('\\', '\\\\')
 with open(new_settings, 'r') as ns, open(old_settings, 'r') as ols:
     news = json.loads(ns.read())
     olds = json.loads(ols.read())
@@ -179,8 +179,8 @@ write_settings.close()
 print('\n[i] Copying your old files\n')
 for _file in files_to_copy:
     try:
-        src = os.path.join(current_dir, _file)
-        dst = os.path.join(temp_exta_dir, _file)
+        src = os.path.join(current_dir, _file).replace('\\', '\\\\')
+        dst = os.path.join(temp_exta_dir, _file).replace('\\', '\\\\')
         if os.path.isfile(src):
             # delete the file so that we can write the old file (might be a bad idea...)
             os.remove(src)
@@ -192,8 +192,8 @@ for _file in files_to_copy:
 print('\n[i] Copying your old directories\n')
 for _dir in dirs_to_copy:
     try:
-        src = os.path.join(current_dir, _dir)
-        dst = os.path.join(temp_exta_dir, _dir)
+        src = os.path.join(current_dir, _dir).replace('\\', '\\\\')
+        dst = os.path.join(temp_exta_dir, _dir).replace('\\', '\\\\')
         if os.path.isdir(src):
             shutil.rmtree(src)
         shutil.copytree(dst, src)
@@ -215,7 +215,7 @@ for _dir in dirs_to_clean:
         print('[!] Error {0} encountered while deleting {1}'.format(str(e), _dir))
 
 for _file in files_to_clean:
-    _dir = os.path.join(temp_dir, _file)
+    _dir = os.path.join(temp_dir, _file).replace('\\', '\\\\')
     try:
         os.remove(_dir)
         print('[-] Successfully deleted ' + _dir)
