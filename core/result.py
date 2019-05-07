@@ -27,7 +27,7 @@ import core.helper as helper
 import plugins.retirejs as retirejs
 
 class createresult:
-    
+
     def __init__(self, directory):
         self.current_file_number = 0
         self.current_directory_number = 0
@@ -40,7 +40,7 @@ class createresult:
         self.directory = directory
         self.extension_name = core.report['name']
         self.list_status = self.list(directory)
-    
+
     def list(self, directory, parent=0):
         # This function is the one that helps create the graph for real
         # sub_directories list contains all the directories inside the current directory which we will use later
@@ -51,12 +51,12 @@ class createresult:
             # This means that this is the first time we're doing the directory listing so let's set directory 0 to the extension
             self.dirs.append({'id':'EXTAD0', 'name':self.extension_name, 'type':'extension', 'path':'/', 'parent':'none'})
             self.current_directory_number += 1
-        
+
         if os.path.isdir(directory):
             # The given path is a directory and we will continue
             # core.updatelog('FUNCTION LIST IS EXECUTING ON: ' + directory)
             dirlist = os.listdir(directory)
-            
+
             for folder in dirlist:
                 # let's get the path...
                 # print('Checking file: ' + folder)
@@ -95,7 +95,7 @@ class createresult:
         else:
             # Given path is not a directory hence no need for continuing
             return False
-    
+
     def creategraphdata(self):
         if self.list_status != False:
             # Extract urls from all html, json, js files
@@ -145,7 +145,7 @@ class createresult:
                 #prepare_edge = '\n{ from: "{0}", to: "{1}", color:{color:\'#fff\', highlight:\'#89ff00\'} },'.format(url['parent'], url['id'])
                 prepare_edge = '\n{from: "' + url['parent'] + '", to: "' + url['id'] + '", color:{color:\'#fff\', highlight:\'#89ff00\'}},'
                 self.edges += prepare_edge
-                
+
             self.nodes += '\n]);'
             self.edges += '\n]);'
             # print(self.nodes  + '\n\n\n\n\n\n\n' + self.edges)
@@ -175,14 +175,18 @@ class createresult:
                     if file['type'] == 'js':
                         # Retire js scan
                         core.updatelog('Running retirejs vulnerability scan on: ' + file_name)
-                        with open(file_path, 'r') as fc:
-                            file_content = fc.read()
-                        rjs_scan = retirejs.scan_file_content(file_content)
-                        core.updatelog('Scan complete!')
+                        try:
+                            with open(file_path, 'r') as fc:
+                                file_content = fc.read()
+                                rjs_scan = retirejs.scan_file_content(file_content)
+                                core.updatelog('Scan complete!')
+                        except Exception as e:
+                            core.updatelog('Error {0} while running retirejs scan on {1}'.format(str(e), file_name))
+                            rjs_scan = []
                         source_json[file['id']] = ({'id':file['id'], 'file_name':file_name, 'location':new_path, 'relative_path':rel_path, 'file_size':file_size, 'retirejs_result':rjs_scan})
                     else:
                         source_json[file['id']] = ({'id':file['id'], 'file_name':file_name, 'location':new_path, 'relative_path':rel_path, 'file_size':file_size})
-        
+
         # write all the changes to source.json
         source_file = helper.fixpath(result_directory + '/source.json')
         sf = open(source_file, 'w+')
@@ -190,7 +194,7 @@ class createresult:
         sf.close()
         core.updatelog('Saved sources to: ' + source_file)
         return True
-    
+
     def savereport(self):
         try:
             # Gen scan id
@@ -250,7 +254,7 @@ class createresult:
         except Exception as e:
             logging.error(traceback.format_exc())
             print('Something went wrong while saving result. Error: ' + str(e))
-            
+
 def clearAllResults():
     # Deletes all directories inside reports folder
     # create new reports.json file with the following content {"reports": []}
@@ -297,8 +301,8 @@ def clearResult(result_id):
     analysis_dir = report_info[1]['report_directory']
     reportids = core.reportids
     report_index = core.report_index
-    
-        
+
+
     # Check if there is a directory with the analysis id
     if not os.path.isdir(analysis_dir):
         core.updatelog('Could not find any directory with the given analysis ID: ' + result_id)
