@@ -1648,3 +1648,18 @@ a.hreflink {
   color: #03A9F4;
   border-bottom: dotted 1px #03a9f4;
 }
+
+.noscript {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: rgb(255, 90, 90);
+  color: #ffffff;
+  letter-spacing: 2px;
+}

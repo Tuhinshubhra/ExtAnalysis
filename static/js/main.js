@@ -33,6 +33,8 @@ $('.close-modal').click(function() {
     elements.removeClass('active');
 });
 
+document.getElementById('noscript').style.display = 'none';
+
 function showscan() {
     if (scan_container.style.display === 'none'){
         $('#container').fadeOut(300);
