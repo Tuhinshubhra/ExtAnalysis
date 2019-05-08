@@ -74,7 +74,7 @@ $ git clone https://github.com/Tuhinshubhra/ExtAnalysis
 $ cd ExtAnalysis
  ```
  ```
-$ pip3 install -r requirements.txt`
+$ pip3 install -r requirements.txt
  ```
 
 For proper analysis don't forget to add your virustotal api.
