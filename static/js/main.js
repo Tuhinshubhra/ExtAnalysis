@@ -88,7 +88,7 @@ function download_and_scan(){
     loading_div.style.display = 'block';
     ext_id = document.getElementById('extension-id').value;
     if (ext_id.match(/chrome\.google\.com/)){
-        ext_id = ext_id.split('://')[1].split('/')[4]
+        ext_id = ext_id.split('://')[1].split('/')[4].split('?')[0]
         handle_download(ext_id);
         loading_div.style.display = 'none';
     } else if(ext_id === "" || ext_id === " "){
