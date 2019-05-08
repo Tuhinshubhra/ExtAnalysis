@@ -66,7 +66,14 @@ def init_settings():
                     core.lab_path = lab_dir
                 else:
                     core.updatelog('Invalid lab_directory_path specified in settings.json! using default lab path: {0}'.format(core.lab_path))
-
+            elif lab_dir == '' and not os.path.isdir(core.lab_path):
+                core.updatelog('Creating lab directory: ' + core.lab_path)
+                try:
+                    os.mkdir(core.lab_path)
+                except:
+                    core.updatelog('Something went wrong while creating lab directory!')
+                    logging.error(traceback.format_exc())
+                    core.handle_exit()
             
             '''
             CHECK IGNORE CSS VAR
