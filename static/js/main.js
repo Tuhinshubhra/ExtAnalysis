@@ -740,3 +740,7 @@ function getCookie(cname) {
             loading_div.style.display = 'none';
         }
     }
+
+    function update(){
+        swal('Update Extanalysis', 'Use the command "python3 extanalysis.py --update" to check for updates!', 'info')
+    }
