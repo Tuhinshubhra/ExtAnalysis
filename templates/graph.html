@@ -60,6 +60,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 </head>
 
 <body>
+    <div class="noscript" id="noscript">
+            <img src="{{ url_for('static',filename='images/error.png') }}">
+            <h1>ExtAnalysis needs javascript enabled to work!</h1>
+    </div>
     <div class="wrapper">
         <div id="loading" style="display: block;">
             <img src="{{ url_for('static',filename='images/working.gif') }}"><br>
