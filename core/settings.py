@@ -22,6 +22,28 @@ import core.core as core
 import logging, traceback
 
 def init_settings():
+    # Check if reports file exist if not create an empty one
+    if not os.path.isfile(core.report_index):
+        rif = open(core.report_index, 'w+')
+        empty_reports = {"reports": []}
+        rif.write(json.dumps(empty_reports, indent=4))
+        rif.close()
+        core.updatelog('Created empty reports file')
+
+    # Check if settings file exist if not get the contents from github and create one
+    if not os.path.isfile(core.settings_file):
+        core.updatelog('Could not find settings.json file. Downloading it from github...')
+        try:
+            import urllib.request
+            raw_settings = 'https://raw.githubusercontent.com/Tuhinshubhra/ExtAnalysis/master/settings.json'
+            urllib.request.urlretrieve(raw_settings, core.settings_file)
+            core.updatelog('New settings file successfully generated!')
+        except Exception as e:
+            core.updatelog('Error {0} encountered while getting settings file from github... Please download a clean version of ExtAnalysis from github.'.format(str(e)))
+            logging.error(traceback.format_exc())
+            core.handle_exit()
+
+
     if os.path.isfile(core.settings_file):
         try:
             with open(core.settings_file, 'r') as sc:
