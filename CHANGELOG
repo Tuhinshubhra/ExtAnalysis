@@ -1,2 +1,7 @@
+Version 1.0.1 [09-05-2019]
+    - No Javascript Warning added
+    - Auto create lab directory if not exist
+    - Fix Chrome Web Store downloader
+    - Updater fixed for windows
 Version 1.0.0 [06-05-2019]
     - Initial Launch

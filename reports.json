@@ -1,3 +1,25 @@
 {
-    "reports": []
+    "reports": [
+        {
+            "id": "EXA2019128050625",
+            "name": "Docs",
+            "report_directory": "<reports_path>\\EXA2019128050625",
+            "time": "2019-05-08 05:06:25",
+            "version": "0.10"
+        },
+        {
+            "id": "EXA2019128131522",
+            "name": "PhishFort | Protect",
+            "report_directory": "<reports_path>\\EXA2019128131522",
+            "time": "2019-05-08 13:15:23",
+            "version": "0.8.2"
+        },
+        {
+            "id": "EXA2019128191012",
+            "name": "WPintel - WordPress Vulnerability Scanner",
+            "report_directory": "<reports_path>\\EXA2019128191012",
+            "time": "2019-05-08 19:10:13",
+            "version": "1.7"
+        }
+    ]
 }
