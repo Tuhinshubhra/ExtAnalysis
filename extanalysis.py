@@ -99,12 +99,15 @@ def home():
     license_text = lic.read()
     cred = open(helper.fixpath(core.path + '/CREDITS'), 'r')
     credits_text = cred.read()
+    sett = open(core.settings_file, 'r')
+    settings_json = sett.read()
     return render_template("index.html",
                             report_dir = core.reports_path,
                             lab_dir = core.lab_path,
                             license_text = license_text,
                             credits_text=credits_text,
-                            virustotal_api = core.virustotal_api
+                            virustotal_api = core.virustotal_api,
+                            settings_json = settings_json
                             )
 
 @app.route('/upload/', methods=['GET', 'POST'])

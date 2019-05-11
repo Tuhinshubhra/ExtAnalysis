@@ -392,9 +392,37 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         
                 $(this).addClass('current');
                 $("#"+tab_id).addClass('current');
-            })
+            });
+
+            // set the settings value
+            settings = {{settings_json | safe}};
+
+            if (settings['extract_base64_strings'] === true){
+                $('#extract_base64_strings')[0].checked = true;
+            }
+
+            if (settings['extract_btc_addresses'] === true){
+                $('#extract_btc_addresses')[0].checked = true;
+            }
+
+            if (settings['extract_comments'] === true){
+                $('#extract_comments')[0].checked = true;
+            }
+
+            if (settings['extract_email_addresses'] === true){
+                $('#extract_email_addresses')[0].checked = true;
+            }
+
+            if (settings['extract_ipv4_addresses'] === true){
+                $('#extract_ipv4_addresses')[0].checked = true;
+            }
+
+            if (settings['extract_ipv6_addresses'] === true){
+                $('#extract_ipv6_addresses')[0].checked = true;
+            }
+
         
-        })
+    })
 </script>
 
 </html>
