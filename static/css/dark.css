@@ -238,7 +238,7 @@ border-radius: 6px;
   margin-top: 21px;
   background: #33333d;
   border: solid 1px #313131;
-  overflow: auto;
+  /** overflow: auto; **/
   position: relative;
 }
 .target_box{
@@ -1108,10 +1108,8 @@ div#loading {
   padding: 8px;
   padding-left: 13px;
   text-align: left;
-  background: #27272f;
-  border-left: solid 2px #04b97f;
+  background: #33333d;
   margin-bottom: 17px;
-  /* box-shadow: 0px 0px 3px 0px #27272f; */
 }
 
 .option_name {
@@ -1351,6 +1349,7 @@ div#large-graph {
   color: #ffffff;
   font-size: 14px;
   text-transform: uppercase;
+  display: inline-block;
   letter-spacing: 2px;
   padding-bottom: 5px;
   font-weight: bold;
@@ -1484,4 +1483,67 @@ a.hreflink {
   text-decoration: none;
   color: #03A9F4;
   border-bottom: dotted 1px #03a9f4;
+}
+
+.sub-head-settingss {
+  display: inline-block;
+  color: #d0d0d0;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+}
+
+
+.switch {
+  margin-left: 5px;
+  position: relative;
+  display: inline-block;
+}
+
+.switch-input {
+  display: none;
+}
+
+.switch-label {
+  display: block;
+  width: 44px;
+  height: 14px;
+  cursor: pointer;
+  padding-top: 2px;
+  text-indent: -150%;
+  clip: rect(0 0 0 0);
+  color: transparent;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.switch-label:before,
+.switch-label:after {
+  content: "";
+  display: block;
+  position: absolute;
+  cursor: pointer;
+}
+.switch-label:before {
+  width: 100%;
+  height: 100%;
+  background-color: #424250;
+  border-radius: 9999em;
+  transition: background-color 0.25s ease;
+}
+.switch-label:after {
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.45);
+  transition: left 0.25s ease;
+}
+.switch-input:checked + .switch-label:before {
+  background-color: #39bb00;
+}
+.switch-input:checked + .switch-label:after {
+  left: 24px;
 }
