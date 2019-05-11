@@ -22,6 +22,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     <title>ExtAnalysis - Analyze browser extensions</title>
     <link id="pageStyle" rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/bttn.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/hint.min.css') }}">
     <link href="{{ url_for('static',filename='images/favicon.png') }}" rel="icon"/>
     <script type="text/javascript" src="{{ url_for('static',filename='js/fontawesome.min.js') }}"></script>
     <link href="{{ url_for('static',filename='css/fontawesome.min.css') }}" rel="stylesheet" type="text/css" />
@@ -197,7 +198,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             <div class="update-container" id="update-container" style="display:none;">
                 <h2 class="header_for_main">Settings</h2>
                 <div class="option_body">
-                    <div class="option_name" style="color:#03A9F4;">Basic Settings</div>
+                    <div class="option_name" style="color:#03A9F4; border-bottom: dotted 1px #03a9f4">Basic Settings</div>
                         <div class="sub-head-settings">Reports Directory</div>
                         <div class="option_description">
                             Select the location where you wish your Analysis reports should be placed. By default ExtAnalysis uses "reports" directory inside the project directory.
@@ -208,7 +209,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                     <br>
                     <div class="sub-head-settings">Lab Directory</div>
                         <div class="option_description">
-                            Set the location where you wish ExtAnalysis to download and extract extensions for analysis.
+                            Set the location where you wish ExtAnalysis to download and extensions for analysis.
                         </div>
                     <input type="text" id="lab_dir" class="settings_textbox" placeholder="~/ExtAnalysis/reports/" value="{{lab_dir}}">
                     <button class="start_scan" onclick=changeLabDir()><i class="fas fa-check"></i> Apply</button>
@@ -229,8 +230,83 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                     <button class="start_scan" onclick=update()><i class="fas fa-globe-europe"></i> Check For Updates</button>
                 </div>
 
-                <div class="option_body" style="border-left: solid 2px red;">
-                    <div class="option_name">Delete & Clear</div>
+                <div class="option_body">
+                    <div class="option_name" style="color:#39bb00; border-bottom: dotted 1px #39bb00;">Scan Options</div>
+                    <div class="sub-head-settings">
+                        Intel Extraction Settings
+                    </div>
+                    <div class="option_description">
+                        Select what intels you want to be extracted from files.
+                    </div>
+                    <br>
+                    <table style="border-spacing: 4px 9px;">
+                        <tr>
+                            <td><i class="fas fa-comment-alt"></i> Comments:</td>
+                            <td><span class="hint--bottom hint--bounce hint--rounded hint--large" aria-label="Set this to false if you want to analyze css files. Disabled by default as css files contain a lot of junk!"><i class="fas fa-question-circle"></i></span></td>
+                            <td>
+                                <div class="switch">
+                                    <input id="extract_comments" type="checkbox" class="switch-input">
+                                    <label for="extract_comments" class="switch-label">Switch</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><i class="fab fa-btc"></i> BTC address:</td>
+                            <td><span class="hint--bottom hint--bounce hint--rounded hint--large" aria-label="Set this to false if you want to skip extracting bitcoin addresses from files"><i class="fas fa-question-circle"></i></span></td>
+                            <td>
+                                <div class="switch">
+                                    <input id="extract_btc_addresses" type="checkbox" class="switch-input">
+                                    <label for="extract_btc_addresses" class="switch-label">Switch</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-key"></i> Base64 strings:</td>
+                            <td><span class="hint--bottom hint--bounce hint--rounded hint--large" aria-label="Set this to false if you want to skip extracting base64 encoded strings from files"><i class="fas fa-question-circle"></i></span></td>
+                            <td>
+                                <div class="switch">
+                                    <input id="extract_base64_strings" type="checkbox" class="switch-input">
+                                    <label for="extract_base64_strings" class="switch-label">Switch</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-at"></i> Email Addresses:</td>
+                            <td><span class="hint--bottom hint--bounce hint--rounded hint--large" aria-label="Set this to false to skip extracting email addresses from files!"><i class="fas fa-question-circle"></i></span></td>
+                            <td>
+                                <div class="switch">
+                                    <input id="extract_email_addresses" type="checkbox" class="switch-input">
+                                    <label for="extract_email_addresses" class="switch-label">Switch</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-map-marker-alt"></i> IPv4 addresses:</td>
+                            <td><span class="hint--bottom hint--bounce hint--rounded hint--large" aria-label="Set this to false if you want to skip extracting IPv4 addresses from files"><i class="fas fa-question-circle"></i></span></td>
+                            <td>
+                                <div class="switch">
+                                    <input id="extract_ipv4_addresses" type="checkbox" class="switch-input">
+                                    <label for="extract_ipv4_addresses" class="switch-label">Switch</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-map-marker-alt"></i> IPv6 addresses:</td>
+                            <td><span class="hint--bottom hint--bounce hint--rounded hint--large" aria-label="set this to false if you want to skip extracting IPv6 addresses from files"><i class="fas fa-question-circle"></i></span></td>
+                            <td>
+                                <div class="switch">
+                                    <input id="extract_ipv6_addresses" type="checkbox" class="switch-input">
+                                    <label for="extract_ipv6_addresses" class="switch-label">Switch</label>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <button class="start_scan" onclick=updateIntelExtraction()><i class="fas fa-check"></i> Save Settings</button>
+                </div>
+
+                <div class="option_body">
+                    <div class="option_name" style="border-bottom: dotted 1px red;">Delete & Clear</div>
                     <div class="sub-head-settings">Delete All Reports</div>
                     <div class="option_description">
                         Deletes all Analysis directories under the reports directory and clears reports.json file. Essentially deleting all Analysis results.

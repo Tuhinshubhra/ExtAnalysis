@@ -434,6 +434,36 @@ def view(query, allargs):
         except:
             logging.error(traceback.format_exc())
             return('error: Invalid request for directory change!')
+
+    elif query == 'updateIntelExtraction':
+        '''
+        UPDATES INTELS TO BE EXTRACTED
+        RESPONSE = SUCCESS_MSG / 'error: ' + ERROR_MSG
+        '''
+        try:
+            # Create the dict with all values and keys
+            parameters = {}
+            parameters["extract_comments"] = str(allargs.get('extract_comments'))
+            parameters["extract_btc_addresses"] = str(allargs.get('extract_btc_addresses'))
+            parameters["extract_base64_strings"] = str(allargs.get('extract_base64_strings'))
+            parameters["extract_email_addresses"] = str(allargs.get('extract_email_addresses'))
+            parameters["extract_ipv4_addresses"] = str(allargs.get('extract_ipv4_addresses'))
+            parameters["extract_ipv6_addresses"] = str(allargs.get('extract_ipv6_addresses'))
+            
+            import core.settings as settings
+            status_code = settings.update_settings_batch(parameters)
+            # 0 = failed, 1 = success, 2 = some updated some not!
+            if status_code == '0':
+                return('error: Settings could not be updated! Check log for more information')
+            elif status_code == '1':
+                return('Settings updated successfully... Please restart ExtAnalysis for them to take effect!')
+            elif status_code == '2':
+                return('Some settings were updated and some were not... Please restart ExtAnalysis for them to take effect!')
+            else:
+                return('error: Invalid response from "update_settings_batch". please report it here: https://github.com/Tuhinshubhra/ExtAnalysis/issues/new')
+        except:
+            logging.error(traceback.format_exc())
+            return('error: Incomplete Request!')
             
     else:
         return('error: Invalid Query!')

@@ -260,3 +260,66 @@ def change_vt_api(api):
 
     else:
         return [False, 'This api is already in use. Nothing changed!']
+
+def update_settings_batch(settings_dict):
+    '''
+    FUNCTION TO UPDATE SETTINGS KEYS THAT HAVE TRUE/FALSE VALUES
+    NEEDED PARAMETERS:
+    settings_dict = DICT WITH NAME AND VALUES.. ex: {"extract_comment":"true"}
+    '''
+    update_type = '' # 0 = failed, 1 = success, 2 = some updated some not!
+    try:
+        settings = open(core.settings_file, 'r')
+        settings = json.loads(settings.read())
+
+        for the_setting in settings_dict:
+            try:
+                if type(settings[the_setting]) == bool:
+                    # okay settings key is good...
+                    if str(settings_dict[the_setting]).lower() == 'true':
+                        # set to true
+                        settings[the_setting] = True
+                        core.updatelog('Set the value of {0} to True successfully'.format(the_setting))
+                        # set update type
+                        if update_type == '':
+                            update_type = '1'
+                        elif update_type == '0':
+                            update_type = '2'
+                    elif str(settings_dict[the_setting]).lower() == 'false':
+                        # set to false
+                        settings[the_setting] = False
+                        core.updatelog('Set the value of {0} to False successfully'.format(the_setting))
+                        # set update type
+                        if update_type == '':
+                            update_type = '1'
+                        elif update_type == '0':
+                            update_type = '2'
+                    else:
+                        core.updatelog('Invalid value: {1} for setting {0}'.format(the_setting, str(settings_dict[the_setting])))
+                        # set update type
+                        if update_type == '':
+                            update_type = '0'
+                        elif update_type == '1':
+                            update_type = '2'
+            except Exception as e:
+                logging.error(traceback.format_exc())
+                if update_type == '':
+                    update_type = '0'
+                elif update_type == '1':
+                    update_type = '2'
+        try:
+            ws = open(core.settings_file, 'w+')
+            ws.write(json.dumps(settings, indent=4, sort_keys=False))
+            ws.close()
+            core.updatelog('Settings written to file successfully! Restart ExtAnalysis for them to take effect')
+        except Exception as e:
+            core.updatelog('Error {0} occured while writing settings.json file'.format(str(e)))
+            logging.error(traceback.format_exc())
+            return '0'
+        return update_type
+
+    except Exception as e:
+        core.updatelog('Error {0} occured while updating settings'.format(str(e)))
+        logging.error(traceback.format_exc())
+        return '0'
+        
