@@ -744,3 +744,28 @@ function getCookie(cname) {
     function update(){
         swal('Update Extanalysis', 'Use the command "python3 extanalysis.py --update" to check for updates!', 'info')
     }
+
+    function updateIntelExtraction(){
+        // Get all the values
+        try{
+            var extract_comments = $('#extract_comments')[0].checked
+            var extract_btc_addresses = $('#extract_btc_addresses')[0].checked
+            var extract_base64_strings = $('#extract_base64_strings')[0].checked
+            var extract_email_addresses = $('#extract_email_addresses')[0].checked
+            var extract_ipv4_addresses = $('#extract_ipv4_addresses')[0].checked
+            var extract_ipv6_addresses = $('#extract_ipv6_addresses')[0].checked
+            var requrl = `/api/?query=updateIntelExtraction&extract_comments=${extract_comments}&extract_btc_addresses=${extract_btc_addresses}&extract_base64_strings=${extract_base64_strings}&extract_email_addresses=${extract_email_addresses}&extract_ipv4_addresses=${extract_ipv4_addresses}&extract_ipv6_addresses=${extract_ipv6_addresses}`
+            loading_div.style.display = 'block';
+            fetch(requrl).then(response => {
+                response.text().then(resptxt => {
+                    handleresponse(resptxt);
+                    loading_div.style.display = 'none';
+                });
+            }).catch(err => {
+                swal('Error!', 'API Call failed! is ExtAnalysis offline?', 'error');
+                loading_div.style.display = 'none';
+            });
+        } catch {
+            handleresponse('error: Something went wrong while getting settings value');
+        }
+    }
