@@ -110,7 +110,7 @@ def view(analysis_id):
 
                     # Domains div
                     if report_data['domains'] != []:
-                        domains_table = '<table class="result-table" id="domains-table"><thead><tr><th>Country</th><th>Domain</th><th>IP Address</th><th>Virustotal Score</th><th>Actions</th></tr></thead><tbody>'
+                        domains_table = '<table class="result-table" id="domains-table"><thead><tr><th>Country</th><th>Domain</th><th>IP Address</th><th>Actions</th></tr></thead><tbody>'
                         for domain in report_data['domains']:
                             domain_flag = helper.fixpath(core.path + '/static/images/flags/' + domain['country_code'] + '.png')
                             if os.path.isfile(domain_flag):
@@ -118,7 +118,7 @@ def view(analysis_id):
                             else:
                                 flag_path = url_for('static',filename='images/flags/unknown.png')
                             country_html = '<img src="{0}" class="country_flag"> {1}'.format(flag_path, domain['country'])
-                            domains_table += '<tr><td>{4}</td><td>{0}</td><td>{2}</td><td>{1}</td><td><button class="bttn-fill bttn-xs bttn-danger" onclick=whois("{0}")><i class="fab fa-searchengin"></i> WHOIS</button> <button class="bttn-fill bttn-xs bttn-primary" onclick="domainvt(\'{0}\', \'{3}\')"><i class="fas fa-hourglass-end"></i> VT Report</button> <button class="bttn-fill bttn-xs bttn-success" onclick=geoip("{2}")><i class="fas fa-globe-americas"></i> Geo-IP Lookup</button></td></tr>'.format(domain['name'], '0/66', domain['ip'], analysis_id, country_html)
+                            domains_table += '<tr><td>{4}</td><td>{0}</td><td>{2}</td><!-- td>{1}</td --><td><button class="bttn-fill bttn-xs bttn-danger" onclick=whois("{0}")><i class="fab fa-searchengin"></i> WHOIS</button> <button class="bttn-fill bttn-xs bttn-primary" onclick="domainvt(\'{0}\', \'{3}\')"><i class="fas fa-hourglass-end"></i> VT Report</button> <button class="bttn-fill bttn-xs bttn-success" onclick=geoip("{2}")><i class="fas fa-globe-americas"></i> Geo-IP Lookup</button></td></tr>'.format(domain['name'], '0/66', domain['ip'], analysis_id, country_html)
                         domains_table += '</tbody></table>'
                     else:
                         domains_table = '<h3 class="nothing"> No Domains Extracted! </h3>'
