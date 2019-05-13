@@ -1,4 +1,5 @@
-Version 1.1.1 []
+Version 1.0.2 [14-05-2019]
+    - Removed dummy virustotal column
     - Show "vulnerabilities" button along js file only if any vulnerabilities are detected
     - Important files check
     - Frontend scan option

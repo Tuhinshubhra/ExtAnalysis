@@ -1,5 +1,9 @@
 FROM alpine:3.9
 LABEL MAINTAINER furkan.sayim@yandex.com
+LABEL name ExtAnalysis
+LABEL src "https://github.com/Tuhinshubhra/ExtAnalysis"
+LABEL creator Tuhinshubhra
+LABEL desc "Browser Extension Analysis Framework"
 
 RUN apk add --no-cache python3 && \
     python3 -m ensurepip && \
