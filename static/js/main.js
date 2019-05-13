@@ -754,7 +754,8 @@ function getCookie(cname) {
             var extract_email_addresses = $('#extract_email_addresses')[0].checked
             var extract_ipv4_addresses = $('#extract_ipv4_addresses')[0].checked
             var extract_ipv6_addresses = $('#extract_ipv6_addresses')[0].checked
-            var requrl = `/api/?query=updateIntelExtraction&extract_comments=${extract_comments}&extract_btc_addresses=${extract_btc_addresses}&extract_base64_strings=${extract_base64_strings}&extract_email_addresses=${extract_email_addresses}&extract_ipv4_addresses=${extract_ipv4_addresses}&extract_ipv6_addresses=${extract_ipv6_addresses}`
+            var ignore_css = $('#ignore_css')[0].checked
+            var requrl = `/api/?query=updateIntelExtraction&extract_comments=${extract_comments}&extract_btc_addresses=${extract_btc_addresses}&extract_base64_strings=${extract_base64_strings}&extract_email_addresses=${extract_email_addresses}&extract_ipv4_addresses=${extract_ipv4_addresses}&extract_ipv6_addresses=${extract_ipv6_addresses}&ignore_css=${ignore_css}`
             loading_div.style.display = 'block';
             fetch(requrl).then(response => {
                 response.text().then(resptxt => {

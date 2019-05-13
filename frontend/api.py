@@ -449,6 +449,7 @@ def view(query, allargs):
             parameters["extract_email_addresses"] = str(allargs.get('extract_email_addresses'))
             parameters["extract_ipv4_addresses"] = str(allargs.get('extract_ipv4_addresses'))
             parameters["extract_ipv6_addresses"] = str(allargs.get('extract_ipv6_addresses'))
+            parameters["ignore_css"] = str(allargs.get('ignore_css'))
             
             import core.settings as settings
             status_code = settings.update_settings_batch(parameters)
