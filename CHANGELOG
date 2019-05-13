@@ -1,4 +1,5 @@
 Version 1.1.1 []
+    - Show "vulnerabilities" button along js file only if any vulnerabilities are detected
     - Important files check
     - Frontend scan option
 Version 1.0.1 [09-05-2019]

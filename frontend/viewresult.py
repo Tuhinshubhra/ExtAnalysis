@@ -145,7 +145,9 @@ def view(analysis_id):
                         file_action = '<button class="bttn-fill bttn-xs bttn-primary" onclick="viewfile(\'' + analysis_id + '\', \'' + file_id + '\')"><i class="fas fa-code"></i> View Source</button>'
                         if file_name.endswith('.js'):
                             # Add button for viewing retirejs vulnerability scan results
-                            file_action += ' <button class="bttn-fill bttn-xs bttn-danger" onclick="retirejsResult({0}, {1}, {2})"><i class="fas fa-spider"></i> Vulnerabilities</button>'.format("'"+file_id+"'", "'"+analysis_id+"'", "'"+file_name+"'")
+                            # okay it's annoying to show button on every js file let's just show where there is vuln.
+                            if source_data[file_id]['retirejs_result'] != []:
+                                file_action += ' <button class="bttn-fill bttn-xs bttn-danger" onclick="retirejsResult({0}, {1}, {2})"><i class="fas fa-spider"></i> Vulnerabilities</button>'.format("'"+file_id+"'", "'"+analysis_id+"'", "'"+file_name+"'")
                         file_type = helper.fixpath(core.path + '/static/images/' + file_name.split('.')[-1] + '1.png')
                         if os.path.isfile(file_type):
                             file_type = file_name.split('.')[-1] + '1.png'
