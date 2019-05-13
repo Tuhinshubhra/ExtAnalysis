@@ -110,10 +110,6 @@ optional arguments:
 
  ```
  $ docker run --rm -it -p 13337:13337 extanalysis -h 0.0.0.0
-
-Example Docker Run Command: 
- $ docker run --rm -it -p 13337:13337 xshuden/extanalysis -h 0.0.0.0
-
  ```
 
 
