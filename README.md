@@ -80,22 +80,6 @@ $ pip3 install -r requirements.txt
 For proper analysis don't forget to add your virustotal api.
 
 
-## Docker Build
-
- ```
- $ docker build -t extanalysis .
- ```
-
-## Docker Usage
-
- ```
- $ docker docker run --rm -it -p 13337:13337 extanalysis -h 0.0.0.0
-
-Example Docker Run Command: 
- $ docker run --rm -it -p 13337:13337 xshuden/extanalysis -h 0.0.0.0
-
- ```
-
 ## How do I use it?
 Once the installation is done you can jump straight ahead and run ExtAnalysis by running the command:
  **$** `python3 extanalysis.py`
@@ -114,6 +98,23 @@ optional arguments:
   -q, --quiet           Quiet mode shows only errors on cli!
   --help                Shows this help menu and exits
 ```
+
+
+## Docker Build
+
+ ```
+ $ docker build -t extanalysis .
+ ```
+
+## Docker Usage
+
+ ```
+ $ docker run --rm -it -p 13337:13337 extanalysis -h 0.0.0.0
+
+Example Docker Run Command: 
+ $ docker run --rm -it -p 13337:13337 xshuden/extanalysis -h 0.0.0.0
+
+ ```
 
 
 ## Python Modules Used:
