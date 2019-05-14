@@ -42,7 +42,7 @@ def view(query, allargs):
             try:
                 download_log = download_extension.download(extension_id, saveas)
                 if download_log:
-                    aok = analysis.analyze(saveas + '.crx', 'remote')
+                    aok = analysis.analyze(saveas + '.crx', 'Remote Google Chrome Extension')
                     return(aok)
                 else:
                     return('error: Something went wrong while downloading extension')
@@ -62,7 +62,7 @@ def view(query, allargs):
             try:
                 download_log = download_extension.downloadFirefox(addonurl)
                 if download_log:
-                    aok = analysis.analyze(download_log + '.xpi', 'remote')
+                    aok = analysis.analyze(download_log + '.xpi', 'Remote Firefox Addon')
                     return(aok)
                 else:
                     return('error: Something went wrong while downloading extension')
@@ -142,9 +142,10 @@ def view(query, allargs):
                 import core.localextensions as localextensions
                 analysis_stat = localextensions.analyzelocalfirefoxextension(path)
                 return(analysis_stat)
+
             elif browser == 'googlechrome' and os.path.isdir(path):
                 if os.path.isfile(os.path.join(path, 'manifest.json')):
-                    analysis_stat = analysis.analyze(path)
+                    analysis_stat = analysis.analyze(path, 'Local Google Chrome Extension')
                     return(analysis_stat)
                 else:
                     return('error: Invalid Google Chrome Extension Directory')

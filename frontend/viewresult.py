@@ -64,6 +64,10 @@ def view(analysis_id):
                     
                     # extension type
                     extension_type = report_data['type']
+                    if 'firefox' in extension_type.lower():
+                        extension_type = '<i class="fab fa-firefox"></i> ' + extension_type
+                    elif 'chrome' in extension_type.lower():
+                        extension_type = '<i class="fab fa-chrome"></i> ' + extension_type
 
                     # URL Table
                     if report_data['urls'] != []:

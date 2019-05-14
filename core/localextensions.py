@@ -265,7 +265,7 @@ def analyzelocalfirefoxextension(path):
             logging.error(traceback.format_exc())
             return False
         
-        analysis_status = analysis.analyze(extract_directory)
+        analysis_status = analysis.analyze(extract_directory, 'Local Firefox Extension')
 
         if 'error:' in analysis_status:
             core.updatelog('Something went wrong while analysis... deleting temporary extract directory')

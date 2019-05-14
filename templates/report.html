@@ -149,7 +149,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
               <span class="stats-qa"><span class="stats-q">Name: </span> <span class="stats-a">{{basic_info[0]}}</span></span>
               <span class="stats-qa"><span class="stats-q">Version: </span> <span class="stats-a">{{basic_info[1]}}</span></span>
               <span class="stats-qa"><span class="stats-q">Author: </span> <span class="stats-a">{{basic_info[2]}}</span></span>
-              <span class="stats-qa"><span class="stats-q">Type: </span> <span class="stats-a">{{extension_type}}</span></span>
+              <span class="stats-qa"><span class="stats-q">Type: </span> <span class="stats-a">{{extension_type | safe}}</span></span>
               <span class="stats-qa"><span class="stats-q">Permissions: </span> <span class="stats-a">{{permissions_count}}</span></span>
               <span class="stats-qa"><span class="stats-q">Unique Domains: </span> <span class="stats-a">{{unique_domains}}</span></span>
               <span class="stats-qa"><span class="stats-q">Extracted URLs: </span> <span class="stats-a">{{urls_count}}</span></span>
