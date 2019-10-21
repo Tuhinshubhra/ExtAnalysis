@@ -305,6 +305,10 @@ def analyze(ext_name, ext_type='local'):
                 else:
                     country = 'unknown'
                     country_code = 'unknown'
+            else:
+                country = 'unknown'
+                country_code = 'unknown'
+                
             domainarr = {"name":domain, "ip":ip, "country_code":country_code, "country":country, "virustotal":domain_vt}
             core.report['domains'].append(domainarr)
 
