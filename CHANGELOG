@@ -1,5 +1,6 @@
-Version 1.0.3 []
+Version 1.0.3 [22-10-2019]
     - Show extension browser name in scan info (issue #4)
+    - Fixed a bug that created error when user is offline
 Version 1.0.2 [14-05-2019]
     - Removed dummy virustotal column
     - Show "vulnerabilities" button along js file only if any vulnerabilities are detected
