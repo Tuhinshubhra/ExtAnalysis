@@ -51,9 +51,9 @@ else:
     host = '127.0.0.1'
 
 if args.port is not None:
-    port = args.port
+    port = int(args.port)
 else:
-    port = '13337'
+    port = 13337
 
 # enable Quiet mode
 if args.quiet:
