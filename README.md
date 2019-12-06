@@ -134,8 +134,7 @@ For any other queries feel free to contact me via twitter: [@r3dhax0r](https://t
 
 Below is a list of people who contributed to the development of ExtAnalysis (*only pull requests!*)
 #### Contributors
-
- `None as of now!`
+WebBreacher
 
 ##  License and Credits
 ExtAnalysis is licensed under [GNU General Public License v3.0](https://github.com/Tuhinshubhra/ExtAnalysis/blob/master/LICENSE). 
