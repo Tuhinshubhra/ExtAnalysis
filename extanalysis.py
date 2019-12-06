@@ -37,6 +37,7 @@ parser.add_argument('-p', '--port', help='Port to run ExtAnalysis on. Default po
 parser.add_argument('-v', '--version', action='store_true', help='Shows version and quits')
 parser.add_argument('-u', '--update', action='store_true', help='Checks for update')
 parser.add_argument('-q', '--quiet', action='store_true', help='Quiet mode shows only errors on cli!')
+parser.add_argument('-n', '--nobrowser', action='store_true', help='Skips launching a web browser')
 parser.add_argument('--help', action='store_true', help='Shows this help menu and exits')
 args = parser.parse_args()
 
@@ -67,7 +68,7 @@ if args.help:
 # version
 if args.version:
     #core.print_logo()
-    print('\ExtAnalysis Version: ' + core.version)
+    print('ExtAnalysis Version: ' + core.version)
     exit()
 
 if args.update:
@@ -163,6 +164,7 @@ if __name__ == "__main__":
     core.print_logo()
     settings.init_settings()
     main_url = 'http://{0}:{1}'.format(host, port)
-    webbrowser.open(main_url)
+    if args.nobrowser is not True:
+        webbrowser.open(main_url)
     print('\n[~] Starting ExtAnalysis at: {0} \n\n'.format(main_url))
     app.run(host=host, port=port, debug=False)
