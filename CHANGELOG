@@ -1,3 +1,5 @@
+Version 1.0.4 []
+    - Fixed an error where local firefox extensions could not be detected (issue #9)
 Version 1.0.3 [22-10-2019]
     - Show extension browser name in scan info (issue #4)
     - Fixed a bug that created error when user is offline

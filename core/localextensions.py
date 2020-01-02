@@ -85,7 +85,7 @@ class GetLocalExtensions():
             core.updatelog('Unsupported OS')
 
     def firefox(self):
-        # read the profile.ini
+        # read the profiles.ini
         # check for previous list and create new if not found [list = extanalysis.json]
         # Get a list of all the xpi files
         # Unzip them
@@ -100,19 +100,19 @@ class GetLocalExtensions():
                 # firfox installed
                 firefox_profile = helper.fixpath(firefox_directory + '\\profiles.ini')
                 if os.path.isfile(firefox_profile):
-                    # found firefox profile.ini
+                    # found firefox profiles.ini
                     try:
                         firefox_config = configparser.SafeConfigParser()
-                        with open(firefox_profile, 'rU', encoding='utf-16') as ini_source:
+                        with open(firefox_profile, 'rU') as ini_source:
                             firefox_config.readfp(ini_source)
                         default_profile_path = os.path.normpath(os.path.join(firefox_directory, firefox_config.get('Profile0', 'Path')))
                         core.updatelog('Found firefox profile path: ' + default_profile_path)
                     except Exception as e:
-                        core.updatelog('Something went wrong while reading firefox profie.ini')
+                        core.updatelog('Something went wrong while reading firefox profiles.ini')
                         logging.error(traceback.format_exc())
                         return False
                 else:
-                    core.updatelog('Could not find profile.ini ExtAnalysis can\'t analyze local firefox extensions')
+                    core.updatelog('Could not find profiles.ini ExtAnalysis can\'t analyze local firefox extensions')
                     return False
             else:
                 # Could not find firefox directory
@@ -124,7 +124,7 @@ class GetLocalExtensions():
                 # firfox installed
                 firefox_profile = helper.fixpath(firefox_directory + '/profiles.ini')
                 if os.path.isfile(firefox_profile):
-                    # found firefox profile.ini
+                    # found firefox profiles.ini
                     try:
                         firefox_config = configparser.SafeConfigParser()
                         with open(firefox_profile, 'rU') as ini_source:
@@ -132,11 +132,11 @@ class GetLocalExtensions():
                         default_profile_path = os.path.normpath(os.path.join(firefox_directory, firefox_config.get('Profile0', 'Path')))
                         core.updatelog('Found firefox profile path: ' + default_profile_path)
                     except Exception as e:
-                        core.updatelog('Something went wrong while reading firefox profie.ini')
+                        core.updatelog('Something went wrong while reading firefox profiles.ini')
                         logging.error(traceback.format_exc())
                         return False
                 else:
-                    core.updatelog('Could not find profile.ini ExtAnalysis can\'t analyze local firefox extensions')
+                    core.updatelog('Could not find profiles.ini ExtAnalysis can\'t analyze local firefox extensions')
                     return False
             else:
                 # Could not find firefox directory
