@@ -1,6 +1,6 @@
 """
 ExtAnalysis - Browser Extension Analysis Framework
-Copyright (C) 2019 Tuhinshubhra
+Copyright (C) 2019 - 2020 Tuhinshubhra
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published
@@ -43,6 +43,7 @@ class GetLocalExtensions():
         core.updatelog('User Directory: ' + self.user_directory)
         self.chrome_extensions = []
         self.firefox_extensions = []
+        self.brave_extensions = []
     
     def googlechrome(self):
 
@@ -78,6 +79,43 @@ class GetLocalExtensions():
                             else:
                                 core.updatelog('Invalid extension directory: ' + extension_path)
                 return self.chrome_extensions
+            else:
+                core.updatelog('Could not find google chrome directory!')
+                return False
+        else:
+            core.updatelog('Unsupported OS')
+
+    def braveLocalExtensionsCheck(self):
+        brave_directory = ""
+        if self.os == 'windows':
+            brave_directory = helper.fixpath(self.user_directory + '\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Extensions')
+        elif self.os == 'linux':
+            brave_directory = helper.fixpath(self.user_directory + '/.config/BraveSoftware/Brave-Browser/Default/Extensions')
+        
+        if brave_directory != "":
+            if os.path.isdir(brave_directory):
+                core.updatelog('Found Brave extension directory: ' + brave_directory)
+                extension_dirs = os.listdir(brave_directory)
+                for extension_dir in extension_dirs:
+                    # print('\n\n')
+                    if os.path.isdir(os.path.join(brave_directory, extension_dir)):
+                        # Every extension directory is like this: Extension/<id>/<version>/{contents}
+                        extension_path = os.path.join(brave_directory, extension_dir)
+                        extension_vers = os.listdir(extension_path)
+                        for ver in extension_vers:
+                            manifest_file = helper.fixpath(extension_path + "/" + ver + '/manifest.json')
+                            if os.path.isfile(manifest_file):
+                                ext_name = core.GetNameFromManifest(manifest_file)
+                                if ext_name != False and ext_name != None:
+                                    # append version with name
+                                    ext_version = ver.split('_')[0]
+                                    ext_name = ext_name + ' version ' + ext_version
+                                    self.brave_extensions.append(ext_name + ',' + helper.fixpath(extension_path + "/" + ver))
+                                else:
+                                    core.updatelog('Could not determine extension name.. skipping local brave extension')
+                            else:
+                                core.updatelog('Invalid extension directory: ' + extension_path)
+                return self.brave_extensions
             else:
                 core.updatelog('Could not find google chrome directory!')
                 return False
