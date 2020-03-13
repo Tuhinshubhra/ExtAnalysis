@@ -150,6 +150,7 @@ def view(query, allargs):
             browser = allargs.get('browser')
             path_to_local = allargs.get('path')
             path = helper.fixpath(path_to_local)
+            
             if browser == 'firefox' and os.path.isfile(path):
                 # valid firefox extension
                 import core.localextensions as localextensions
@@ -162,6 +163,14 @@ def view(query, allargs):
                     return(analysis_stat)
                 else:
                     return('error: Invalid Google Chrome Extension Directory')
+            
+            elif browser == 'brave' and os.path.isdir(path):
+                if os.path.isfile(os.path.join(path, 'manifest.json')):
+                    analysis_stat = analysis.analyze(path, 'Local Brave browser Extension')
+                    return(analysis_stat)
+                else:
+                    return('error: Invalid Brave Extension Directory')
+
             else:
                 return('error: Malformed Query')
         except Exception:
