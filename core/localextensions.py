@@ -90,7 +90,7 @@ class GetLocalExtensions():
         if self.os == 'windows':
             brave_directory = helper.fixpath(self.user_directory + '\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Extensions')
         elif self.os == 'linux':
-            brave_directory = helper.fixpath(self.user_directory + '/.config/google-chrome/Default/Extensions')
+            brave_directory = helper.fixpath(self.user_directory + '/.config/BraveSoftware/Brave-Browser/Default/Extensions')
         
         if brave_directory != "":
             if os.path.isdir(brave_directory):
