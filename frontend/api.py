@@ -124,6 +124,19 @@ def view(query, allargs):
                     return (return_html + '</tbody></table>')
                 else:
                     return('error: Something went wrong while getting local firefox extensions! Check log for more information')
+            elif browser == 'brave':
+                import core.localextensions as localextensions
+                lexts = localextensions.GetLocalExtensions()
+                exts = ""
+                exts = lexts.braveLocalExtensionsCheck()
+                if exts != False and exts != [] and exts != None:
+                    return_html = "<table class='result-table' id='result-table'><thead><tr><th>Extension Name</th><th>Action</th></tr></thead><tbody>"
+                    for ext in exts:
+                        ext_info = ext.split(',')
+                        return_html += '<tr><td>' + ext_info[0] + '</td><td><button class="bttn-fill bttn-xs bttn-success" onclick="analyzeLocalExtension(\'' + ext_info[1].replace('\\', '\\\\') + '\', \'brave\')"><i class="fas fa-bolt"></i> Analyze</button></td></tr>'
+                    return (return_html + '</tbody></table>')
+                else:
+                    return('error: Something went wrong while getting local Brave browser extensions! Check log for more information')
             else:
                 return('error: Invalid Browser!')
         except Exception:
