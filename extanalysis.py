@@ -87,7 +87,7 @@ def allowed_file(filename):
 csrf = CSRFProtect()
 app = Flask('ExtAnalysis - Browser Extension Analysis Toolkit')
 app.config['UPLOAD_FOLDER'] = core.lab_path
-app.secret_key = '3ejd73jdhyd74jdiu8@U*jherh7&Egi3e3r3#'
+app.secret_key = str(os.urandom(24))
 csrf.init_app(app)
 
 
