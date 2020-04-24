@@ -377,8 +377,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <div id="log" class="log-holder">
         </div>
         <div class="log-actions">
-            <button class="clear-logs-button" onclick="clearlogs()"><i class="fas fa-broom"></i> Clear Logs</button>
+            <button class="clear-logs-button" onclick="clearlogs('clearlogs')"><i class="fas fa-broom"></i> Clear Logs</button>
             <button class="logs-explorer-button"><i class="fas fa-compass"></i> Logs Explorer</button>
+            <meta name="csrf-token" content="{{ csrf_token() }}">
         </div>
     </div>
     <script type="text/javascript" src="{{ url_for('static',filename='js/jquery.js') }}"></script>

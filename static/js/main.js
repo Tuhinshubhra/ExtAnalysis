@@ -32,6 +32,7 @@ var elements = $('.modal-overlay, .modal');
 $('.close-modal').click(function() {
     elements.removeClass('active');
 });
+var csrftoken = $('meta[name=csrf-token]').attr('content')
 
 document.getElementById('noscript').style.display = 'none';
 
@@ -106,7 +107,14 @@ function download_and_scan_firefox(){
     ext_id = document.getElementById('firefox-addon').value;
     loading_div.style.display = 'block';
     if (ext_id.match(/addons\.mozilla\.org/)){
-        fetch(`/api/?query=firefoxaddon&addonurl=${ext_id}`).then(response => {
+        fetch(`/api/?addonurl=${ext_id}`,{
+            method: "POST",
+            headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+            "X-CSRFToken": csrftoken
+            },
+            body: "query=firefoxaddon"
+        }).then(response => {
             response.text().then(resptxt => {
                 handleresponse(resptxt);
                 loading_div.style.display = 'none';
@@ -135,7 +143,14 @@ function handle_download(id){
       .then(name => {
         if (!name) throw null;
         loading_div.style.display = 'block';
-        return fetch(`/api/?query=dlanalysis&extid=${id}&savedir=${name}`);
+        return fetch(`/api/?extid=${id}&savedir=${name}`, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+            "X-CSRFToken": csrftoken
+            },
+            body: "query=dlanalysis"
+        });
       })
       .then(results => {
         return results.text();
@@ -183,6 +198,9 @@ function upload_extension(){
     $.ajax({
         url: '/upload/',
         type: 'POST',
+        headers: {
+            "X-CSRFToken": csrftoken
+        },
         data: formdata,
         success:(response)=>{
             handleresponse(response);
@@ -196,8 +214,15 @@ function upload_extension(){
 
 function result() {
     //path = document.getElementById('result_path').value;
-    checkurl = '/api/?query=results';
-    fetch(checkurl).then((resp) => {
+    // checkurl = '/api/?query=results';
+    fetch('/api/',{
+            method: "POST",
+            headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+            "X-CSRFToken": csrftoken
+            },
+            body: "query=results"
+    }).then((resp) => {
         resp.text().then((txt) => {
             button = document.getElementById('changeme');
             button.innerHTML = txt;
@@ -208,8 +233,15 @@ function result() {
 }
 
 function loadresult(result) {
-    checkurl = '/api/?query=showresult&result=' + result;
-    fetch(checkurl).then((resp) => {
+    checkurl = '/api/?result=' + result;
+    fetch(checkurl, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+            "X-CSRFToken": csrftoken
+            },
+            body: "query=showresult"
+    }).then((resp) => {
         resp.text().then((txt) => {
             button = document.getElementById('modal-content');
             button.innerHTML = txt;
@@ -295,7 +327,14 @@ function getCookie(cname) {
           permission = '*://*/*';
       }
 
-      fetch('/api?query=permissionInfo&permission=' + permission).then((response) => {
+      fetch('/api/?permission=' + permission, {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+                "X-CSRFToken": csrftoken
+                },
+                body: "query=permissionInfo"
+      }).then((response) => {
           response.text().then((reply) => {swal('', reply, 'info')})
       }).catch(err => {
           swal('Error!', 'Something went wrong!', 'error');
@@ -319,7 +358,14 @@ function getCookie(cname) {
       .then((willDelete) => {
         if (willDelete) {
             loading_div.style.display = 'block';
-            fetch('/api/?query=deleteResult&resultID=' + id).then(response => {
+            fetch('/api/?resultID=' + id, {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+                "X-CSRFToken": csrftoken
+                },
+                body: "query=deleteResult"
+            }).then(response => {
                 response.text().then(resptxt => {
                     if (resptxt === 'success'){
                         swal("Analysis " + id + " has been successfully deleted!", {
@@ -352,7 +398,14 @@ function getCookie(cname) {
     local_list = document.getElementById('local-list');
     loading_div.style.display = 'block';
     local_list.style.display = 'none';
-    fetch('/api?query=getlocalextensions&browser=' + browser).then((response) => {
+    fetch('/api/?browser=' + browser, {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+                "X-CSRFToken": csrftoken
+                },
+                body: "query=getlocalextensions"
+    }).then((response) => {
         response.text().then((reply) => {
             if (reply.match(/error: /)){
                 var msg = reply.split('error: ')[1]
@@ -378,7 +431,14 @@ function getCookie(cname) {
 
     function analyzeLocalExtension(path, browser){
         loading_div.style.display = 'block';
-        fetch('/api?query=analyzelocalextension&browser=' + browser + '&path=' + path).then((response) => {
+        fetch('/api/?browser=' + browser + '&path=' + path, {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+                "X-CSRFToken": csrftoken
+                },
+                body: "query=analyzelocalextension"
+        }).then((response) => {
             response.text().then((reply) => {
                 handleresponse(reply);
                 loading_div.style.display = 'none';
@@ -401,7 +461,14 @@ function getCookie(cname) {
           .then((willDelete) => {
             if (willDelete) {
                 loading_div.style.display = 'block';
-                fetch('/api/?query=deleteAll').then(response => {
+                fetch('/api/', {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+                    "X-CSRFToken": csrftoken
+                    },
+                    body: "query=deleteAll"
+                }).then(response => {
                     response.text().then(resptxt => {
                         if (resptxt === 'success'){
                             swal("All the results has successfully been deleted", {
@@ -441,7 +508,14 @@ function getCookie(cname) {
           .then((willDelete) => {
             if (willDelete) {
                 loading_div.style.display = 'block';
-                fetch('/api/?query=clearLab').then(response => {
+                fetch('/api/', {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+                    "X-CSRFToken": csrftoken
+                    },
+                    body: "query=clearLab"
+                }).then(response => {
                     response.text().then(resptxt => {
                         handleresponse(resptxt);
                     })
@@ -475,7 +549,14 @@ function getCookie(cname) {
         if (url !== '' && url !== ' '){
             domain = domain_from_url(url)
             console.log(domain)
-            fetch(`/api/?query=whois&domain=${domain}`).then(response => {
+            fetch(`/api/?domain=${domain}`, {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+                    "X-CSRFToken": csrftoken
+                    },
+                    body: "query=whois"
+            }).then(response => {
                 response.text().then(resptxt => {
                     button = document.getElementById('modal-content');
                     button.innerHTML = resptxt;
@@ -495,7 +576,14 @@ function getCookie(cname) {
     function domainvt(url, analysis_id){
         loading_div.style.display = 'block';
         if (url !== '' && url !== ' '){
-            fetch(`/api/?query=vtDomainReport&domain=${url}&analysis_id=${analysis_id}`).then(response => {
+            fetch(`/api/?domain=${url}&analysis_id=${analysis_id}`, {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+                    "X-CSRFToken": csrftoken
+                    },
+                    body: "query=vtDomainReport"
+            }).then(response => {
                 response.text().then(resptxt => {
                     if (resptxt.match(/error: /)) {
                         button = document.getElementById('modal-content');
@@ -534,9 +622,16 @@ function getCookie(cname) {
         }
     }
 
-    function clearlogs(){
+    function clearlogs(x){
         loading_div.style.display = 'block';
-        fetch('/api/?query=clearlogs').then(response => {
+        fetch("/api/", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+            "X-CSRFToken": csrftoken
+            },
+            body: "query=" + encodeURIComponent(x)
+        }).then(response => {
             response.text().then(resptxt => {
                 handleresponse(resptxt);
                 loading_div.style.display = 'none';
@@ -563,8 +658,15 @@ function getCookie(cname) {
             )
         } else {
             loading_div.style.display = 'block';
-            apiurl = '/api/?query=changeReportsDir&newpath=' + report_dir;
-            fetch(apiurl).then(resp => {
+            apiurl = '/api/?newpath=' + report_dir;
+            fetch(apiurl, {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+                    "X-CSRFToken": csrftoken
+                    },
+                    body: "query=changeReportsDir"
+            }).then(resp => {
                 resp.text().then(resptxt => {
                     handleresponse(resptxt);
                     loading_div.style.display = 'none';
@@ -590,8 +692,15 @@ function getCookie(cname) {
             )
         } else {
             loading_div.style.display = 'block';
-            apiurl = '/api/?query=changelabDir&newpath=' + lab_dir;
-            fetch(apiurl).then(resp => {
+            apiurl = '/api/?newpath=' + lab_dir;
+            fetch(apiurl, {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+                    "X-CSRFToken": csrftoken
+                    },
+                    body: "query=changelabDir"
+            }).then(resp => {
                 resp.text().then(resptxt => {
                     handleresponse(resptxt);
                     loading_div.style.display = 'none';
@@ -617,8 +726,15 @@ function getCookie(cname) {
             )
         } else {
             loading_div.style.display = 'block';
-            apiurl = '/api/?query=changeVTapi&api=' + vt_api;
-            fetch(apiurl).then(resp => {
+            apiurl = '/api/?api=' + vt_api;
+            fetch(apiurl, {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+                    "X-CSRFToken": csrftoken
+                    },
+                    body: "query=changeVTapi"
+            }).then(resp => {
                 resp.text().then(resptxt => {
                     handleresponse(resptxt);
                     loading_div.style.display = 'none';
@@ -638,7 +754,14 @@ function getCookie(cname) {
     function geoip(ip){
         loading_div.style.display = 'block';
         if (ip !== '' && ip !== ' '){
-            fetch(`/api/?query=geoip&ip=${ip}`).then(response => {
+            fetch(`/api/?ip=${ip}`, {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+                    "X-CSRFToken": csrftoken
+                    },
+                    body: "query=geoip"
+            }).then(response => {
                 response.text().then(resptxt => {
                     button = document.getElementById('modal-content');
                     button.innerHTML = resptxt;
@@ -658,7 +781,14 @@ function getCookie(cname) {
     function retirejsResult(file_id, analysis_id, file_name){
         loading_div.style.display = 'block';
         if (file_id !== '' && file_id !== ' '){
-            fetch(`/api/?query=retirejsResult&file=${file_id}&analysis_id=${analysis_id}`).then(response => {
+            fetch(`/api/?file=${file_id}&analysis_id=${analysis_id}`, {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+                    "X-CSRFToken": csrftoken
+                    },
+                    body: "query=retirejsResult"
+            }).then(response => {
                 response.text().then(resptxt => {
                     if (resptxt.match(/error: /)) {
                         button = document.getElementById('modal-content');
@@ -704,7 +834,14 @@ function getCookie(cname) {
     function getHTTPHeaders(url){
         loading_div.style.display = 'block';
         if (url !== '' && url !== ' '){
-            fetch(`/api/?query=HTTPHeaders&url=${url}`).then(response => {
+            fetch(`/api/?url=${url}`, {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+                    "X-CSRFToken": csrftoken
+                    },
+                    body: "query=HTTPHeaders"
+            }).then(response => {
                 response.text().then(resptxt => {
                     button = document.getElementById('modal-content');
                     button.innerHTML = resptxt;
@@ -724,7 +861,14 @@ function getCookie(cname) {
     function getSource(url){
         loading_div.style.display = 'block';
         if (url !== '' && url !== ' '){
-            fetch(`/api/?query=SourceCode&url=${url}`).then(response => {
+            fetch(`/api/?url=${url}`, {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+                    "X-CSRFToken": csrftoken
+                    },
+                    body: "query=SourceCode"
+            }).then(response => {
                 response.text().then(resptxt => {
                     button = document.getElementById('modal-content');
                     button.innerHTML = resptxt;
@@ -755,9 +899,16 @@ function getCookie(cname) {
             var extract_ipv4_addresses = $('#extract_ipv4_addresses')[0].checked
             var extract_ipv6_addresses = $('#extract_ipv6_addresses')[0].checked
             var ignore_css = $('#ignore_css')[0].checked
-            var requrl = `/api/?query=updateIntelExtraction&extract_comments=${extract_comments}&extract_btc_addresses=${extract_btc_addresses}&extract_base64_strings=${extract_base64_strings}&extract_email_addresses=${extract_email_addresses}&extract_ipv4_addresses=${extract_ipv4_addresses}&extract_ipv6_addresses=${extract_ipv6_addresses}&ignore_css=${ignore_css}`
+            var requrl = `/api/?extract_comments=${extract_comments}&extract_btc_addresses=${extract_btc_addresses}&extract_base64_strings=${extract_base64_strings}&extract_email_addresses=${extract_email_addresses}&extract_ipv4_addresses=${extract_ipv4_addresses}&extract_ipv6_addresses=${extract_ipv6_addresses}&ignore_css=${ignore_css}`
             loading_div.style.display = 'block';
-            fetch(requrl).then(response => {
+            fetch(requrl, {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+                    "X-CSRFToken": csrftoken
+                    },
+                    body: "query=updateIntelExtraction"
+            }).then(response => {
                 response.text().then(resptxt => {
                     handleresponse(resptxt);
                     loading_div.style.display = 'none';
