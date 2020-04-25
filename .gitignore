@@ -10,3 +10,6 @@ permission-badges.list
 reports/*
 reports.json
 extanalysis.log
+.venv
+.idea/
+venv

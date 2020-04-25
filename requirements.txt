@@ -3,3 +3,4 @@ python-whois
 futures
 requests
 maxminddb
+Flask-WTF
