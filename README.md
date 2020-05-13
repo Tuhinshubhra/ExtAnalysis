@@ -3,7 +3,7 @@
 
 <p align='center'>
   <img src="https://i.imgur.com/iOyxLPf.png" alt="Logo"> <br>
-  <a href="https://github.com/Tuhinshubhra/ExtAnalysis/releases/tag/v.1.0.3"><img src="https://img.shields.io/badge/Version-1.0.3-brightgreen.svg?style=style=flat-square" alt="version"></a>
+  <a href="https://github.com/Tuhinshubhra/ExtAnalysis/releases/tag/v.1.0.4"><img src="https://img.shields.io/badge/Version-1.0.4-brightgreen.svg?style=style=flat-square" alt="version"></a>
   <img src="https://img.shields.io/badge/OS-Windows%2C%20Linux-blue.svg">
   <a href="https://github.com/Tuhinshubhra/ExtAnalysis/"><img src="https://img.shields.io/badge/python-3-orange.svg?style=style=flat-square" alt="Python Version"></a>
   <a href="https://github.com/Tuhinshubhra/ExtAnalysis/stargazers"><img src="https://img.shields.io/github/stars/Tuhinshubhra/ExtAnalysis.svg" alt="GitHub stars" /></a>
