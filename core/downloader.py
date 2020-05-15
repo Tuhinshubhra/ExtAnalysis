@@ -29,7 +29,9 @@ def download(id, name=""):
         save_name = name
     save_path = helper.fixpath(core.lab_path + '/' + save_name + '.crx')
     core.updatelog("Downloader says: save_path is " + save_path)
-    dl_url = "https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D" + ext_id + "%26uc&prodversion=32"
+    # dl_url = "https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D" + ext_id + "%26uc&prodversion=32"
+    # new download URL, issue #13
+    dl_url = "https://clients2.google.com/service/update2/crx?response=redirect&os=win&arch=x86-64&os_arch=x86-64&nacl_arch=x86-64&prod=chromecrx&prodchannel=unknown&prodversion=81.0.4044.138&acceptformat=crx2,crx3&x=id%3D" + ext_id + "%26uc"
     print("Download URL: " + dl_url)
 
     try:
