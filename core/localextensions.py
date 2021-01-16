@@ -54,6 +54,8 @@ class GetLocalExtensions():
             chrome_directory = helper.fixpath(self.user_directory + '\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions')
         elif self.os == 'linux':
             chrome_directory = helper.fixpath(self.user_directory + '/.config/google-chrome/Default/Extensions')
+        elif self.os == 'osx':
+        	chrome_directory = helper.fixpath(self.user_directory + '/Library/Application Support/Google/Chrome/Profile 1/Extensions')
         
         if chrome_directory != "":
             if os.path.isdir(chrome_directory):
