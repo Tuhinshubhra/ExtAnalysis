@@ -44,6 +44,7 @@ class GetLocalExtensions():
         self.chrome_extensions = []
         self.firefox_extensions = []
         self.brave_extensions = []
+        self.vivaldi_extensions = []
     
     def googlechrome(self):
 
@@ -86,6 +87,45 @@ class GetLocalExtensions():
                 return False
         else:
             core.updatelog('Unsupported OS')
+
+    def vivaldi_local_extensions_check(self):
+        vivaldi_dir = ""
+        if self.os == 'windows':
+            vivaldi_dir = helper.fixpath(self.user_directory + '\\AppData\\Local\\Vivaldi\\User Data\\Default\\Extensions')
+        
+        if vivaldi_dir == "":
+            core.updatelog('Unsupported OS')
+            return
+
+        if not os.path.isdir(vivaldi_dir):
+            core.updatelog("Couldn't find Vivaldi Extension directory!")
+            return
+
+        # -- 
+        core.updatelog('Found Vivaldi extension directory: ' + vivaldi_dir)
+        extension_dirs = os.listdir(vivaldi_dir)
+        for extension_dir in extension_dirs:
+            extension_path = os.path.join(vivaldi_dir, extension_dir)
+            
+            if not os.path.isdir(extension_path):
+                core.updatelog("Invalid extension directory: " + extension_path)
+                continue
+            
+            extension_vers = os.listdir(extension_path)
+            
+            for ver in extension_vers:
+                manifest_file = helper.fixpath(extension_path + "/" + ver + "/manifest.json")
+                if not os.path.isfile(manifest_file):
+                    core.updatelog("Invalid extension directory: " + extension_path)
+                    continue
+                ext_name = core.GetNameFromManifest(manifest_file)
+                if ext_name:
+                    ext_version = ver.split('_')[0]
+                    ext_name = ext_name + ' version ' + ext_version
+                    self.vivaldi_extensions.append(ext_name + ',' + helper.fixpath(extension_path + "/" + ver))
+                    
+        return self.vivaldi_extensions
+
 
     def braveLocalExtensionsCheck(self):
         brave_directory = ""
