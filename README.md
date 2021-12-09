@@ -142,4 +142,4 @@ Attribution to all the third-party libraries used can be found in the [CREDITS](
 
 
 <br>
-<h4 align="center">Copyright (C) 2019 - 2020 Tuhinshubhra</h4>
+<h4 align="center">Copyright (C) 2019 - 2022 Tuhinshubhra</h4>
