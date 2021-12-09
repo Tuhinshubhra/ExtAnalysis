@@ -46,6 +46,34 @@ class GetLocalExtensions():
         self.brave_extensions = []
         self.vivaldi_extensions = []
     
+    def extract_chromium_plugins(self, parent_dir):
+        ret_list = []
+
+        extension_dirs = os.listdir(parent_dir)
+        for extension_dir in extension_dirs:
+            extension_path = os.path.join(parent_dir, extension_dir)
+            
+            if not os.path.isdir(extension_path):
+                core.updatelog("Invalid extension directory: " + extension_path)
+                continue
+            
+            extension_vers = os.listdir(extension_path)
+            
+            for ver in extension_vers:
+                manifest_file = helper.fixpath(extension_path + "/" + ver + "/manifest.json")
+                if not os.path.isfile(manifest_file):
+                    core.updatelog("Invalid extension directory: " + extension_path)
+                    continue
+                ext_name = core.GetNameFromManifest(manifest_file)
+                if ext_name:
+                    ext_version = ver.split('_')[0]
+                    ext_name = ext_name + ' version ' + ext_version
+                    # small hack to not let commas fuck around with the path
+                    ext_name = ext_name.replace(",", "&#44;")
+                    ret_list.append(ext_name + ',' + helper.fixpath(extension_path + "/" + ver))
+
+        return ret_list
+
     def googlechrome(self):
 
         # TODO: add support for mac os
@@ -61,28 +89,7 @@ class GetLocalExtensions():
         if chrome_directory != "":
             if os.path.isdir(chrome_directory):
                 core.updatelog('Found Google chrome extension directory: ' + chrome_directory)
-                extension_dirs = os.listdir(chrome_directory)
-                for extension_dir in extension_dirs:
-                    # print('\n\n')
-                    if os.path.isdir(os.path.join(chrome_directory, extension_dir)):
-                        # Every extension directory is like this: Extension/<id>/<version>/{contents}
-                        extension_path = os.path.join(chrome_directory, extension_dir)
-                        extension_vers = os.listdir(extension_path)
-                        for ver in extension_vers:
-                            manifest_file = helper.fixpath(extension_path + "/" + ver + '/manifest.json')
-                            if os.path.isfile(manifest_file):
-                                ext_name = core.GetNameFromManifest(manifest_file)
-                                if ext_name != False and ext_name != None:
-                                    # append version with name
-                                    ext_version = ver.split('_')[0]
-                                    ext_name = ext_name + ' version ' + ext_version
-                                    ext_name = ext_name.replace(",", "&#44;")
-                                    self.chrome_extensions.append(ext_name + ',' + helper.fixpath(extension_path + "/" + ver))
-                                else:
-                                    core.updatelog('Could not determine extension name.. skipping local chrome extension')
-                            else:
-                                core.updatelog('Invalid extension directory: ' + extension_path)
-                return self.chrome_extensions
+                return self.extract_chromium_plugins(chrome_directory)
             else:
                 core.updatelog('Could not find google chrome directory!')
                 return False
@@ -104,34 +111,12 @@ class GetLocalExtensions():
 
         # -- 
         core.updatelog('Found Vivaldi extension directory: ' + vivaldi_dir)
-        extension_dirs = os.listdir(vivaldi_dir)
-        for extension_dir in extension_dirs:
-            extension_path = os.path.join(vivaldi_dir, extension_dir)
-            
-            if not os.path.isdir(extension_path):
-                core.updatelog("Invalid extension directory: " + extension_path)
-                continue
-            
-            extension_vers = os.listdir(extension_path)
-            
-            for ver in extension_vers:
-                manifest_file = helper.fixpath(extension_path + "/" + ver + "/manifest.json")
-                if not os.path.isfile(manifest_file):
-                    core.updatelog("Invalid extension directory: " + extension_path)
-                    continue
-                ext_name = core.GetNameFromManifest(manifest_file)
-                if ext_name:
-                    ext_version = ver.split('_')[0]
-                    ext_name = ext_name + ' version ' + ext_version
-                    # small hack to not let commas fuck around with the path
-                    ext_name = ext_name.replace(",", "&#44;")
-                    self.vivaldi_extensions.append(ext_name + ',' + helper.fixpath(extension_path + "/" + ver))
-                    
-        return self.vivaldi_extensions
+        return self.extract_chromium_plugins(vivaldi_dir)
 
 
     def braveLocalExtensionsCheck(self):
         brave_directory = ""
+        
         if self.os == 'windows':
             brave_directory = helper.fixpath(self.user_directory + '\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Extensions')
         elif self.os == 'linux':
@@ -140,28 +125,7 @@ class GetLocalExtensions():
         if brave_directory != "":
             if os.path.isdir(brave_directory):
                 core.updatelog('Found Brave extension directory: ' + brave_directory)
-                extension_dirs = os.listdir(brave_directory)
-                for extension_dir in extension_dirs:
-                    # print('\n\n')
-                    if os.path.isdir(os.path.join(brave_directory, extension_dir)):
-                        # Every extension directory is like this: Extension/<id>/<version>/{contents}
-                        extension_path = os.path.join(brave_directory, extension_dir)
-                        extension_vers = os.listdir(extension_path)
-                        for ver in extension_vers:
-                            manifest_file = helper.fixpath(extension_path + "/" + ver + '/manifest.json')
-                            if os.path.isfile(manifest_file):
-                                ext_name = core.GetNameFromManifest(manifest_file)
-                                if ext_name != False and ext_name != None:
-                                    # append version with name
-                                    ext_version = ver.split('_')[0]
-                                    ext_name = ext_name + ' version ' + ext_version
-                                    ext_name = ext_name.replace(",", "&#44;")
-                                    self.brave_extensions.append(ext_name + ',' + helper.fixpath(extension_path + "/" + ver))
-                                else:
-                                    core.updatelog('Could not determine extension name.. skipping local brave extension')
-                            else:
-                                core.updatelog('Invalid extension directory: ' + extension_path)
-                return self.brave_extensions
+                return self.extract_chromium_plugins(brave_directory)
             else:
                 core.updatelog('Could not find google chrome directory!')
                 return False
