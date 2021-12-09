@@ -127,7 +127,7 @@ class GetLocalExtensions():
                 core.updatelog('Found Brave extension directory: ' + brave_directory)
                 return self.extract_chromium_plugins(brave_directory)
             else:
-                core.updatelog('Could not find google chrome directory!')
+                core.updatelog('Could not find Brave extension directory!')
                 return False
         else:
             core.updatelog('Unsupported OS')
