@@ -140,6 +140,7 @@ class GetLocalExtensions():
         # Get all their names from manifest.json
         # update the list
         firefox_directory = ""
+        default_profile_path = ""
         
         if self.os == 'windows':
             firefox_directory = helper.fixpath(self.user_directory + '\\AppData\\Roaming\\Mozilla\\Firefox')
