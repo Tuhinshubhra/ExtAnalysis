@@ -76,6 +76,7 @@ class GetLocalExtensions():
                                     # append version with name
                                     ext_version = ver.split('_')[0]
                                     ext_name = ext_name + ' version ' + ext_version
+                                    ext_name = ext_name.replace(",", "&#44;")
                                     self.chrome_extensions.append(ext_name + ',' + helper.fixpath(extension_path + "/" + ver))
                                 else:
                                     core.updatelog('Could not determine extension name.. skipping local chrome extension')
@@ -122,6 +123,8 @@ class GetLocalExtensions():
                 if ext_name:
                     ext_version = ver.split('_')[0]
                     ext_name = ext_name + ' version ' + ext_version
+                    # small hack to not let commas fuck around with the path
+                    ext_name = ext_name.replace(",", "&#44;")
                     self.vivaldi_extensions.append(ext_name + ',' + helper.fixpath(extension_path + "/" + ver))
                     
         return self.vivaldi_extensions
@@ -152,6 +155,7 @@ class GetLocalExtensions():
                                     # append version with name
                                     ext_version = ver.split('_')[0]
                                     ext_name = ext_name + ' version ' + ext_version
+                                    ext_name = ext_name.replace(",", "&#44;")
                                     self.brave_extensions.append(ext_name + ',' + helper.fixpath(extension_path + "/" + ver))
                                 else:
                                     core.updatelog('Could not determine extension name.. skipping local brave extension')
