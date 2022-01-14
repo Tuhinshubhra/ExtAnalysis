@@ -1,5 +1,8 @@
-Version 1.0.5 []
+Version 1.0.5 [14-01-2022]
     - Fixed Chrome Webstore downloader (issue #13)
+    - Added support for local google chrome extensions for Mac Os
+    - Added support for Vivaldi Browser (issue #20)
+    - Minor bug fixes
 Version 1.0.4 [14-05-2020]
     - Fixed an error where local firefox extensions could not be detected (issue #9)
     - Added support for Brave browser
