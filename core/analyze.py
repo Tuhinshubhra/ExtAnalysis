@@ -142,7 +142,7 @@ def analyze(ext_name, ext_type='local'):
     try:
         core.updatelog('Reading manifest.json')
         manifest_file = helper.fixpath(extract_dir + '/manifest.json')
-        manifest_load = open(manifest_file, 'r')
+        manifest_load = open(manifest_file, 'r', encoding='utf-8-sig')
         manifest_content = manifest_load.read()
         manifest_content = json.loads(manifest_content)
         rinit = core.initreport(manifest_content, extract_dir, ext_type)
