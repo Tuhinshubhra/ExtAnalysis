@@ -42,7 +42,7 @@ parser.add_argument('-n', '--nobrowser', action='store_true', help='Skips launch
 parser.add_argument('--help', action='store_true', help='Shows this help menu and exits')
 args = parser.parse_args()
 
-allowed_extension = set(['crx', 'zip', 'xpi'])
+allowed_extension = set(['crx', 'zip', 'xpi', 'tar', 'gzip'])
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 

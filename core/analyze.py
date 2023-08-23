@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 import os
 import zipfile
+import tarfile
 import re
 import core.core as core
 import json
@@ -68,7 +69,7 @@ def sort_files(extension_dir):
 def analyze(ext_name, ext_type='local'):
     core.updatelog('analyze func: ' + ext_name)
     # extension_extracted = False
-    if ext_name.endswith('.crx') or ext_name.endswith('.xpi') or ext_name.endswith('.zip'):
+    if ext_name.endswith('.crx') or ext_name.endswith('.xpi') or ext_name.endswith('.zip') or ext_name.endswith('.tar') or ext_name.endswith('.gzip'):
         '''
         EXTENSION NAME / PACKED PATH 
         UNZIP THE EXTENSION FOR FURTHER ANALYSIS
@@ -76,10 +77,19 @@ def analyze(ext_name, ext_type='local'):
 
         if ext_name.endswith('.crx'):
             file_extension = '.crx'
+            extract_method = 'zip'
         elif ext_name.endswith('.xpi'):
             file_extension = '.xpi'
+            extract_method = 'zip'
         elif ext_name.endswith('.zip'):
             file_extension = '.zip'
+            extract_method = 'zip'
+        elif ext_name.endswith('.tar'):
+            file_extension = '.tar'
+            extract_method = 'tar'
+        elif ext_name.endswith('.gzip'):
+            file_extension = '.gzip'
+            extract_method = 'tar'
         else:
             file_extension = ''
 
@@ -119,10 +129,20 @@ def analyze(ext_name, ext_type='local'):
                 core.updatelog('Renaming old extract directory {0} as {1}'.format(extract_dir, new_name))
                 os.rename(extract_dir, extract_dir + '_old')
                 core.updatelog('Old directory successfully renamed')
-            zip_contents = zipfile.ZipFile(ext_path, 'r')
-            zip_contents.extractall(extract_dir)
-            zip_contents.close()
-            core.updatelog('Zip Extracted Successfully')
+            
+            if extract_method == 'zip':
+                # zip, xpi, crx file extraction
+                zip_contents = zipfile.ZipFile(ext_path, 'r')
+                zip_contents.extractall(extract_dir)
+                zip_contents.close()
+                core.updatelog('Zip Extracted Successfully')
+            elif extract_method == 'tar':
+                # tar, gzip file extraction
+                tar_contents = tarfile.open(ext_path)
+                tar_contents.extractall(extract_dir)
+                tar_contents.close()
+                core.updatelog('Tar Extracted Successfully')
+            
             # extension_extracted = True
         except Exception as e:
             logging.error(traceback.format_exc())
