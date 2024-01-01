@@ -68,14 +68,14 @@
 Installing ExtAnalysis is simple! It runs on python3, so make sure `python3` and `python3-pip` are installed and follow these steps:
 
 ```
-$ git clone https://github.com/Tuhinshubhra/ExtAnalysis
- ```
- ```
-$ cd ExtAnalysis
- ```
- ```
-$ pip3 install -r requirements.txt
- ```
+git clone https://github.com/Tuhinshubhra/ExtAnalysis
+```
+```
+cd ExtAnalysis
+```
+```
+pip3 install -r requirements.txt
+```
 
 For proper analysis don't forget to add your virustotal api.
 
@@ -103,13 +103,13 @@ optional arguments:
 ## Docker Build
 
  ```
- $ docker build -t extanalysis .
+ docker build -t extanalysis .
  ```
 
 ## Docker Usage
 
  ```
- $ docker run --rm -it -p 13337:13337 extanalysis -h 0.0.0.0
+ docker run --rm -it -p 13337:13337 extanalysis -h 0.0.0.0
  ```
 
 
