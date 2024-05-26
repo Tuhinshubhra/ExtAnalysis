@@ -112,6 +112,16 @@ optional arguments:
  docker run --rm -it -p 13337:13337 extanalysis -h 0.0.0.0
  ```
 
+### Using Docker Compose
+
+ ```bash
+ docker compose build
+ 
+ docker compose up
+ 
+ ## To run in the background
+ docker compose up -d
+ ```
 
 ## Python Modules Used:
 
