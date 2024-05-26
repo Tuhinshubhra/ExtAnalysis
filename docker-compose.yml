@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  extanalysis:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "13337:13337"
+    command: -h 0.0.0.0
+    stdin_open: true
+    tty: true
