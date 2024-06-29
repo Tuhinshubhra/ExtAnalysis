@@ -167,7 +167,24 @@ def view(query, allargs):
                 else:
                     return (
                         'error: Something went wrong while getting local Vivaldi browser extensions! Check log for more information')
-
+            elif browser == 'opera':
+                import core.localextensions as localextensions
+                lexts = localextensions.GetLocalExtensions()
+                exts = ""
+                exts = lexts.opera()
+                if exts and len(exts) > 0:
+                    return_html = "<table class='result-table' id='result-table'><thead><tr><th>Extension Name</th><th>Action</th></tr></thead><tbody>"
+                    for ext in exts:
+                        ext_info = ext.split(',')
+                        return_html += '<tr><td>' + ext_info[
+                            0] + '</td><td><button class="bttn-fill bttn-xs bttn-success" onclick="analyzeLocalExtension(\'' + \
+                                       ext_info[1].replace('\\',
+                                                           '\\\\') + '\', \'opera\')"><i class="fas fa-bolt"></i> Analyze</button></td></tr>'
+                    return (return_html + '</tbody></table>')
+                else:
+                    return (
+                        'error: Something went wrong while getting local Opera browser extensions! Check log for more information') 
+            
             else:
                 return ('error: Invalid Browser!')
         except Exception:
@@ -208,6 +225,13 @@ def view(query, allargs):
                     return analysis_stat
                 else:
                     return 'error: Invalid Vivaldi Extension Directory'
+                
+            elif browser == 'opera' and os.path.isdir(path):
+                if os.path.isfile(os.path.join(path, 'manifest.json')):
+                    analysis_stat = analysis.analyze(path, 'Local Opera browser Extension')
+                    return analysis_stat
+                else:
+                    return 'error: Invalid Opera Extension Directory'
 
             else:
                 return ('error: Malformed Query')

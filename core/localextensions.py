@@ -73,11 +73,36 @@ class GetLocalExtensions():
                     ret_list.append(ext_name + ',' + helper.fixpath(extension_path + "/" + ver))
 
         return ret_list
+    
+    def extract_opera_plugins(self, parent_dir):
+        ret_list = []
+
+        extension_dirs = os.listdir(parent_dir)
+        for extension_dir in extension_dirs:
+            extension_path = os.path.join(parent_dir, extension_dir)
+            
+            if not os.path.isdir(extension_path):
+                core.updatelog("Invalid extension directory: " + extension_path)
+                continue
+            
+            extension_vers = os.listdir(extension_path)
+            
+            for ver in extension_vers:
+                manifest_file = helper.fixpath(extension_path + "/" + ver + "/manifest.json")
+                if not os.path.isfile(manifest_file):
+                    core.updatelog("Invalid extension directory: " + extension_path)
+                    continue
+                ext_name = core.GetNameFromManifest(manifest_file)
+                if ext_name:
+                    ext_version = ver.split('_')[0]
+                    ext_name = ext_name + ' version ' + ext_version
+                    # small hack to not let commas fuck around with the path
+                    ext_name = ext_name.replace(",", "&#44;")
+                    ret_list.append(ext_name + ',' + helper.fixpath(extension_path + "/" + ver))
+
+        return ret_list
 
     def googlechrome(self):
-
-        # TODO: add support for mac os
-
         chrome_directory = ""
         if self.os == 'windows':
             chrome_directory = helper.fixpath(self.user_directory + '\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions')
@@ -95,6 +120,26 @@ class GetLocalExtensions():
                 return False
         else:
             core.updatelog('Unsupported OS')
+
+    def opera(self):
+        ext_dir = ""
+        if self.os == 'windows':
+            ext_dir = helper.fixpath(self.user_directory + '\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions')
+        elif self.os == 'linux':
+            ext_dir = helper.fixpath(self.user_directory + '/.config/google-chrome/Default/Extensions')
+        elif self.os == 'osx':
+        	ext_dir = helper.fixpath(self.user_directory + '/Library/Application Support/com.operasoftware.Opera/Default/Extensions/')
+        
+        if ext_dir != "":
+            if os.path.isdir(ext_dir):
+                core.updatelog('Found opera extension directory: ' + ext_dir)
+                return self.extract_opera_plugins(ext_dir)
+            else:
+                core.updatelog('Could not find google chrome directory!')
+                return False
+        else:
+            core.updatelog(self.os + ' is not supported!')
+
 
     def vivaldi_local_extensions_check(self):
         vivaldi_dir = ""
