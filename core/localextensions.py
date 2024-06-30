@@ -124,7 +124,7 @@ class GetLocalExtensions():
     def opera(self):
         ext_dir = ""
         if self.os == 'windows':
-            ext_dir = helper.fixpath(self.user_directory + '\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions')
+            ext_dir = helper.fixpath(self.user_directory + '\\AppData\\Roaming\\Opera Software\\Opera Stable\\Default\\Extensions')
         elif self.os == 'linux':
             ext_dir = helper.fixpath(self.user_directory + '/.config/google-chrome/Default/Extensions')
         elif self.os == 'osx':
