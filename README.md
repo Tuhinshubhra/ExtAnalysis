@@ -118,7 +118,13 @@ optional arguments:
  docker compose build
  
  docker compose up
+
+ ## Or just:
+ docker compose up --build
  
+ ## To run only for one-time use
+ docker-compose run --rm --build -it -p 13337:13337 extanalysis -h 0.0.0.0
+
  ## To run in the background
  docker compose up -d
  ```
