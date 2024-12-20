@@ -114,6 +114,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 <ul class="result-tabs">
                     <li class="tab-link current" data-tab="tab-0"><i class="fab fa-chrome"></i> Chrome Web Store</li>
                     <li class="tab-link" data-tab="tab-3"><i class="fab fa-firefox"></i> Firefox Add-ons</li>
+                    <li class="tab-link" data-tab="tab-4"><i class="fab fa-edge"></i> Edge Add-ons</li>
                     <li class="tab-link" data-tab="tab-1"><i class="fas fa-home"></i> Installed Locally</li>
                     <li class="tab-link" data-tab="tab-2"><i class="fas fa-upload"></i> Upload Extension</li>
                 </ul>
@@ -146,6 +147,21 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                     
                     <br><br>
                     <div class="inline-note">You can either enter the extension id or the full url of the Firefox Addon listing.</div>
+                </div>
+
+                <div id="tab-4" class="tab-content">
+                    <h2 class="header_for_sub">Download and Analyze Edge add-ons</h2>
+                    <img src="{{ url_for('static',filename='images/edgeaddons.png') }}" style="margin-bottom: 10px;">
+                    <!--<h3 id='dl-header'>Enter Edge add-on link:</h2>
+                    <br>-->
+                    <br>
+                    <div id="webstore">
+                        <input type="text" id="edge-addon" class="target_box" placeholder="edge add-on link">
+                        <button onclick="download_and_scan_edge()" class="start_scan"><i class="fas fa-binoculars"></i> Download & Analyze </button>
+                    </div>
+                    
+                    <br><br>
+                    <div class="inline-note">You can either enter the extension id or the full url of the Edge Addon listing.</div>
                 </div>
 
                 <div id="tab-1" class="tab-content">
