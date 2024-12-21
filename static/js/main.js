@@ -131,6 +131,34 @@ function download_and_scan_firefox(){
 
 }
 
+function download_and_scan_edge(){
+    ext_id = document.getElementById('edge-addon').value;
+    loading_div.style.display = 'block';
+    if (ext_id.match(/microsoftedge\.microsoft\.com/)){
+        fetch(`/api/?addonurl=${ext_id}`,{
+            method: "POST",
+            headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", // otherwise $_POST is empty
+            "X-CSRFToken": csrftoken
+            },
+            body: "query=edgeaddon"
+        }).then(response => {
+            response.text().then(resptxt => {
+                handleresponse(resptxt);
+                loading_div.style.display = 'none';
+            });
+        }).catch(err => {
+            swal('Error!', 'Something went wrong! Check logs for more information', 'error');
+            loading_div.style.display = 'none';
+        });
+    } else {
+        swal('Invalid URL', 'Please provide a valid Edge add-on URL!', 'warning');
+        loading_div.style.display = 'none';
+    }
+    queryurl = '' + ext_id;
+
+}
+
 function handle_download(id){
     swal({
         text: 'Save Extension as (no need to enter file extension):',

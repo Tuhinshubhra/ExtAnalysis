@@ -75,6 +75,27 @@ def view(query, allargs):
 
 
 
+    elif query == 'edgeaddon':
+        try:
+            addonurl = allargs.get('addonurl')
+            saveas = addonurl.split('/')[-1]
+            try:
+                download_log = download_extension.downloadEdge(addonurl)
+                if download_log:
+                    aok = analysis.analyze(saveas + '.crx', 'Remote Edge Extension')
+                    return (aok)
+                else:
+                    return ('error: Something went wrong while downloading extension')
+            except Exception as e:
+                core.updatelog('Something went wrong while downloading extension: ' + str(e))
+                return ('error: Something went wrong while downloading extension, check log for more information')
+
+        except Exception as e:
+            core.updatelog('Something went wrong: ' + str(e))
+            return ('error: Something went wrong while downloading extension, check log for more information')
+
+
+
     elif query == 'results':
         reportids = core.reportids
         if reportids == {}:

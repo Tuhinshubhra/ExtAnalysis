@@ -69,3 +69,22 @@ def downloadFirefox(url):
                 return False
         except Exception:
             core.updatelog('Something went wrong while getting download link for xpi file')
+
+def downloadEdge(url):
+    if 'microsoftedge.microsoft.com' not in url:
+        core.updatelog('Invalid Edge addon URL')
+        return False
+    ext_id = url.split('/')[-1]
+    save_path = helper.fixpath(core.lab_path + '/' + ext_id + '.crx')
+    core.updatelog("Downloader says: save_path is " + save_path)
+    dl_url = "https://edge.microsoft.com/extensionwebstorebase/v1/crx?response=redirect&x=id%3D" + ext_id + "%26installsource%3Dondemand%26uc"
+    print("Download URL: " + dl_url)
+
+    try:
+        urllib.request.urlretrieve(dl_url, save_path)
+        core.updatelog("Extension downloaded successfully: " + save_path)
+        return ext_id
+    except Exception as e:
+        core.updatelog("Error in downloader.py")
+        print(e)
+        return False
