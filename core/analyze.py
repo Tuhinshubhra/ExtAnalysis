@@ -32,6 +32,7 @@ import core.virustotal as virustotal
 import core.intel as intel
 import core.ip2country as ip2country
 
+
 def sort_files(extension_dir):
     try:
         extract_dir = helper.fixpath(core.lab_path + '/' + extension_dir)
@@ -39,7 +40,7 @@ def sort_files(extension_dir):
         js_files = []
         css_files = []
         static_files = []
-        other_files = [] # File extensions that are not listed above
+        other_files = []  # File extensions that are not listed above
         for root, dirs, files in os.walk(extract_dir):
             for file in files:
                 filepath = os.path.join(root, file)
@@ -59,15 +60,23 @@ def sort_files(extension_dir):
                 else:
                     other_files.append(filepath)
         core.updatelog('Sorted files: ' + extension_dir)
-        #core.updatelog('HTML Files: {0}, JS Files: {1}, CSS Files: {2}, Static Files: {3}, Other Files: {4}'.format(str(count(html_files)), str(count(js_files)), str(count(css_files)), str(count(static_files)), str(count(other_files)))
-        r = {'html_files': html_files, 'js_files': js_files, 'css_files': css_files, 'static_files': static_files, 'other_files': other_files}
+        # core.updatelog('HTML Files: {0}, JS Files: {1}, CSS Files: {2}, Static Files: {3}, Other Files: {4}'.format(str(count(html_files)), str(count(js_files)), str(count(css_files)), str(count(static_files)), str(count(other_files)))
+        r = {'html_files': html_files, 'js_files': js_files, 'css_files': css_files,
+             'static_files': static_files, 'other_files': other_files}
         return r
     except Exception as e:
         core.updatelog('Error while sorting files: ' + str(e))
         return False
 
+
 def analyze(ext_name, ext_type='local'):
-    core.updatelog('analyze func: ' + ext_name)
+    # Handle the /detail/ format
+    core.updatelog(ext_name)
+    if '?' in ext_name:
+        # Split the path and get the last segment before any query parameters
+        # This handles cases like /detail/histre/cmhjbooiibolkopmdohhnhlnkjikhkmn?hl=en-US
+        file_name = ext_name.split('?')[0]
+
     # extension_extracted = False
     if ext_name.endswith('.crx') or ext_name.endswith('.xpi') or ext_name.endswith('.zip') or ext_name.endswith('.tar') or ext_name.endswith('.gzip'):
         '''
@@ -92,7 +101,7 @@ def analyze(ext_name, ext_type='local'):
             extract_method = 'tar'
         else:
             file_extension = ''
-
+        ext_name = file_name + file_extension
         if os.path.isfile(ext_name):
             '''
             Full extension path sent, we unzip it to the lab directroy
@@ -108,28 +117,32 @@ def analyze(ext_name, ext_type='local'):
             Used while scanning an uploaded or downloaded extension
             '''
             ext_path = helper.fixpath(core.lab_path + '/' + ext_name)
-            extract_dir = helper.fixpath(core.lab_path + '/' + ext_name.split(file_extension)[0])
-        
-        
-        core.updatelog('Trying to unzip {0} to {1}'.format(ext_path, extract_dir))
+            extract_dir = helper.fixpath(
+                core.lab_path + '/' + ext_name.split(file_extension)[0])
+
+        core.updatelog('Trying to unzip {0} to {1}'.format(
+            ext_path, extract_dir))
         try:
             if os.path.exists(extract_dir):
-                
+
                 if os.path.exists(extract_dir + '_old'):
                     # there is already a _old directory we have to delete so that we can rename the last directory to this name
-                    core.updatelog('Found previously created _old directory... deleting that')
+                    core.updatelog(
+                        'Found previously created _old directory... deleting that')
                     try:
                         shutil.rmtree(extract_dir + '_old')
                     except Exception as e:
-                        core.updatelog('Error while deleting: {0} . Error: {1}'.format(extract_dir + '_old', str(e)))
+                        core.updatelog('Error while deleting: {0} . Error: {1}'.format(
+                            extract_dir + '_old', str(e)))
                         logging.error(traceback.format_exc())
                         return ('error: Something went wrong while deleting old scan directory {0}'.format(extract_dir + '_old'))
-                
+
                 new_name = os.path.basename(extract_dir) + '_old'
-                core.updatelog('Renaming old extract directory {0} as {1}'.format(extract_dir, new_name))
+                core.updatelog('Renaming old extract directory {0} as {1}'.format(
+                    extract_dir, new_name))
                 os.rename(extract_dir, extract_dir + '_old')
                 core.updatelog('Old directory successfully renamed')
-            
+
             if extract_method == 'zip':
                 # zip, xpi, crx file extraction
                 zip_contents = zipfile.ZipFile(ext_path, 'r')
@@ -142,21 +155,20 @@ def analyze(ext_name, ext_type='local'):
                 tar_contents.extractall(extract_dir)
                 tar_contents.close()
                 core.updatelog('Tar Extracted Successfully')
-            
+
             # extension_extracted = True
         except Exception as e:
             logging.error(traceback.format_exc())
-            core.updatelog('Something went wrong while unzipping extension\nError: ' + str(e))
+            core.updatelog(
+                'Something went wrong while unzipping extension\nError: ' + str(e))
             return ('error: Something went wrong while unzipping extension. Check log for more information')
-    
-    
+
     elif os.path.isdir(ext_name):
         # if ext_name is a directory most likely it's a local extension
         ext_path = 'Local'
         extract_dir = ext_name
     else:
-        return('error: [analyze.py] Unsupported input!')
-
+        return ('error: [analyze.py] Unsupported input!')
 
     core.updatelog('======== Analysis Begins ========')
     try:
@@ -167,7 +179,7 @@ def analyze(ext_name, ext_type='local'):
         manifest_content = json.loads(manifest_content)
         rinit = core.initreport(manifest_content, extract_dir, ext_type)
         if not rinit:
-            return('error: Something went wrong while parsing manifest.json... analysis stopped')
+            return ('error: Something went wrong while parsing manifest.json... analysis stopped')
         core.report['crx'] = ext_path
         core.report['extracted'] = extract_dir
 
@@ -181,8 +193,9 @@ def analyze(ext_name, ext_type='local'):
         try:
             for permission in manifest_content['permissions']:
                 if permission != "":
-                    permarray = {'name':permission}
-                    core.updatelog('Discoverd Permission: ' + helper.escape(permission))
+                    permarray = {'name': permission}
+                    core.updatelog('Discoverd Permission: ' +
+                                   helper.escape(permission))
                     if permission in perms:
                         permarray['description'] = perms[permission]['description']
                         permarray['badge'] = perms[permission]['badge']
@@ -210,7 +223,7 @@ def analyze(ext_name, ext_type='local'):
         json_files = []
         css_files = []
         static_files = []
-        other_files = [] # File extensions that are not listed above
+        other_files = []  # File extensions that are not listed above
 
         for root, dirs, files in os.walk(extract_dir):
             for file in files:
@@ -220,23 +233,22 @@ def analyze(ext_name, ext_type='local'):
                 file = file.lower()
                 if file.endswith(('.html', '.htm')):
                     html_files.append(filepath)
-                    core.report['files']['html'].append({fname : relpath})
+                    core.report['files']['html'].append({fname: relpath})
                 elif file.endswith('.js'):
                     js_files.append(filepath)
-                    core.report['files']['js'].append({fname : relpath})
+                    core.report['files']['js'].append({fname: relpath})
                 elif file.endswith('.json'):
                     json_files.append(filepath)
-                    core.report['files']['json'].append({fname : relpath})
+                    core.report['files']['json'].append({fname: relpath})
                 elif file.endswith('.css'):
                     css_files.append(filepath)
-                    core.report['files']['css'].append({fname : relpath})
+                    core.report['files']['css'].append({fname: relpath})
                 elif file.endswith(('.png', '.jpg', '.jpeg', '.bmp', '.tiff', '.svg', '.gif')):
-                    core.report['files']['static'].append({fname : relpath})
+                    core.report['files']['static'].append({fname: relpath})
                     static_files.append(filepath)
                 else:
-                    core.report['files']['other'].append({fname : relpath})
+                    core.report['files']['other'].append({fname: relpath})
                     other_files.append(filepath)
-
 
         ######################################################################
         ## EXTRACT INTELS FROM  FILES (url, email, ip address, btc address) ##
@@ -253,7 +265,7 @@ def analyze(ext_name, ext_type='local'):
                     core.updatelog('Extracting intels from: ' + file)
                     intels = intel.extract(contents, relpath)
 
-                    ## Parse the intels and add them to result
+                    # Parse the intels and add them to result
                     found_urls = intels['urls']
                     found_mail = intels['mails']
                     found_btcs = intels['btc']
@@ -278,35 +290,40 @@ def analyze(ext_name, ext_type='local'):
                         core.report['comments'].append(c)
 
                 except Exception as e:
-                    core.updatelog('Skipped reading file: {0} -- Error: {1}'.format(file, str(e)))
+                    core.updatelog(
+                        'Skipped reading file: {0} -- Error: {1}'.format(file, str(e)))
                     logging.error(traceback.format_exc())
-        #urls = list(set(urls)) [NOTE TO SELF] we are tracking all urls in all files so set isn't used here
-        
+        # urls = list(set(urls)) [NOTE TO SELF] we are tracking all urls in all files so set isn't used here
 
         ######################################################################
         ## APPEND URLS, DOMAINS TO REPORT AND DO VIRUSTOTAL SCAN ON DOMAINS ##
-        ######################################################################      
-        
+        ######################################################################
+
         for url in urls:
             core.updatelog('Found URL: ' + url['url'])
-            domain = re.findall('^(?:https?:\/\/)?(?:[^@\/\\n]+@)?(?:www\.)?([^:\/?\\n]+)', url['url'])[0]
+            domain = re.findall(
+                '^(?:https?:\/\/)?(?:[^@\/\\n]+@)?(?:www\.)?([^:\/?\\n]+)', url['url'])[0]
             url['domain'] = domain
-            core.report['urls'].append(url) # add url to the report file
+            core.report['urls'].append(url)  # add url to the report file
             domains.append(domain)
 
         if virustotal.pub_vt == []:
             # No extra virustotal apis added hence the slow scan
-            core.updatelog('Starting virustotal analysis of domains. [SLOW MODE]')
+            core.updatelog(
+                'Starting virustotal analysis of domains. [SLOW MODE]')
             virustotal_scans = virustotal.domain_batch_scan(set(domains))
-        
+
         for domain in set(domains):
-            core.updatelog('getting virustotal Scan results for domain: ' + domain)
+            core.updatelog(
+                'getting virustotal Scan results for domain: ' + domain)
             if virustotal.pub_vt != []:
                 # the faster scan!
                 virustotal_report = virustotal.scan_domain(domain)
                 if not virustotal_report[0]:
-                    core.updatelog('Error getting virustotal result... Error: ' + virustotal_report[1])
-                    domain_vt = {"error":"Either rate limited or something else went wrong while getting domain report from virustotal"}
+                    core.updatelog(
+                        'Error getting virustotal result... Error: ' + virustotal_report[1])
+                    domain_vt = {
+                        "error": "Either rate limited or something else went wrong while getting domain report from virustotal"}
                 else:
                     core.updatelog('Virustotal result successfully acquired!')
                     domain_vt = virustotal_report[1]
@@ -328,8 +345,9 @@ def analyze(ext_name, ext_type='local'):
             else:
                 country = 'unknown'
                 country_code = 'unknown'
-                
-            domainarr = {"name":domain, "ip":ip, "country_code":country_code, "country":country, "virustotal":domain_vt}
+
+            domainarr = {"name": domain, "ip": ip, "country_code": country_code,
+                         "country": country, "virustotal": domain_vt}
             core.report['domains'].append(domainarr)
 
         save_result = saveresult.createresult(extract_dir)
@@ -347,13 +365,15 @@ def analyze(ext_name, ext_type='local'):
                 logging.error(traceback.format_exc())
         """
         if cid != False and cid != None:
-            return('Extension analyzed and report saved under ID: ' + cid)
+            return ('Extension analyzed and report saved under ID: ' + cid)
         else:
-            return('error:Something went wrong with the analysis!')
+            return ('error:Something went wrong with the analysis!')
     except Exception as e:
-        core.updatelog('Something went wrong while reading source of manifest.json file')
+        core.updatelog(
+            'Something went wrong while reading source of manifest.json file')
         print(e)
         core.updatelog(logging.error(traceback.format_exc()))
+
 
 """
 def handle_delete(func, path, exc_info):
