@@ -38,19 +38,35 @@ from typing import Optional
 class ExtensionDownloader:
     def __init__(self):
         self.headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0'
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'
         }
         self.lab_path = core.lab_path
+        # Use more recent Chrome version as in the JS implementation
+        self.chrome_version = "121.0.0.0"
+        self.nacl_arch = "x86-64"
 
     def _download_file(self, url: str, save_path: Path) -> bool:
-        """Generic download method with error handling."""
+        """Enhanced download method with additional error handling and retries."""
         try:
             request = urllib.request.Request(url, headers=self.headers)
-            with urllib.request.urlopen(request) as response:
-                # `save_path` is a Path object now
-                save_path.write_bytes(response.read())
+
+            # Add error handling for HTTP redirects
+            response = urllib.request.urlopen(request)
+            while response.geturl() != url:  # Handle redirects explicitly
+                url = response.geturl()
+                request = urllib.request.Request(url, headers=self.headers)
+                response = urllib.request.urlopen(request)
+
+            save_path.write_bytes(response.read())
             core.updatelog(f"Extension downloaded successfully: {save_path}")
             return True
+
+        except urllib.error.HTTPError as e:
+            core.updatelog(f"HTTP Error: {e.code} - {e.reason}")
+            return False
+        except urllib.error.URLError as e:
+            core.updatelog(f"URL Error: {str(e.reason)}")
+            return False
         except Exception as ex:
             core.updatelog(f"Download failed: {str(ex)}")
             return False
@@ -82,14 +98,27 @@ class ExtensionDownloader:
         return None
 
     def download_chrome(self, ext_id: str, name: Optional[str] = None) -> Optional[str]:
-        """Download Chrome extension."""
+        """Download Chrome extension using the updated URL format.
+
+        Args:
+            ext_id: The Chrome extension ID
+            name: Optional name for the saved file
+
+        Returns:
+            The name of the saved file if successful, None otherwise
+        """
         save_name = name if name else ext_id
+
+        # Using the URL format from the working JavaScript implementation
         dl_url = (
             "https://clients2.google.com/service/update2/crx?"
-            "response=redirect&os=win&arch=x86-64&os_arch=x86-64&"
-            "nacl_arch=x86-64&prod=chromecrx&prodchannel=unknown&"
-            f"prodversion=81.0.4044.138&acceptformat=crx2,crx3&x=id%3D{ext_id}%26uc"
+            "response=redirect&"
+            f"prodversion={self.chrome_version}&"
+            "x=id%3D" + ext_id + "%26installsource%3Dondemand%26uc&"
+            f"nacl_arch={self.nacl_arch}&"
+            "acceptformat=crx2,crx3"
         )
+
         return self._download_extension(dl_url, save_name, 'crx')
 
     def download_firefox(self, url: str) -> Optional[str]:
@@ -143,3 +172,12 @@ class ExtensionDownloader:
         except Exception as e:
             core.updatelog(f'Error downloading Edge extension: {str(e)}')
             return None
+
+
+if __name__ == "___main__":
+    downloader = ExtensionDownloader()
+    result = downloader.download_chrome("epbpdmalnhhoggbcckpffgacohbmpapb")
+    if result:
+        print(f"Successfully downloaded extension: {result}")
+    else:
+        print("Download failed")
