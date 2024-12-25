@@ -72,6 +72,7 @@ def sort_files(extension_dir):
 def analyze(ext_name, ext_type='local'):
     # Handle the /detail/ format
     core.updatelog(ext_name)
+    file_name = None
     if '?' in ext_name:
         # Split the path and get the last segment before any query parameters
         # This handles cases like /detail/histre/cmhjbooiibolkopmdohhnhlnkjikhkmn?hl=en-US
@@ -101,7 +102,7 @@ def analyze(ext_name, ext_type='local'):
             extract_method = 'tar'
         else:
             file_extension = ''
-        ext_name = file_name + file_extension
+        ext_name = file_name + file_extension if file_name is not None else ext_name
         if os.path.isfile(ext_name):
             '''
             Full extension path sent, we unzip it to the lab directroy
