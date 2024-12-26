@@ -23,7 +23,8 @@ import core.downloader as download_extension
 import os
 import json
 from flask import Flask, request, render_template, redirect, url_for, send_from_directory
-import logging, traceback
+import logging
+import traceback
 import core.scans as scan
 import base64
 
@@ -40,61 +41,63 @@ def view(query, allargs):
             except Exception as e:
                 print('Save name not specified')
             try:
-                download_log = download_extension.download(extension_id, saveas)
+                downloader = download_extension.ExtensionDownloader()
+                download_log = downloader.download_chrome(extension_id, saveas)
                 if download_log:
-                    aok = analysis.analyze(saveas + '.crx', 'Remote Google Chrome Extension')
+                    aok = analysis.analyze(
+                        saveas + '.crx', 'Remote Google Chrome Extension')
                     return (aok)
                 else:
                     return ('error: Something went wrong while downloading extension')
             except Exception as e:
-                core.updatelog('Something went wrong while downloading extension: ' + str(e))
+                core.updatelog(
+                    'Something went wrong while downloading extension: ' + str(e))
                 return ('error: Something went wrong while downloading extension, check log for more information')
 
         except Exception as e:
             core.updatelog('Something went wrong: ' + str(e))
             return ('error: Something went wrong while downloading extension, check log for more information')
-
-
 
     elif query == 'firefoxaddon':
         try:
             addonurl = allargs.get('addonurl')
             try:
-                download_log = download_extension.downloadFirefox(addonurl)
+                downloader = download_extension.ExtensionDownloader()
+                download_log = downloader.download_firefox(addonurl)
                 if download_log:
-                    aok = analysis.analyze(download_log + '.xpi', 'Remote Firefox Addon')
+                    aok = analysis.analyze(
+                        download_log + '.xpi', 'Remote Firefox Addon')
                     return (aok)
                 else:
                     return ('error: Something went wrong while downloading extension')
             except Exception as e:
-                core.updatelog('Something went wrong while downloading extension: ' + str(e))
+                core.updatelog(
+                    'Something went wrong while downloading extension: ' + str(e))
                 return ('error: Something went wrong while downloading extension, check log for more information')
         except Exception as e:
             core.updatelog('Something went wrong: ' + str(e))
             return ('error: Something went wrong while downloading extension, check log for more information')
-
-
 
     elif query == 'edgeaddon':
         try:
             addonurl = allargs.get('addonurl')
             saveas = addonurl.split('/')[-1]
             try:
-                download_log = download_extension.downloadEdge(addonurl)
+                downloader = download_extension.ExtensionDownloader()
+                download_log = downloader.download_edge(addonurl)
                 if download_log:
-                    aok = analysis.analyze(saveas + '.crx', 'Remote Edge Extension')
+                    aok = analysis.analyze(
+                        saveas + '.crx', 'Remote Edge Extension')
                     return (aok)
                 else:
                     return ('error: Something went wrong while downloading extension')
             except Exception as e:
-                core.updatelog('Something went wrong while downloading extension: ' + str(e))
+                core.updatelog(
+                    'Something went wrong while downloading extension: ' + str(e))
                 return ('error: Something went wrong while downloading extension, check log for more information')
-
         except Exception as e:
             core.updatelog('Something went wrong: ' + str(e))
             return ('error: Something went wrong while downloading extension, check log for more information')
-
-
 
     elif query == 'results':
         reportids = core.reportids
@@ -112,10 +115,10 @@ def view(query, allargs):
             report_id = areport['id']
             report_date = areport['time']
             report_version = areport['version']
-            rd += '<tr><td>' + report_name + '</td><td>' + report_version + '</td><td>' + report_date + '</td><td><button class="bttn-fill bttn-xs bttn-primary" onclick=viewResult(\'' + report_id + '\')><i class="fas fa-eye"></i> View</button> <button class="bttn-fill bttn-xs bttn-danger" onclick=deleteResult(\'' + report_id + '\')><i class="fas fa-trash"></i> Delete</button></td></tr>'
+            rd += '<tr><td>' + report_name + '</td><td>' + report_version + '</td><td>' + report_date + \
+                '</td><td><button class="bttn-fill bttn-xs bttn-primary" onclick=viewResult(\'' + report_id + '\')><i class="fas fa-eye"></i> View</button> <button class="bttn-fill bttn-xs bttn-danger" onclick=deleteResult(\'' + \
+                report_id + '\')><i class="fas fa-trash"></i> Delete</button></td></tr>'
         return (rd + '</tbody></table><br>')
-
-
 
     elif query == 'getlocalextensions':
         try:
@@ -131,8 +134,8 @@ def view(query, allargs):
                         ext_info = ext.split(',')
                         return_html += '<tr><td>' + ext_info[
                             0] + '</td><td><button class="bttn-fill bttn-xs bttn-success" onclick="analyzeLocalExtension(\'' + \
-                                       ext_info[1].replace('\\',
-                                                           '\\\\') + '\', \'googlechrome\')"><i class="fas fa-bolt"></i> Analyze</button></td></tr>'
+                            ext_info[1].replace('\\',
+                                                '\\\\') + '\', \'googlechrome\')"><i class="fas fa-bolt"></i> Analyze</button></td></tr>'
                     return (return_html + '</tbody></table>')
                 else:
                     return (
@@ -147,8 +150,8 @@ def view(query, allargs):
                         ext_info = ext.split(',')
                         return_html += '<tr><td>' + ext_info[
                             0] + '</td><td><button class="bttn-fill bttn-xs bttn-success" onclick="analyzeLocalExtension(\'' + \
-                                       ext_info[1].replace('\\',
-                                                           '\\\\') + '\', \'firefox\')"><i class="fas fa-bolt"></i> Analyze</button></td></tr>'
+                            ext_info[1].replace('\\',
+                                                '\\\\') + '\', \'firefox\')"><i class="fas fa-bolt"></i> Analyze</button></td></tr>'
                     return (return_html + '</tbody></table>')
                 else:
                     return (
@@ -164,13 +167,13 @@ def view(query, allargs):
                         ext_info = ext.split(',')
                         return_html += '<tr><td>' + ext_info[
                             0] + '</td><td><button class="bttn-fill bttn-xs bttn-success" onclick="analyzeLocalExtension(\'' + \
-                                       ext_info[1].replace('\\',
-                                                           '\\\\') + '\', \'brave\')"><i class="fas fa-bolt"></i> Analyze</button></td></tr>'
+                            ext_info[1].replace('\\',
+                                                '\\\\') + '\', \'brave\')"><i class="fas fa-bolt"></i> Analyze</button></td></tr>'
                     return (return_html + '</tbody></table>')
                 else:
                     return (
                         'error: Something went wrong while getting local Brave browser extensions! Check log for more information')
-            
+
             elif browser == 'vivaldi':
                 import core.localextensions as localextensions
                 lexts = localextensions.GetLocalExtensions()
@@ -182,8 +185,8 @@ def view(query, allargs):
                         ext_info = ext.split(',')
                         return_html += '<tr><td>' + ext_info[
                             0] + '</td><td><button class="bttn-fill bttn-xs bttn-success" onclick="analyzeLocalExtension(\'' + \
-                                       ext_info[1].replace('\\',
-                                                           '\\\\') + '\', \'vivaldi\')"><i class="fas fa-bolt"></i> Analyze</button></td></tr>'
+                            ext_info[1].replace('\\',
+                                                '\\\\') + '\', \'vivaldi\')"><i class="fas fa-bolt"></i> Analyze</button></td></tr>'
                     return (return_html + '</tbody></table>')
                 else:
                     return (
@@ -195,8 +198,6 @@ def view(query, allargs):
             logging.error(traceback.format_exc())
             return ('error: Incomplete Query')
 
-
-
     elif query == 'analyzelocalextension':
         try:
             browser = allargs.get('browser')
@@ -206,26 +207,30 @@ def view(query, allargs):
             if browser == 'firefox' and os.path.isfile(path):
                 # valid firefox extension
                 import core.localextensions as localextensions
-                analysis_stat = localextensions.analyzelocalfirefoxextension(path)
+                analysis_stat = localextensions.analyzelocalfirefoxextension(
+                    path)
                 return (analysis_stat)
 
             elif browser == 'googlechrome' and os.path.isdir(path):
                 if os.path.isfile(os.path.join(path, 'manifest.json')):
-                    analysis_stat = analysis.analyze(path, 'Local Google Chrome Extension')
+                    analysis_stat = analysis.analyze(
+                        path, 'Local Google Chrome Extension')
                     return (analysis_stat)
                 else:
                     return ('error: Invalid Google Chrome Extension Directory')
 
             elif browser == 'brave' and os.path.isdir(path):
                 if os.path.isfile(os.path.join(path, 'manifest.json')):
-                    analysis_stat = analysis.analyze(path, 'Local Brave browser Extension')
+                    analysis_stat = analysis.analyze(
+                        path, 'Local Brave browser Extension')
                     return (analysis_stat)
                 else:
                     return ('error: Invalid Brave Extension Directory')
 
             elif browser == 'vivaldi' and os.path.isdir(path):
                 if os.path.isfile(os.path.join(path, 'manifest.json')):
-                    analysis_stat = analysis.analyze(path, 'Local Vivaldi brwoser Extension')
+                    analysis_stat = analysis.analyze(
+                        path, 'Local Vivaldi brwoser Extension')
                     return analysis_stat
                 else:
                     return 'error: Invalid Vivaldi Extension Directory'
@@ -235,7 +240,6 @@ def view(query, allargs):
         except Exception:
             logging.error(traceback.format_exc())
             return ('error: Incomplete Query')
-
 
     elif query == 'deleteAll':
         '''
@@ -279,7 +283,6 @@ def view(query, allargs):
         except Exception:
             return ('Invalid Query')
 
-
     elif query == 'vtDomainReport':
         try:
             domain = allargs.get('domain')
@@ -288,13 +291,15 @@ def view(query, allargs):
             if ranalysis[0]:
                 # if ranalysis[0] is True then ranalysis[1] contains the details
                 analysis_dir = ranalysis[1]['report_directory']
-                analysis_report = os.path.join(analysis_dir, 'extanalysis_report.json')
+                analysis_report = os.path.join(
+                    analysis_dir, 'extanalysis_report.json')
                 if os.path.isfile(analysis_report):
                     report = open(analysis_report, 'r')
                     domains = json.loads(report.read())['domains']
                     for adomain in domains:
                         if adomain['name'] == domain:
-                            vtjson = json.dumps(adomain['virustotal'], indent=4, sort_keys=False)
+                            vtjson = json.dumps(
+                                adomain['virustotal'], indent=4, sort_keys=False)
                             # return_html = '<div id="vt_info"></div><script>var wrapper1 = document.getElementById("vt_info");var data = '+vtjson+' try {var data = JSON.parse(dataStr);} catch (e) {} var tree = jsonTree.create(data, wrapper1);tree.expand(function(node) {   return node.childNodes.length < 2 || node.label === "phoneNumbers";});</script>'
                             return vtjson
                     return ('error: Domain info not found in analysis report!')
@@ -329,7 +334,8 @@ def view(query, allargs):
                             if retirejs_result == []:
                                 ret = 'none'
                             else:
-                                ret = json.dumps(retirejs_result, indent=4, sort_keys=False)
+                                ret = json.dumps(
+                                    retirejs_result, indent=4, sort_keys=False)
                             return ret
                     return ('error: File ID not found in report!')
                 else:
@@ -360,9 +366,11 @@ def view(query, allargs):
                 proper_data = data.replace('_', ' ').capitalize()
                 if isinstance(whois_result[data], list):
                     for subdata in whois_result[data]:
-                        whois_html += '<b style="color:#89ff00;">{0} : </b>{1}<br>'.format(proper_data, subdata)
+                        whois_html += '<b style="color:#89ff00;">{0} : </b>{1}<br>'.format(
+                            proper_data, subdata)
                 else:
-                    whois_html += '<b style="color:#89ff00;">{0} : </b>{1}<br>'.format(proper_data, whois_result[data])
+                    whois_html += '<b style="color:#89ff00;">{0} : </b>{1}<br>'.format(
+                        proper_data, whois_result[data])
             whois_html += '</div>'
             if whois_result:
                 return ('<center><h4>Whois Results For {0}</h4></center><br>{1}'.format(domain, whois_html))
@@ -371,7 +379,6 @@ def view(query, allargs):
         except Exception:
             logging.error(traceback.format_exc())
             return ('error: Invalid Query')
-
 
     elif query == 'geoip':
         '''
@@ -388,7 +395,8 @@ def view(query, allargs):
                 for g in gip:
                     name = str(g).replace('_', ' ').capitalize()
                     val = str(gip[g])
-                    rethtml += '<b style="color:#89ff00;">{0} : </b>{1}<br>'.format(name, val)
+                    rethtml += '<b style="color:#89ff00;">{0} : </b>{1}<br>'.format(
+                        name, val)
                 rethtml += '</div>'
                 return ('<center><h4>Geo-IP Lookup Results For {0}</h4></center><br>{1}'.format(ip_address, rethtml))
 
@@ -399,7 +407,6 @@ def view(query, allargs):
         except Exception as e:
             logging.error(traceback.format_exc())
             return ('error: Invalid Query')
-
 
     elif query == 'HTTPHeaders':
         '''
@@ -416,7 +423,8 @@ def view(query, allargs):
                 headers = headers_status[1]
                 for header in headers:
                     hval = headers[header]
-                    rethtml += '<b style="color:#89ff00;">{0} : </b>{1}<br>'.format(header, hval)
+                    rethtml += '<b style="color:#89ff00;">{0} : </b>{1}<br>'.format(
+                        header, hval)
                 rethtml += '</div>'
                 return ('<center><h4>Showing HTTP Headers of: {0}</h4></center><br>{1}'.format(url, rethtml))
             else:
@@ -448,15 +456,12 @@ def view(query, allargs):
             logging.error(traceback.format_exc())
             return ('error: Invalid Query')
 
-
     elif query == 'clearlogs':
         '''
         CLEARS LOG
         '''
         core.clearlog()
         return ('Logs cleared successfully!')
-
-
 
     elif query == 'changeReportsDir':
         '''
@@ -527,12 +532,18 @@ def view(query, allargs):
         try:
             # Create the dict with all values and keys
             parameters = {}
-            parameters["extract_comments"] = str(allargs.get('extract_comments'))
-            parameters["extract_btc_addresses"] = str(allargs.get('extract_btc_addresses'))
-            parameters["extract_base64_strings"] = str(allargs.get('extract_base64_strings'))
-            parameters["extract_email_addresses"] = str(allargs.get('extract_email_addresses'))
-            parameters["extract_ipv4_addresses"] = str(allargs.get('extract_ipv4_addresses'))
-            parameters["extract_ipv6_addresses"] = str(allargs.get('extract_ipv6_addresses'))
+            parameters["extract_comments"] = str(
+                allargs.get('extract_comments'))
+            parameters["extract_btc_addresses"] = str(
+                allargs.get('extract_btc_addresses'))
+            parameters["extract_base64_strings"] = str(
+                allargs.get('extract_base64_strings'))
+            parameters["extract_email_addresses"] = str(
+                allargs.get('extract_email_addresses'))
+            parameters["extract_ipv4_addresses"] = str(
+                allargs.get('extract_ipv4_addresses'))
+            parameters["extract_ipv6_addresses"] = str(
+                allargs.get('extract_ipv6_addresses'))
             parameters["ignore_css"] = str(allargs.get('ignore_css'))
 
             import core.settings as settings
