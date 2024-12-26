@@ -109,7 +109,6 @@ class ExtensionDownloader:
         """
         save_name = name if name else ext_id
 
-        # Using the URL format from the working JavaScript implementation
         dl_url = (
             "https://clients2.google.com/service/update2/crx?"
             "response=redirect&"
@@ -173,11 +172,3 @@ class ExtensionDownloader:
             core.updatelog(f'Error downloading Edge extension: {str(e)}')
             return None
 
-
-if __name__ == "___main__":
-    downloader = ExtensionDownloader()
-    result = downloader.download_chrome("epbpdmalnhhoggbcckpffgacohbmpapb")
-    if result:
-        print(f"Successfully downloaded extension: {result}")
-    else:
-        print("Download failed")
