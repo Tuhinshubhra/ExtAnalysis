@@ -97,23 +97,41 @@ class ExtensionDownloader:
 
         return None
 
+    def _extract_chrome_id(self, url: str) -> Optional[str]:
+        """Extract Chrome extension ID from URL."""
+        # Handle both old and new Chrome Web Store URLs
+        if 'chrome.google.com/webstore' in url or 'chromewebstore.google.com/detail' in url:
+            # Split by '/' and get the last part which contains the ID
+            parts = url.rstrip('/').split('/')
+            return parts[-1]
+        # If the input is already an ID, return it directly
+        elif len(url.strip()) == 32:  
+            return url.strip()
+        return None
+
     def download_chrome(self, ext_id: str, name: Optional[str] = None) -> Optional[str]:
         """Download Chrome extension using the updated URL format.
 
         Args:
-            ext_id: The Chrome extension ID
+            ext_id: The Chrome extension ID or URL
             name: Optional name for the saved file
 
         Returns:
             The name of the saved file if successful, None otherwise
         """
-        save_name = name if name else ext_id
+        # Extract extension ID if a URL is provided
+        actual_id = self._extract_chrome_id(ext_id)
+        if not actual_id:
+            core.updatelog('Invalid Chrome extension ID or URL')
+            return None
+
+        save_name = name if name else actual_id
 
         dl_url = (
             "https://clients2.google.com/service/update2/crx?"
             "response=redirect&"
             f"prodversion={self.chrome_version}&"
-            "x=id%3D" + ext_id + "%26installsource%3Dondemand%26uc&"
+            f"x=id%3D{actual_id}%26installsource%3Dondemand%26uc&"
             f"nacl_arch={self.nacl_arch}&"
             "acceptformat=crx2,crx3"
         )
