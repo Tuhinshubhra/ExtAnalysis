@@ -178,10 +178,19 @@ def source_code(url):
     return (vs.view(url))
 
 
-@app.route('/analysis/<analysis_id>')
+@app.route("/analysis/<analysis_id>/")
 def show_analysis(analysis_id):
-    import frontend.viewresult as viewResult
-    return (viewResult.view(analysis_id))
+    return redirect(url_for('view_tab', analysis_id=analysis_id, tab='basic_info'))
+
+@app.route("/analysis/<analysis_id>/<tab>/")
+def view_tab(analysis_id, tab):
+    valid_tabs = ['basic_info', 'files', 'permissions', 'urls_domains', 'gathered_intels']
+    if tab not in valid_tabs:
+        return redirect(url_for('view_tab', analysis_id=analysis_id, tab='basic_info'))
+    
+    # Import the view function from frontend module
+    import frontend.viewresult as viewresult
+    return viewresult.view(analysis_id, tab)
 
 
 if __name__ == "__main__":

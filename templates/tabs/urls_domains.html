@@ -1,0 +1,56 @@
+<div class="tab-content current">
+    <div class="sub_section">
+        <div class="mid-head">
+            <i class="fas fa-globe"></i> Domains
+        </div>
+        <div class="sub_body">
+            <table class="result-table" id="domains-table">
+                <thead>
+                    <tr>
+                        <th>Country</th>
+                        <th>Domain</th>
+                        <th>IP Address</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                {{domains_table | safe}}
+            </table>
+        </div>
+    </div>
+    <div class="sub_section">
+        <div class="mid-head">
+            <i class="fas fa-link"></i> URLs
+        </div>
+        <div class="sub_body">
+            <table class="result-table" id="urls-table">
+                <thead>
+                    <tr>
+                        <th>URL</th>
+                        <th>Domain</th>
+                        <th>File</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                {{urls_table | safe}}
+            </table>
+        </div>
+    </div>
+    <div class="sub_section">
+        <div class="mid-head">
+            <i class="fab fa-js"></i> External JavaScript
+        </div>
+        <div class="sub_body">
+            <table class="result-table" id="extjs-table">
+                <thead>
+                    <tr>
+                        <th>URL</th>
+                        <th>Domain</th>
+                        <th>File</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                {{extjs_table | safe}}
+            </table>
+        </div>
+    </div>
+</div> 

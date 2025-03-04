@@ -1,0 +1,42 @@
+<div class="tab-content current">
+    <div class="sub_section">
+        <div class="mid-head">
+            <i class="fas fa-project-diagram"></i> Files Structure
+            <button class="bttn-simple bttn-xs bttn-success" onclick="viewGraph()" style="float: right;">View Full Screen</button>
+        </div>
+        <div class="sub_body">
+            <div id="resultnetwork" style="height:500px;"></div>
+        </div>
+    </div>
+    <div class="sub_section">
+        <div class="mid-head">
+            <i class="fas fa-file-code"></i> Files Overview
+        </div>
+        <div class="sub_body">
+            <span class="stats-qa"><span class="stats-q">JavaScript Files: </span> <span class="stats-a">{{js_files_count}}</span></span>
+            <span class="stats-qa"><span class="stats-q">HTML Files: </span> <span class="stats-a">{{html_files_count}}</span></span>
+            <span class="stats-qa"><span class="stats-q">CSS Files: </span> <span class="stats-a">{{css_files_count}}</span></span>
+            <span class="stats-qa"><span class="stats-q">JSON Files: </span> <span class="stats-a">{{json_files_count}}</span></span>
+            <span class="stats-qa"><span class="stats-q">Static Files: </span> <span class="stats-a">{{static_files_count}}</span></span>
+            <span class="stats-qa"><span class="stats-q">Other Files: </span> <span class="stats-a">{{other_files_count}}</span></span>
+        </div>
+    </div>
+    <div class="sub_section">
+        <div class="mid-head">
+            <i class="fas fa-list"></i> Files List
+        </div>
+        <div class="sub_body">
+            <table class="result-table" id="files-table">
+                <thead>
+                    <tr>
+                        <th>File Name</th>
+                        <th>Path</th>
+                        <th>Size</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                {{files_table | safe}}
+            </table>
+        </div>
+    </div>
+</div> 
