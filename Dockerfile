@@ -1,24 +1,16 @@
-FROM alpine:3.9
-LABEL MAINTAINER furkan.sayim@yandex.com
-LABEL name ExtAnalysis
-LABEL src "https://github.com/Tuhinshubhra/ExtAnalysis"
-LABEL creator Tuhinshubhra
-LABEL desc "Browser Extension Analysis Framework"
+FROM python:3.11-slim AS builder
+WORKDIR /app
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN apk add --no-cache python3 && \
-    python3 -m ensurepip && \
-    rm -r /usr/lib/python*/ensurepip && \
-    pip3 install --upgrade pip setuptools && \
-    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
-    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
-    rm -r /root/.cache
-
-RUN apk add git
-RUN git clone https://github.com/Tuhinshubhra/ExtAnalysis.git /tmp/extanalysis
-
-WORKDIR /tmp/extanalysis
-RUN pip3 install -r requirements.txt
+FROM python:3.11-slim
+LABEL name="ExtAnalysis"
+LABEL creator="Tuhinshubhra"
+LABEL desc="Browser Extension Analysis Framework"
+WORKDIR /app
+COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+COPY . .
 
 EXPOSE 13337
-
 ENTRYPOINT ["python3", "extanalysis.py"]
