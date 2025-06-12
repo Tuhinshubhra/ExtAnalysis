@@ -8,8 +8,8 @@ LABEL name="ExtAnalysis"
 LABEL creator="Tuhinshubhra"
 LABEL desc="Browser Extension Analysis Framework"
 WORKDIR /app
-COPY --from=builder /root/.local /root/.local
-ENV PATH=/root/.local/bin:$PATH
+COPY --from=builder /root/.local/lib /root/.local/lib
+ENV PYTHONPATH=/root/.local/lib/python3.11/site-packages:$PYTHONPATH
 COPY . .
 
 EXPOSE 13337
