@@ -1,0 +1,49 @@
+# Git
+.git/
+.gitignore
+
+# Documentation
+README.md
+CHANGELOG
+CREDITS
+LICENSE
+
+# Development files
+.idea/
+.vscode/
+*.log
+test.py
+dummy.py
+test.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+ENV/
+
+# Reports and temporary files
+reports/
+reports.json
+extanalysis.log
+permission-badges.list
+lab/
+
+# Docker files (avoid recursive copying)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Static assets that might be large
+static/visjs/
