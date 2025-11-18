@@ -1,0 +1,27 @@
+<div class="tab-content current">
+    <div class="sub_section">
+        <div class="mid-head">
+            <i class="fas fa-search"></i> Scan Info
+        </div>
+        <div class="sub_body">
+            <span class="stats-qa"><span class="stats-q">Analysis ID: </span> <span class="stats-a">{{analysis_id}}</span></span>
+            <span class="stats-qa"><span class="stats-q">Name: </span> <span class="stats-a">{{basic_info[0]}}</span></span>
+            <span class="stats-qa"><span class="stats-q">Version: </span> <span class="stats-a">{{basic_info[1]}}</span></span>
+            <span class="stats-qa"><span class="stats-q">Author: </span> <span class="stats-a">{{basic_info[2]}}</span></span>
+            <span class="stats-qa"><span class="stats-q">Type: </span> <span class="stats-a">{{extension_type|safe}}</span></span>
+            <span class="stats-qa"><span class="stats-q">Permissions: </span> <span class="stats-a">{{permissions_count}}</span></span>
+            <span class="stats-qa"><span class="stats-q">Unique Domains: </span> <span class="stats-a">{{unique_domains}}</span></span>
+            <span class="stats-qa"><span class="stats-q">URLs: </span> <span class="stats-a">{{urls_count}}</span></span>
+            <span class="stats-qa"><span class="stats-q">External JS: </span> <span class="stats-a">{{extjs_count}}</span></span>
+        </div>
+    </div>
+    <div class="sub_section">
+        <div class="mid-head">
+            <i class="fas fa-tree"></i> manifest.json
+        </div>
+        <div class="sub_body">
+            <div id="manifest-content"></div>
+            <br>
+        </div>
+    </div>
+</div> 

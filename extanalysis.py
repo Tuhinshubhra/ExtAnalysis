@@ -31,6 +31,7 @@ import core.analyze as analysis
 import core.helper as helper
 import core.settings as settings
 from flask_wtf.csrf import CSRFProtect
+from frontend.api import api  # Import the API blueprint
 
 parser = argparse.ArgumentParser(prog='extanalysis.py', add_help=False)
 parser.add_argument('-h', '--host', help='Host to run ExtAnalysis on. Default host is 127.0.0.1')
@@ -88,6 +89,7 @@ csrf = CSRFProtect()
 app = Flask('ExtAnalysis - Browser Extension Analysis Toolkit')
 app.config['UPLOAD_FOLDER'] = core.lab_path
 app.secret_key = str(os.urandom(24))
+app.register_blueprint(api, url_prefix='/api')  # Register the blueprint
 csrf.init_app(app)
 
 
@@ -176,10 +178,19 @@ def source_code(url):
     return (vs.view(url))
 
 
-@app.route('/analysis/<analysis_id>')
+@app.route("/analysis/<analysis_id>/")
 def show_analysis(analysis_id):
-    import frontend.viewresult as viewResult
-    return (viewResult.view(analysis_id))
+    return redirect(url_for('view_tab', analysis_id=analysis_id, tab='basic_info'))
+
+@app.route("/analysis/<analysis_id>/<tab>/")
+def view_tab(analysis_id, tab):
+    valid_tabs = ['basic_info', 'files', 'permissions', 'urls_domains', 'gathered_intels']
+    if tab not in valid_tabs:
+        return redirect(url_for('view_tab', analysis_id=analysis_id, tab='basic_info'))
+    
+    # Import the view function from frontend module
+    import frontend.viewresult as viewresult
+    return viewresult.view(analysis_id, tab)
 
 
 if __name__ == "__main__":
