@@ -1,0 +1,83 @@
+<div class="tab-content current">
+    <div class="sub_section">
+        <div class="mid-head">
+            <i class="fas fa-network-wired"></i> IP Addresses
+        </div>
+        <div class="sub_body">
+            <table class="result-table" id="ips_table">
+                <thead>
+                    <tr>
+                        <th>IP Address</th>
+                        <th>Type</th>
+                        <th>File</th>
+                    </tr>
+                </thead>
+                {{ips_table | safe}}
+            </table>
+        </div>
+    </div>
+    <div class="sub_section">
+        <div class="mid-head">
+            <i class="fas fa-envelope"></i> Email Addresses
+        </div>
+        <div class="sub_body">
+            <table class="result-table" id="mails_table">
+                <thead>
+                    <tr>
+                        <th>Email Address</th>
+                        <th>File</th>
+                    </tr>
+                </thead>
+                {{mails_table | safe}}
+            </table>
+        </div>
+    </div>
+    <div class="sub_section">
+        <div class="mid-head">
+            <i class="fab fa-bitcoin"></i> Bitcoin Addresses
+        </div>
+        <div class="sub_body">
+            <table class="result-table" id="btc_table">
+                <thead>
+                    <tr>
+                        <th>BTC Address</th>
+                        <th>File</th>
+                    </tr>
+                </thead>
+                {{btc_table | safe}}
+            </table>
+        </div>
+    </div>
+    <div class="sub_section">
+        <div class="mid-head">
+            <i class="fas fa-comments"></i> Comments
+        </div>
+        <div class="sub_body">
+            <table class="result-table" id="comments_table">
+                <thead>
+                    <tr>
+                        <th>Comment</th>
+                        <th>File</th>
+                    </tr>
+                </thead>
+                {{comments_table | safe}}
+            </table>
+        </div>
+    </div>
+    <div class="sub_section">
+        <div class="mid-head">
+            <i class="fas fa-code"></i> Base64 Strings
+        </div>
+        <div class="sub_body">
+            <table class="result-table" id="base64_table">
+                <thead>
+                    <tr>
+                        <th>String</th>
+                        <th>File</th>
+                    </tr>
+                </thead>
+                {{base64_table | safe}}
+            </table>
+        </div>
+    </div>
+</div> 

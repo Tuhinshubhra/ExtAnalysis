@@ -22,15 +22,97 @@ import core.analyze as analysis
 import core.downloader as download_extension
 import os
 import json
-from flask import Flask, request, render_template, redirect, url_for, send_from_directory
+from flask import Flask, request, render_template, redirect, url_for, send_from_directory, Blueprint, jsonify
 import logging
 import traceback
 import core.scans as scan
 import base64
+from .handlers.result_handler import view_result
+from .handlers.data_handler import (
+    get_basic_info, get_files_data, get_urls_data,
+    get_permissions_data, get_domains_data, get_ips_data,
+    get_emails_data, get_btc_data, get_comments_data,
+    get_base64_data, get_manifest_data
+)
 
+api = Blueprint('api', __name__)
+
+@api.route('/result/<analysis_id>', methods=['GET'])
+def view_analysis_result(analysis_id):
+    return view_result(analysis_id)
+
+@api.route('/result/<analysis_id>/basic_info', methods=['GET'])
+def basic_info(analysis_id):
+    return jsonify(get_basic_info(analysis_id))
+
+@api.route('/result/<analysis_id>/files', methods=['GET'])
+def files(analysis_id):
+    return jsonify(get_files_data(analysis_id))
+
+@api.route('/result/<analysis_id>/urls', methods=['GET'])
+def urls(analysis_id):
+    return jsonify(get_urls_data(analysis_id))
+
+@api.route('/result/<analysis_id>/permissions', methods=['GET'])
+def permissions(analysis_id):
+    return jsonify(get_permissions_data(analysis_id))
+
+@api.route('/result/<analysis_id>/domains', methods=['GET'])
+def domains(analysis_id):
+    return jsonify(get_domains_data(analysis_id))
+
+@api.route('/result/<analysis_id>/ips', methods=['GET'])
+def ips(analysis_id):
+    return jsonify(get_ips_data(analysis_id))
+
+@api.route('/result/<analysis_id>/emails', methods=['GET'])
+def emails(analysis_id):
+    return jsonify(get_emails_data(analysis_id))
+
+@api.route('/result/<analysis_id>/btc', methods=['GET'])
+def btc(analysis_id):
+    return jsonify(get_btc_data(analysis_id))
+
+@api.route('/result/<analysis_id>/comments', methods=['GET'])
+def comments(analysis_id):
+    return jsonify(get_comments_data(analysis_id))
+
+@api.route('/result/<analysis_id>/base64', methods=['GET'])
+def base64(analysis_id):
+    return jsonify(get_base64_data(analysis_id))
+
+@api.route('/result/<analysis_id>/manifest', methods=['GET'])
+def manifest(analysis_id):
+    return jsonify(get_manifest_data(analysis_id))
 
 def view(query, allargs):
-    if query == 'dlanalysis':
+    analysis_id = allargs.get('analysis_id')
+    
+    if query == 'view_result':
+        return view_result(analysis_id)
+    elif query == 'basic_info':
+        return get_basic_info(analysis_id)
+    elif query == 'files':
+        return get_files_data(analysis_id)
+    elif query == 'urls':
+        return get_urls_data(analysis_id)
+    elif query == 'permissions':
+        return get_permissions_data(analysis_id)
+    elif query == 'domains':
+        return get_domains_data(analysis_id)
+    elif query == 'ips':
+        return get_ips_data(analysis_id)
+    elif query == 'emails':
+        return get_emails_data(analysis_id)
+    elif query == 'btc':
+        return get_btc_data(analysis_id)
+    elif query == 'comments':
+        return get_comments_data(analysis_id)
+    elif query == 'base64':
+        return get_base64_data(analysis_id)
+    elif query == 'manifest':
+        return get_manifest_data(analysis_id)
+    elif query == 'dlanalysis':
         try:
             extension_id = allargs.get('extid')
             saveas = ""

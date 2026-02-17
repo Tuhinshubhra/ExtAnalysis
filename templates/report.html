@@ -122,8 +122,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             {{basic_info[4]}}
         </div>
         <div class="ext-info-col3">
-            <button class="bttn-material-circle bttn-xs bttn-primary" style=" margin: 5px; "><i class="fas fa-sync-alt"></i></button>
-            <button class="bttn-material-circle bttn-xs bttn-danger" style=" margin: 5px; "><i class="fas fa-trash-alt"></i></button>
+            <button class="bttn-material-circle bttn-xs bttn-primary" style="margin: 5px;"><i class="fas fa-sync-alt"></i></button>
+            <button class="bttn-material-circle bttn-xs bttn-danger" style="margin: 5px;"><i class="fas fa-trash-alt"></i></button>
         </div>
       </div>
     </div>
@@ -132,342 +132,166 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
       <ul class="result-tabs">
-        <li class="tab-link current" data-tab="tab-0"><i class="fas fa-tree"></i> Basic Info</li>
-        <li class="tab-link" data-tab="tab-3"><i class="fas fa-clone"></i> Files</li>
-        <li class="tab-link" data-tab="tab-1"><i class="fas fa-heartbeat"></i> Permissions</li>
-        <li class="tab-link" data-tab="tab-2"><i class="fas fa-link"></i> URLs & Domains</li>
-        <li class="tab-link" data-tab="tab-4"><i class="fas fa-fingerprint"></i> Gathered Intels</li>
+        <li class="tab-link {% if current_tab == 'basic_info' %}current{% endif %}">
+          <a href="/analysis/{{analysis_id}}/basic_info/"><i class="fas fa-tree"></i> Basic Info</a>
+        </li>
+        <li class="tab-link {% if current_tab == 'files' %}current{% endif %}">
+          <a href="/analysis/{{analysis_id}}/files/"><i class="fas fa-clone"></i> Files</a>
+        </li>
+        <li class="tab-link {% if current_tab == 'permissions' %}current{% endif %}">
+          <a href="/analysis/{{analysis_id}}/permissions/"><i class="fas fa-heartbeat"></i> Permissions</a>
+        </li>
+        <li class="tab-link {% if current_tab == 'urls_domains' %}current{% endif %}">
+          <a href="/analysis/{{analysis_id}}/urls_domains/"><i class="fas fa-link"></i> URLs & Domains</a>
+        </li>
+        <li class="tab-link {% if current_tab == 'gathered_intels' %}current{% endif %}">
+          <a href="/analysis/{{analysis_id}}/gathered_intels/"><i class="fas fa-fingerprint"></i> Gathered Intels</a>
+        </li>
       </ul>
 
-
-      <div id="tab-0" class="tab-content current">
-        <div class="sub_section">
-          <div class="mid-head">
-            <i class="fas fa-search"></i> Scan Info
-          </div>
-          <div class="sub_body">
-              <span class="stats-qa"><span class="stats-q">Analysis ID: </span> <span class="stats-a">{{analysis_id}}</span></span>
-              <span class="stats-qa"><span class="stats-q">Name: </span> <span class="stats-a">{{basic_info[0]}}</span></span>
-              <span class="stats-qa"><span class="stats-q">Version: </span> <span class="stats-a">{{basic_info[1]}}</span></span>
-              <span class="stats-qa"><span class="stats-q">Author: </span> <span class="stats-a">{{basic_info[2]}}</span></span>
-              <span class="stats-qa"><span class="stats-q">Type: </span> <span class="stats-a">{{extension_type | safe}}</span></span>
-              <span class="stats-qa"><span class="stats-q">Permissions: </span> <span class="stats-a">{{permissions_count}}</span></span>
-              <span class="stats-qa"><span class="stats-q">Unique Domains: </span> <span class="stats-a">{{unique_domains}}</span></span>
-              <span class="stats-qa"><span class="stats-q">Extracted URLs: </span> <span class="stats-a">{{urls_count}}</span></span>
-              <span class="stats-qa"><span class="stats-q">External JavaScript: </span> <span class="stats-a">{{extjs_count}}</span></span>
-          </div>
-        </div>
-          <div class="sub_section">
-              <div class="mid-head">
-                  <i class="fas fa-tree"></i> manifest.json
-              </div>
-              <div class="sub_body">
-                  <div id="manifest-content"></div>
-                  <br>
-              </div>
-            </div>
-      </div>
-      <div id="tab-3" class="tab-content">
-        <div class="stats-holder">
-          <div class="stats">
-              <div class="stats_head"><i class="fas fa-network-wired"></i> Files & URLs Graph</div>
-              <div id="resultnetwork"></div>
-          </div>
-          
-          <div class="stats">
-            <div class="stats_head"><i class="fas fa-chart-pie"></i> Statistics</div>
-            <div class="stats_body">
-              <div class="stats_pill">
-                  <img src="{{ url_for('static',filename='images/html1.png') }}">
-                  <div class="stats_data">{{html_files_count}} File(s)</div>
-              </div>
-              <div class="stats_pill">
-                  <img src="{{ url_for('static',filename='images/js1.png') }}">
-                  <div class="stats_data">{{js_files_count}} File(s)</div>
-              </div>
-              <div class="stats_pill">
-                  <img src="{{ url_for('static',filename='images/json1.png') }}">
-                  <div class="stats_data">{{json_files_count}} File(s)</div>
-              </div>
-              <div class="stats_pill">
-                  <img src="{{ url_for('static',filename='images/css1.png') }}">
-                  <div class="stats_data">{{css_files_count}} File(s)</div>
-              </div>
-              <div class="stats_pill">
-                  <img src="{{ url_for('static',filename='images/static1.png') }}">
-                  <div class="stats_data">{{static_files_count}} File(s)</div>
-              </div>
-              <div class="stats_pill">
-                  <img src="{{ url_for('static',filename='images/other1.png') }}">
-                  <div class="stats_data">{{other_files_count}} File(s)</div>
-              </div>
-              <center>
-                <button class="start_scan" onclick=viewGraph()><i class="fas fa-external-link-alt"></i> View Large Graph</button>
-              </center>
-            </div>
-          </div>
-        </div>
-          <br>
-          <div class="sub_section">
-            <div class="mid-head">
-                <i class="fas fa-code"></i> View source code of files!
-            </div>
-            <div class="sub_body">
-                {{files_table | safe}}
-                <br>
-                <div class="inline-note">Only <b>Javascript</b>, <b>CSS</b>, <b>HTML</b> & <b>JSON</b> Files are saved since they contain all the code!</div>
-            </div>
-          </div>
-      </div>
-      <div id="tab-1" class="tab-content">
-        <div class="p-holder">
-          {{permissions_div | safe}}
-        </div>
-        <div class="inline-note">Click on the Permission <i class="fas fa-hand-point-up"></i> to learn more about it!</div>
-      </div>
-      <div id="tab-2" class="tab-content">
-          <div class="sub_section">
-              <div class="mid-head">
-                  <i class="fas fa-globe-asia"></i> Domains!
-              </div>
-              <div class="sub_body">
-                  {{domains_table | safe}}
-                  <br>
-              </div>
-            </div>
-
-          <div class="sub_section">
-              <div class="mid-head">
-                  <i class="fas fa-link"></i> Extracted URLS from files!
-              </div>
-              <div class="sub_body">
-                  {{urls_table | safe}}
-                  <br>
-              </div>
-          </div>
-
-          <div class="sub_section">
-            <div class="mid-head">
-              <i class="fab fa-js-square"></i> External JavaScript Files!
-            </div>
-            <div class="sub_body">
-                {{extjs_table | safe}}
-                <br>
-            </div>
-        </div>
-         
-      </div>
-      <div id="tab-4" class="tab-content">
-          <div class="sub_section">
-              <div class="mid-head">
-                  <i class="fas fa-map-marker-alt"></i> Extracted IP Addresses
-              </div>
-              <div class="sub_body">
-                  {{ips_table | safe}}
-                  <br>
-              </div>
-            </div>
-
-
-            <div class="sub_section">
-                <div class="mid-head">
-                    <i class="fab fa-btc"></i> Extracted Bitcoin Addresses
-                </div>
-                <div class="sub_body">
-                    {{btc_table | safe}}
-                    <br>
-                </div>
-            </div>
-
-
-            <div class="sub_section">
-              <div class="mid-head">
-                  <i class="fas fa-at"></i> Extracted Email Addresses
-              </div>
-              <div class="sub_body">
-                  {{mails_table | safe}}
-                  <br>
-              </div>
-            </div>
-
-            <div class="sub_section">
-                <div class="mid-head">
-                    <i class="fas fa-comment-alt"></i> Extracted Comments
-                </div>
-                <div class="sub_body">
-                    {{comments_table | safe}}
-                    <br>
-                </div>
-            </div>
-
-            <div class="sub_section">
-                <div class="mid-head">
-                    <i class="fas fa-key"></i> Extracted Base64 Encoded strings
-                </div>
-                <div class="sub_body">
-                    {{base64_table | safe}}
-                    <br>
-                </div>
-            </div>
-
-
-      </div>
-
+      <!-- Tab Content -->
+      {% if current_tab == 'basic_info' %}
+        {% include 'tabs/basic_info.html' %}
+      {% elif current_tab == 'files' %}
+        {% include 'tabs/files.html' %}
+      {% elif current_tab == 'permissions' %}
+        {% include 'tabs/permissions.html' %}
+      {% elif current_tab == 'urls_domains' %}
+        {% include 'tabs/urls_domains.html' %}
+      {% elif current_tab == 'gathered_intels' %}
+        {% include 'tabs/gathered_intels.html' %}
+      {% endif %}
     </div>
 
   </div>
 
-
-
-
-
 <script type="text/javascript">
 var imagedir = "{{ url_for('static',filename='images/') }}";
 
+{% if current_tab in ['basic_info', 'files'] %}
 {{graph_data|safe}}
-// create a network
-  var container = document.getElementById('resultnetwork');
-  var data = {
-    nodes: nodes,
-    edges: edges
-  };
-  var options = {
-    physics: {
-        adaptiveTimestep: true,
-        barnesHut: {
-            gravitationalConstant: -8000,
-            springConstant: 0.04,
-            springLength: 95
-        },
-        stabilization: {
-            iterations: 987
-        }
-    },
-    layout: {
-        randomSeed: 191006,
-        improvedLayout: true
-    },
-    interaction: {
-        hideEdgesOnDrag: true,
-        tooltipDelay: 200
+
+/* create a network */
+var container = document.getElementById('resultnetwork');
+var data = {
+  nodes: nodes,
+  edges: edges
+};
+var options = {
+  physics: {
+      adaptiveTimestep: true,
+      barnesHut: {
+          gravitationalConstant: -8000,
+          springConstant: 0.04,
+          springLength: 95
       },
-    edges: {
-        smooth: {
-            type: 'continuous',
-            forceDirection: 'horizontal',
-            roundness: 0.4
-        }
-    },
-    nodes: {
-      size: 20,
-            font: {
-                size: 15,
-                color: '#89ff00'
-            }
-    }, 
-      groups: {
-          extension: {
-            shape: 'image',
-            image: {
-                unselected:imagedir + 'extension0.png',
-                selected:imagedir + 'extension1.png'
-            },
-            /** fixed: true,  **/
-            /** physics:false **/
-          },
-          html: {
-            shape: 'image',
-            image: {
-                unselected:imagedir + 'html0.png',
-                selected:imagedir + 'html1.png'
-            },
-            /** fixed: true,  **/
-            /** physics:false **/
-          },
-          css: {
-            shape: 'image',
-            image: {
-                unselected:imagedir + 'css0.png',
-                selected:imagedir + 'css1.png'
-            },
-            /** fixed: true,  **/
-            /** physics:false **/
-          },
-          static: {
-            shape: 'image',
-            image: {
-                unselected:imagedir + 'static0.png',
-                selected:imagedir + 'static1.png'
-            },
-            /** fixed: true,  **/
-            /** physics:false **/
-          },
-          js: {
-            shape: 'image',
-            image: {
-                unselected:imagedir + 'js0.png',
-                selected:imagedir + 'js1.png'
-            },
-            /** fixed: true,  **/
-            /** physics:false **/
-          },
-          json: {
-            shape: 'image',
-            image: {
-                unselected:imagedir + 'json0.png',
-                selected:imagedir + 'json1.png'
-            },
-            /** fixed: true,  **/
-            /** physics:false **/
-          },
-          other: {
-            shape: 'image',
-            image: {
-                unselected:imagedir + 'other0.png',
-                selected:imagedir + 'other1.png'
-            },
-            /** fixed: true,  **/
-            /** physics:false **/
-          },
-          directory: {
-            shape: 'image',
-            image: {
-                unselected:imagedir + 'directory0.png',
-                selected:imagedir + 'directory1.png'
-            },
-            /** fixed: true,  **/
-            /** physics:false **/
-          },
-          url: {
-            shape: 'image',
-            image: {
-                unselected:imagedir + 'url0.png',
-                selected:imagedir + 'url1.png'
-            },
-            /** fixed: true,  **/
-            /** physics:false, **/
-            /** font: {size:12, color:'blue', face:'sans', background:'white'} **/
-          }
+      stabilization: {
+          iterations: 987
       }
-  };
-  var network = new vis.Network(container, data, options);
-  network.on( 'click', function(properties) {
-    var ids = properties.nodes;
-    var clickedNodes = nodes.get(ids);
-    try{
-        if (clickedNodes[0]['group'] === 'url'){
-        alert(clickedNodes[0]['label']);
-        // add a sweetalert and do shits with the url
+  },
+  layout: {
+      randomSeed: 191006,
+      improvedLayout: true
+  },
+  interaction: {
+      hideEdgesOnDrag: true,
+      tooltipDelay: 200
+    },
+  edges: {
+      smooth: {
+          type: 'continuous',
+          forceDirection: 'horizontal',
+          roundness: 0.4
+      }
+  },
+  nodes: {
+    size: 20,
+          font: {
+              size: 15,
+              color: '#89ff00'
+          }
+  }, 
+    groups: {
+        extension: {
+          shape: 'image',
+          image: {
+              unselected:imagedir + 'extension0.png',
+              selected:imagedir + 'extension1.png'
+          }
+        },
+        html: {
+          shape: 'image',
+          image: {
+              unselected:imagedir + 'html0.png',
+              selected:imagedir + 'html1.png'
+          }
+        },
+        css: {
+          shape: 'image',
+          image: {
+              unselected:imagedir + 'css0.png',
+              selected:imagedir + 'css1.png'
+          }
+        },
+        static: {
+          shape: 'image',
+          image: {
+              unselected:imagedir + 'static0.png',
+              selected:imagedir + 'static1.png'
+          }
+        },
+        js: {
+          shape: 'image',
+          image: {
+              unselected:imagedir + 'js0.png',
+              selected:imagedir + 'js1.png'
+          }
+        },
+        json: {
+          shape: 'image',
+          image: {
+              unselected:imagedir + 'json0.png',
+              selected:imagedir + 'json1.png'
+          }
+        },
+        other: {
+          shape: 'image',
+          image: {
+              unselected:imagedir + 'other0.png',
+              selected:imagedir + 'other1.png'
+          }
+        },
+        directory: {
+          shape: 'image',
+          image: {
+              unselected:imagedir + 'directory0.png',
+              selected:imagedir + 'directory1.png'
+          }
+        },
+        url: {
+          shape: 'image',
+          image: {
+              unselected:imagedir + 'url0.png',
+              selected:imagedir + 'url1.png'
+          }
         }
-        // add edit option for js/html/json and css files
-    } catch {
-        console.log('Handled exception like a boss! - lame yeah i know i wanna die');
     }
-
+};
+var network = new vis.Network(container, data, options);
+network.on( 'click', function(properties) {
+  var ids = properties.nodes;
+  var clickedNodes = nodes.get(ids);
+  try{
+      if (clickedNodes[0]['group'] === 'url'){
+      alert(clickedNodes[0]['label']);
+      }
+  } catch {
+      console.log('Handled exception like a boss! - lame yeah i know i wanna die');
+  }
 });
-
-
+{% endif %}
 </script>
+
 <script type="text/javascript" src="{{ url_for('static',filename='js/jquery.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='js/sweetalert.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='js/main.js') }}"></script>
@@ -476,57 +300,53 @@ var imagedir = "{{ url_for('static',filename='images/') }}";
 <script type="text/javascript" src="{{ url_for('static',filename='js/chiptune2.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='js/datatables.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='js/jsonTree.js') }}"></script>
+
 <script>
-$(document).ready(function(){
+$(document).ready(function() {
+    /* Initialize datatables based on current tab */
+    {% if current_tab == 'files' %}
+        $('#files-table').DataTable();
+    {% elif current_tab == 'urls_domains' %}
+        $('#urls-table').DataTable();
+        $('#domains-table').DataTable();
+        $('#extjs_table').DataTable();
+    {% elif current_tab == 'gathered_intels' %}
+        $('#ips_table').DataTable();
+        $('#mails_table').DataTable();
+        $('#btc_table').DataTable();
+        $('#comments_table').DataTable();
+        $('#base64_table').DataTable();
+    {% endif %}
 
-	$('ul.result-tabs li').click(function(){
-		var tab_id = $(this).attr('data-tab');
+    $("#loading").fadeOut("slow");
+    
+    $('.accordion .accordion__question').on('click', function() {
+        var answer = $(this).next();
+        $('.accordion .accordion__answer:visible').not(answer).slideUp(400);
+        answer.slideToggle(400);
+    });
 
-		$('ul.result-tabs li').removeClass('current');
-		$('.tab-content').removeClass('current');
-
-		$(this).addClass('current');
-		$("#"+tab_id).addClass('current');
-  })
-  $('#files-table').DataTable();
-  $('#urls-table').DataTable();
-  $('#domains-table').DataTable();
-  $('#ips_table').DataTable();
-  $('#mails_table').DataTable();
-  $('#btc_table').DataTable();
-  $('#comments_table').DataTable();
-  $('#base64_table').DataTable();
-  $('#extjs_table').DataTable();
+    {% if current_tab == 'basic_info' %}
+    if (document.getElementById("manifest-content")) {
+        var wrapper = document.getElementById("manifest-content");
+        var data = {{manifest_content | safe}};
+        try {
+            var data = JSON.parse(data);
+        } catch (e) {}
+        var tree = jsonTree.create(data, wrapper);
+        tree.expand(function(node) {
+            return node.childNodes.length < 2 || node.label === 'phoneNumbers';
+        });
+    }
+    {% endif %}
 });
 
-$(function() {
-		$("#loading").fadeOut("slow");;
-  });
-  $(function(){
-	$('.accordion .accordion__question').on('click', function(){
-		var answer = $(this).next();
-		$('.accordion .accordion__answer:visible').not(answer).slideUp(400);
-		answer.slideToggle(400);
-	});
-});
-
-var wrapper = document.getElementById("manifest-content");
-var data = {{manifest_content | safe}}
-try {
-    var data = JSON.parse(data);
-} catch (e) {}
-var tree = jsonTree.create(data, wrapper);
-tree.expand(function(node) {
-   return node.childNodes.length < 2 || node.label === 'phoneNumbers';
-});
-
-
-function viewGraph(){
-  var final_url = '/view-graph/' + '{{analysis_id}}';
-  window.open(final_url, target = "_blank");
+function viewGraph() {
+    var final_url = '/view-graph/' + '{{analysis_id}}';
+    window.open(final_url, target = "_blank");
 }
 </script>
-<br><br>
+
 <div class="footer">
     <p>coded with <i class="fas fa-heart" style="color: #FF5722 !important;"></i> and <i class="fas fa-headphones" style="color: #28b78d !important;"></i> by r3dhax0r <a href="https://twitter.com/r3dhax0r"><button class="bttn-simple bttn-xs bttn-primary">Follow me on <i class="fab fa-twitter"></i></button></a> also <a href="https://github.com/Tuhinshubhra/ExtAnalysis"><button class="bttn-simple bttn-xs bttn-royal">Star This Project on <i class="fab fa-github-alt"></i></button></a></p>
 </div>
